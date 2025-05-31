@@ -61,6 +61,7 @@ const Login: React.FC = () => {
                   type="email"
                   autoComplete="email"
                   required
+                  aria-label="Email address"
                   className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                   value={formData.email}
@@ -68,6 +69,9 @@ const Login: React.FC = () => {
                 />
               </div>
             </div>
+            <p className="text-red-500 text-sm mt-2">
+              Please enter a valid email address.
+            </p>
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
@@ -82,6 +86,7 @@ const Login: React.FC = () => {
                   type="password"
                   autoComplete="current-password"
                   required
+                  aria-label="Password"
                   className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                   value={formData.password}
@@ -91,6 +96,9 @@ const Login: React.FC = () => {
               <div className="text-green-500 text-sm mt-2">
                 Password strength: Good
               </div>
+              <p className="text-red-500 text-sm mt-2">
+                Password must be at least 8 characters.
+              </p>
             </div>
           </div>
 
@@ -101,6 +109,7 @@ const Login: React.FC = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
+                  aria-label="Remember me"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
@@ -112,6 +121,7 @@ const Login: React.FC = () => {
                   id="remember-device"
                   name="remember-device"
                   type="checkbox"
+                  aria-label="Remember device"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-device" className="ml-2 block text-sm text-gray-900">
@@ -136,10 +146,6 @@ const Login: React.FC = () => {
             </a>
           </div>
         </form>
-
-        <div className="text-blue-500 text-sm mt-4 text-center">
-          Loading...
-        </div>
 
         <div className="mt-6">
           <div className="relative">
