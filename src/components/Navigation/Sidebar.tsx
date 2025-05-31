@@ -1,0 +1,34 @@
+import React from 'react';
+import Link from 'next/link';
+import MdiIcon from '@/components/Icon/Icon';
+import { mdiHome, mdiSterilization, mdiSpray, mdiBookOpenPageVariant, mdiCog } from '@mdi/js';
+
+export default function Sidebar() {
+  return (
+    <div className="w-64 h-screen bg-gray-100 p-4">
+      <h2 className="text-xl font-bold mb-4">Cliniio</h2>
+      <nav className="space-y-2">
+        <Link href="/Home" className="flex items-center space-x-2">
+          <MdiIcon path={mdiHome} size={1} />
+          <span>Home</span>
+        </Link>
+        <Link href="/Sterilization" className="flex items-center space-x-2">
+          <MdiIcon path={mdiSterilization} size={1} />
+          <span>Sterilization</span>
+        </Link>
+        <Link href="/EnvironmentalCleaning" className="flex items-center space-x-2">
+          <MdiIcon path={mdiSpray} size={1} />
+          <span>Environmental Cleaning</span>
+        </Link>
+        <Link href="/KnowledgeHub" className="flex items-center space-x-2">
+          <MdiIcon path={mdiBookOpenPageVariant} size={1} />
+          <span>Knowledge Hub</span>
+        </Link>
+        <Link href="/Settings" className="flex items-center space-x-2">
+          <MdiIcon path={mdiCog} size={1} />
+          <span>Settings</span>
+        </Link>
+      </nav>
+    </div>
+  );
+} 
