@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaGoogle, FaMicrosoft } from 'react-icons/fa';
+import { FaUser, FaLock, FaGoogle, FaMicrosoft, FaLinkedin } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
 import './styles.css';
 
@@ -27,14 +27,14 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleOAuthLogin = (provider: 'google' | 'microsoft') => {
+  const handleOAuthLogin = (provider: 'google' | 'microsoft' | 'linkedin') => {
     setLoading(true);
     // TODO: Implement OAuth login logic
     console.log(`Logging in with ${provider}`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -114,7 +114,7 @@ const Login: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#2dd4bf] hover:bg-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2dd4bf] transition-colors duration-200"
             >
               Sign in
             </button>
@@ -131,7 +131,7 @@ const Login: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 grid grid-cols-3 gap-3">
             <button
               onClick={() => handleOAuthLogin('google')}
               className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200"
@@ -145,6 +145,13 @@ const Login: React.FC = () => {
             >
               <FaMicrosoft className="h-5 w-5 text-blue-500" />
               <span className="ml-2">Microsoft</span>
+            </button>
+            <button
+              onClick={() => handleOAuthLogin('linkedin')}
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200"
+            >
+              <FaLinkedin className="h-5 w-5 text-blue-600" />
+              <span className="ml-2">LinkedIn</span>
             </button>
           </div>
         </div>
