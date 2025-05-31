@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaGoogle, FaMicrosoft, FaLinkedin } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
+import { submitLoginForm } from '../../services/api';
 import './styles.css';
 
 const Login: React.FC = () => {
@@ -17,8 +18,7 @@ const Login: React.FC = () => {
     setLoading(true);
     
     try {
-      // TODO: Implement actual authentication logic
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
+      await submitLoginForm(formData);
       navigate('/home');
     } catch (error) {
       console.error('Login failed:', error);
@@ -48,6 +48,7 @@ const Login: React.FC = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
+              <span id="emailHelp" className="sr-only">Enter your email address.</span>
               <label htmlFor="email" className="sr-only">
                 Email address
               </label>
@@ -62,7 +63,9 @@ const Login: React.FC = () => {
                   autoComplete="email"
                   required
                   aria-label="Email address"
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  aria-describedby="emailHelp"
+                  tabIndex={0}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -73,6 +76,7 @@ const Login: React.FC = () => {
               Please enter a valid email address.
             </p>
             <div>
+              <span id="passwordHelp" className="sr-only">Enter your account password.</span>
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
@@ -87,7 +91,9 @@ const Login: React.FC = () => {
                   autoComplete="current-password"
                   required
                   aria-label="Password"
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  aria-describedby="passwordHelp"
+                  tabIndex={0}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -110,7 +116,8 @@ const Login: React.FC = () => {
                   name="remember-me"
                   type="checkbox"
                   aria-label="Remember me"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  tabIndex={0}
+                  className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
@@ -122,7 +129,8 @@ const Login: React.FC = () => {
                   name="remember-device"
                   type="checkbox"
                   aria-label="Remember device"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  tabIndex={0}
+                  className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-device" className="ml-2 block text-sm text-gray-900">
                   Remember this device
@@ -134,14 +142,15 @@ const Login: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#2dd4bf] hover:bg-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2dd4bf] transition-colors duration-200"
+              tabIndex={0}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#2dd4bf] hover:bg-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-[#2dd4bf] transition-colors duration-200"
             >
               Sign in
             </button>
           </div>
 
           <div className="text-center">
-            <a href="#" className="font-medium text-[#2dd4bf] hover:text-[#14b8a6]">
+            <a href="#" tabIndex={0} className="font-medium text-[#2dd4bf] hover:text-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               Forgot your password?
             </a>
           </div>
@@ -160,21 +169,24 @@ const Login: React.FC = () => {
           <div className="mt-6 grid grid-cols-3 gap-3">
             <button
               onClick={() => handleOAuthLogin('google')}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200"
+              tabIndex={0}
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             >
               <FaGoogle className="h-5 w-5 text-red-500" />
               <span className="ml-2">Google</span>
             </button>
             <button
               onClick={() => handleOAuthLogin('microsoft')}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200"
+              tabIndex={0}
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             >
               <FaMicrosoft className="h-5 w-5 text-blue-500" />
               <span className="ml-2">Microsoft</span>
             </button>
             <button
               onClick={() => handleOAuthLogin('linkedin')}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200"
+              tabIndex={0}
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             >
               <FaLinkedin className="h-5 w-5 text-blue-600" />
               <span className="ml-2">LinkedIn</span>

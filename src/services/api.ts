@@ -64,4 +64,10 @@ class ApiService {
   }
 }
 
+export const submitLoginForm = async (formData: { email: string; password: string }) => {
+  // TODO: Implement actual authentication logic
+  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
+  return { success: true };
+};
+
 export const api = new ApiService(); 
