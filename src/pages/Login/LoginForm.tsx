@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
@@ -172,4 +172,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm; 
+export default memo(LoginForm); 

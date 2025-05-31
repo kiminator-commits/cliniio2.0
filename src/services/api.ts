@@ -1,3 +1,18 @@
+type Cache<T> = {
+  [key: string]: T;
+};
+
+const memoryCache: Cache<any> = {};
+
+export async function cachedFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
+  if (memoryCache[key]) {
+    return memoryCache[key];
+  }
+  const data = await fetcher();
+  memoryCache[key] = data;
+  return data;
+}
+
 interface FetchOptions extends RequestInit {
   params?: Record<string, string>;
 }
