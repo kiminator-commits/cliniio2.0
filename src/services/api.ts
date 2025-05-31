@@ -85,4 +85,19 @@ export const submitLoginForm = async (formData: { email: string; password: strin
   return { success: true };
 };
 
-export const api = new ApiService(); 
+export const api = new ApiService();
+
+type ApiResponse<T> = {
+  data?: T;
+  error?: Error;
+  status: number;
+};
+
+const handleResponse = async (response: Response): Promise<ApiResponse<unknown>> => {
+  if (!response.ok) {
+    const error = await response.json();
+    return { error: new Error(error.message), status: response.status };
+  }
+  const data = await response.json();
+  return { data, status: response.status };
+}; 

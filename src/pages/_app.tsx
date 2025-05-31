@@ -2,8 +2,14 @@ import React from 'react';
 import AppLayout from '@/components/Layout/AppLayout';
 import '@/styles/globals.css';
 import { useRouter } from 'next/router';
+import type { AppProps } from 'next/app';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
-export default function MyApp({ Component, pageProps }: any) {
+interface CustomAppProps extends Omit<AppProps, 'Component'> {
+  Component: React.ComponentType<AppProps['pageProps']>;
+}
+
+export default function MyApp({ Component, pageProps }: CustomAppProps) {
   const router = useRouter();
   const isLoginPage = router.pathname === '/login';
 
@@ -12,8 +18,10 @@ export default function MyApp({ Component, pageProps }: any) {
   }
 
   return (
-    <AppLayout>
-      <Component {...pageProps} />
-    </AppLayout>
+    <ErrorBoundary>
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
+    </ErrorBoundary>
   );
 } 

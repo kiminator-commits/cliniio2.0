@@ -1,9 +1,6 @@
 import React from 'react';
-import { useUI } from '../../hooks/useUI';
 
 const Sterilization: React.FC = () => {
-  const { isLoading } = useUI();
-
   return (
     <div className="p-6 max-h-screen overflow-y-auto">
       <div className="mb-6">
