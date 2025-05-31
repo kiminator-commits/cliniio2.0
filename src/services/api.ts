@@ -82,23 +82,9 @@ class ApiService {
 
 export const submitLoginForm = async (credentials: { email: string; password: string }) => {
   // TODO: Implement actual authentication logic
+  console.log('Login attempt with:', credentials.email);
   await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
   return { success: true };
 };
 
-export const api = new ApiService();
-
-type ApiResponse<T> = {
-  data?: T;
-  error?: Error;
-  status: number;
-};
-
-const handleResponse = async (response: Response): Promise<ApiResponse<unknown>> => {
-  if (!response.ok) {
-    const error = await response.json();
-    return { error: new Error(error.message), status: response.status };
-  }
-  const data = await response.json();
-  return { data, status: response.status };
-}; 
+export const api = new ApiService(); 
