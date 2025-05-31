@@ -37,7 +37,7 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
             Welcome to Cliniio
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -88,26 +88,36 @@ const Login: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
               </div>
+              <div className="text-green-500 text-sm mt-2">
+                Password strength: Good
+              </div>
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                Forgot your password?
-              </a>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  Remember me
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  id="remember-device"
+                  name="remember-device"
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember-device" className="ml-2 block text-sm text-gray-900">
+                  Remember this device
+                </label>
+              </div>
             </div>
           </div>
 
@@ -119,7 +129,17 @@ const Login: React.FC = () => {
               Sign in
             </button>
           </div>
+
+          <div className="text-center">
+            <a href="#" className="font-medium text-[#2dd4bf] hover:text-[#14b8a6]">
+              Forgot your password?
+            </a>
+          </div>
         </form>
+
+        <div className="text-blue-500 text-sm mt-4 text-center">
+          Loading...
+        </div>
 
         <div className="mt-6">
           <div className="relative">
