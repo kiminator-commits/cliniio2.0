@@ -1,5 +1,4 @@
 import React from 'react';
-import { useUI } from '../../hooks/useUI';
 
 const Inventory: React.FC = () => {
   return (

@@ -2,11 +2,11 @@ type Cache<T> = {
   [key: string]: T;
 };
 
-const memoryCache: Cache<any> = {};
+const memoryCache: Cache<unknown> = {};
 
 export async function cachedFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
   if (memoryCache[key]) {
-    return memoryCache[key];
+    return memoryCache[key] as T;
   }
   const data = await fetcher();
   memoryCache[key] = data;
@@ -44,7 +44,8 @@ class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const error = await response.json();
+        throw new Error(error.message || `HTTP error! status: ${response.status}`);
       }
 
       return response.json();
@@ -79,7 +80,7 @@ class ApiService {
   }
 }
 
-export const submitLoginForm = async (formData: { email: string; password: string }) => {
+export const submitLoginForm = async (credentials: { email: string; password: string }) => {
   // TODO: Implement actual authentication logic
   await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
   return { success: true };
