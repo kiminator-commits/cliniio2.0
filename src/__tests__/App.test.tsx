@@ -6,5 +6,7 @@ describe('App', () => {
     render(<App />);
     // Add a basic assertion to make the test pass
     expect(document.body).toBeTruthy();
+    // Use screen to verify the app rendered
+    expect(screen.getByTestId('app-container')).toBeInTheDocument();
   });
 }); 

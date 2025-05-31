@@ -7,7 +7,7 @@ function App() {
   return (
     <UIProvider>
       <Router>
-        <div className="min-h-screen bg-background">
+        <div data-testid="app-container" className="min-h-screen bg-background">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate to="/login" replace />} />
