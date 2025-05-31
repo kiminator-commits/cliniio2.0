@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
 
 jest.mock('../contexts/UIContext', () => ({
@@ -8,11 +7,7 @@ jest.mock('../contexts/UIContext', () => ({
 
 describe('App', () => {
   it('renders without crashing', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    );
+    const { container } = render(<App />);
     expect(container).toBeInTheDocument();
   });
 }); 
