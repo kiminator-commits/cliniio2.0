@@ -9,4 +9,6 @@ module.exports = {
   },
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testMatch: ['**/__tests__/**/*.test.[jt]s?(x)'],
+  roots: ['<rootDir>/__tests__', '<rootDir>/src'],
 }; 
