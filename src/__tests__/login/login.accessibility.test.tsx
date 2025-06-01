@@ -1,9 +1,9 @@
 import React from "react";
 import { render, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { UIProvider } from "../contexts/UIContext";
+import { UIProvider } from "../../contexts/UIContext";
 import { axe, toHaveNoViolations } from "jest-axe";
-import LoginForm from "../pages/Login/LoginForm";
+import LoginForm from "../../pages/Login/LoginForm";
 
 expect.extend(toHaveNoViolations);
 

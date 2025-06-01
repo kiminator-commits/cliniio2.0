@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
 import { submitLoginForm } from '../../services/api';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import './styles.css';
 
-const SocialLoginButtons = lazy(() => import('@/components/SocialLoginButtons'));
+const SocialLoginButtons = lazy(() => import('../../components/SocialLoginButtons'));
 
 interface LoginFormData {
   email: string;

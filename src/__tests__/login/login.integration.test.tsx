@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { UIProvider } from "../contexts/UIContext";
-import LoginForm from "../pages/Login/LoginForm";
+import { UIProvider } from "../../contexts/UIContext";
+import LoginForm from "../../pages/Login/LoginForm";
 
 describe("LoginForm Integration", () => {
   it("allows user to type into fields", async () => {
