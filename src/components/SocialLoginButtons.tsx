@@ -1,5 +1,5 @@
-import React from "react";
-import { FaGoogle, FaMicrosoft, FaLinkedin } from "react-icons/fa";
+import React from 'react';
+import { FaGoogle, FaMicrosoft, FaLinkedin } from 'react-icons/fa';
 
 const SocialLoginButtons = () => {
   const handleOAuthLogin = (provider: 'google' | 'microsoft' | 'linkedin') => {
@@ -48,4 +48,4 @@ const SocialLoginButtons = () => {
   );
 };
 
-export default SocialLoginButtons; 
+export default SocialLoginButtons;

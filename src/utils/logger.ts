@@ -1,6 +1,6 @@
 export const Logger = {
   log: (message: string, ...optionalParams: unknown[]) => {
-    if (import.meta.env.VITE_APP_ENV !== "production") {
+    if (import.meta.env.VITE_APP_ENV !== 'production') {
       console.log(message, ...optionalParams);
     }
   },
@@ -10,4 +10,4 @@ export const Logger = {
   warn: (message: string, ...optionalParams: unknown[]) => {
     console.warn(message, ...optionalParams);
   },
-}; 
+};

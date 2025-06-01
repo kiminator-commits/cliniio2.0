@@ -33,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
   onForgotPassword,
   validateEmail,
-  validatePassword
+  validatePassword,
 }) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -57,14 +57,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
           <span className="block sm:inline">{formState.error}</span>
         </div>
       )}
-      
+
       {formState.feedbackMessage && (
         <div
           ref={feedbackRef}
           tabIndex={-1}
           className={`mt-2 p-3 rounded-md text-sm ${
-            formState.feedbackType === 'error' 
-              ? 'bg-red-100 border border-red-400 text-red-700' 
+            formState.feedbackType === 'error'
+              ? 'bg-red-100 border border-red-400 text-red-700'
               : 'bg-green-100 border border-green-400 text-green-700'
           }`}
           role="alert"
@@ -96,8 +96,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
           aria-label="Email address"
           aria-required="true"
           aria-invalid={!!formState.emailError}
-          aria-describedby={formState.emailError ? "email-error" : undefined}
-          tabIndex={1}
+          aria-describedby={formState.emailError ? 'email-error' : undefined}
+          tabIndex={0}
         />
         {formState.emailError && (
           <p id="email-error" className="text-red-600 text-sm mt-1" role="alert" aria-live="polite">
@@ -105,7 +105,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </p>
         )}
       </div>
-      
+
       <div>
         <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
           Password <span aria-hidden="true">*</span>
@@ -128,21 +128,26 @@ const LoginForm: React.FC<LoginFormProps> = ({
             aria-label="Password"
             aria-required="true"
             aria-invalid={!!formState.passwordError}
-            aria-describedby={formState.passwordError ? "password-error" : undefined}
-            tabIndex={2}
+            aria-describedby={formState.passwordError ? 'password-error' : undefined}
+            tabIndex={0}
           />
           <button
             type="button"
             onClick={onShowPasswordToggle}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] rounded p-1"
-            aria-label={formState.showPassword ? "Hide password" : "Show password"}
-            tabIndex={3}
+            aria-label={formState.showPassword ? 'Hide password' : 'Show password'}
+            tabIndex={0}
           >
-            {formState.showPassword ? "Hide" : "Show"}
+            {formState.showPassword ? 'Hide' : 'Show'}
           </button>
         </div>
         {formState.passwordError && (
-          <p id="password-error" className="text-red-600 text-sm mt-1" role="alert" aria-live="polite">
+          <p
+            id="password-error"
+            className="text-red-600 text-sm mt-1"
+            role="alert"
+            aria-live="polite"
+          >
             {formState.passwordError}
           </p>
         )}
@@ -173,17 +178,28 @@ const LoginForm: React.FC<LoginFormProps> = ({
           {formState.loading ? (
             <span className="flex items-center justify-center gap-2">
               <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 01-8 8z" />
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 01-8 8z"
+                />
               </svg>
               Logging in...
             </span>
           ) : (
-            "Login"
+            'Login'
           )}
         </button>
       </div>
-      
+
       <div className="mt-4 text-center">
         <button
           type="button"
@@ -197,4 +213,4 @@ const LoginForm: React.FC<LoginFormProps> = ({
   );
 };
 
-export default LoginForm; 
+export default LoginForm;

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface LoginFormData {
   email: string;
@@ -16,8 +16,8 @@ const LoginFormContext = createContext<LoginFormContextType | undefined>(undefin
 
 export const LoginFormProvider = ({ children }: { children: ReactNode }) => {
   const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     rememberMe: false,
     rememberDevice: false,
   });
@@ -32,7 +32,7 @@ export const LoginFormProvider = ({ children }: { children: ReactNode }) => {
 export const useLoginForm = () => {
   const context = useContext(LoginFormContext);
   if (!context) {
-    throw new Error("useLoginForm must be used within a LoginFormProvider");
+    throw new Error('useLoginForm must be used within a LoginFormProvider');
   }
   return context;
-}; 
+};

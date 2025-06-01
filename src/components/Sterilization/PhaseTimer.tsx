@@ -11,4 +11,4 @@ export default function PhaseTimer({ phaseName }: PhaseTimerProps) {
       <p>Timer placeholder.</p>
     </div>
   );
-} 
+}

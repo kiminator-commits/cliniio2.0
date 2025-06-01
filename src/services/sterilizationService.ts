@@ -13,4 +13,4 @@ export interface SterilizationCycle {
 
 export class SterilizationService {
   // Service methods will be added as we build.
-} 
+}

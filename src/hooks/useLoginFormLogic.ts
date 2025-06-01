@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { LoginFormData } from "@/contexts/LoginFormContext";
-import { loginService } from "@/services/loginService";
+import { useState } from 'react';
+import { LoginFormData } from '@/contexts/LoginFormContext';
+import { loginService } from '@/services/loginService';
 
 export const useLoginFormLogic = () => {
   const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     rememberMe: false,
     rememberDevice: false,
   });
@@ -18,4 +18,4 @@ export const useLoginFormLogic = () => {
   };
 
   return { formData, setFormData, loading, handleSubmit };
-}; 
+};

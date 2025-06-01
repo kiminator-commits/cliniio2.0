@@ -1,7 +1,10 @@
 /**
  * Format a date to a localized string
  */
-export const formatDate = (date: Date | string, options: Intl.DateTimeFormatOptions = {}): string => {
+export const formatDate = (
+  date: Date | string,
+  options: Intl.DateTimeFormatOptions = {}
+): string => {
   const defaultOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -15,10 +18,7 @@ export const formatDate = (date: Date | string, options: Intl.DateTimeFormatOpti
 /**
  * Format a number to a localized string with specified decimal places
  */
-export const formatNumber = (
-  number: number,
-  options: Intl.NumberFormatOptions = {}
-): string => {
+export const formatNumber = (number: number, options: Intl.NumberFormatOptions = {}): string => {
   const defaultOptions: Intl.NumberFormatOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -35,7 +35,7 @@ export const toTitleCase = (str: string): string => {
   return str
     .toLowerCase()
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
 
@@ -58,4 +58,4 @@ export const formatFileSize = (bytes: number): string => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
-}; 
+};

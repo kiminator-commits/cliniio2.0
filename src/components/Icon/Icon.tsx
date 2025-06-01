@@ -9,4 +9,4 @@ interface Props extends IconProps {
 
 export default function MdiIcon({ size = 1, color = 'currentColor', ...rest }: Props) {
   return <Icon size={size} color={color} {...rest} />;
-} 
+}

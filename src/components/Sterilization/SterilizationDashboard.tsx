@@ -11,4 +11,4 @@ export default function SterilizationDashboard() {
       <PhaseTimer phaseName="Autoclave" />
     </div>
   );
-} 
+}

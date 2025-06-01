@@ -7,9 +7,7 @@ const Settings: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
-      {drawerOpen && (
-        <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-      )}
+      {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
       <div className="flex-1">
         {!drawerOpen && (
           <button
@@ -34,7 +32,9 @@ const Settings: React.FC = () => {
         )}
         <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 0, marginTop: 24 }}>
           <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">Settings</h1>
-          <p className="text-sm text-gray-500 mb-4">Configure your application preferences and account settings</p>
+          <p className="text-sm text-gray-500 mb-4">
+            Configure your application preferences and account settings
+          </p>
         </div>
         {/* No additional content */}
       </div>
@@ -42,4 +42,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings; 
+export default Settings;

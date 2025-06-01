@@ -7,4 +7,4 @@ export default function Assistant() {
       <p>AI Assistant module scaffolded.</p>
     </div>
   );
-} 
+}

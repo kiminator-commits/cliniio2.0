@@ -5,4 +5,4 @@ export const Monitoring = {
   recordInteraction: (event: string) => {
     console.log(`User interaction: ${event}`);
   },
-}; 
+};

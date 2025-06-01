@@ -10,11 +10,7 @@ const UIContext = createContext<UIContextType | undefined>(undefined);
 export const UIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
-  return (
-    <UIContext.Provider value={{ loading, setLoading }}>
-      {children}
-    </UIContext.Provider>
-  );
+  return <UIContext.Provider value={{ loading, setLoading }}>{children}</UIContext.Provider>;
 };
 
 export const useUI = () => {
@@ -23,4 +19,4 @@ export const useUI = () => {
     throw new Error('useUI must be used within a UIProvider');
   }
   return context;
-}; 
+};

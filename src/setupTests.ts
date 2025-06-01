@@ -7,4 +7,4 @@ import '@testing-library/jest-dom';
 // Add TextEncoder polyfill for Node environment
 import { TextEncoder, TextDecoder } from 'node:util';
 global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder; 
+global.TextDecoder = TextDecoder;

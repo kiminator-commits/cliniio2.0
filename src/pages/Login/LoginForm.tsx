@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       await submitLoginForm(formData);
       navigate('/home');
@@ -42,21 +42,31 @@ const LoginForm: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" onClick={() => navigate('/home')}>
+      <div
+        className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+        onClick={() => navigate('/home')}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            navigate('/home');
+          }
+        }}
+        role="button"
+        tabIndex={0}
+      >
         <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
               Welcome to Cliniio
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Sign in to your account
-            </p>
+            <p className="mt-2 text-center text-sm text-gray-600">Sign in to your account</p>
           </div>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm space-y-4">
               <div>
-                <span id="emailHelp" className="sr-only">Enter your email address.</span>
+                <span id="emailHelp" className="sr-only">
+                  Enter your email address.
+                </span>
                 <label htmlFor="email" className="sr-only">
                   {LOGIN_LABELS.email}
                 </label>
@@ -80,11 +90,11 @@ const LoginForm: React.FC = () => {
                   />
                 </div>
               </div>
-              <p className="text-red-500 text-sm mt-2">
-                Please enter a valid email address.
-              </p>
+              <p className="text-red-500 text-sm mt-2">Please enter a valid email address.</p>
               <div>
-                <span id="passwordHelp" className="sr-only">Enter your account password.</span>
+                <span id="passwordHelp" className="sr-only">
+                  Enter your account password.
+                </span>
                 <label htmlFor="password" className="sr-only">
                   {LOGIN_LABELS.password}
                 </label>
@@ -107,12 +117,8 @@ const LoginForm: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   />
                 </div>
-                <div className="text-green-500 text-sm mt-2">
-                  Password strength: Good
-                </div>
-                <p className="text-red-500 text-sm mt-2">
-                  Password must be at least 8 characters.
-                </p>
+                <div className="text-green-500 text-sm mt-2">Password strength: Good</div>
+                <p className="text-red-500 text-sm mt-2">Password must be at least 8 characters.</p>
               </div>
             </div>
 
@@ -158,9 +164,13 @@ const LoginForm: React.FC = () => {
             </div>
 
             <div className="text-center">
-              <a href="#" tabIndex={0} className="font-medium text-[#2dd4bf] hover:text-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              <button
+                type="button"
+                onClick={() => navigate('/home')}
+                className="font-medium text-[#2dd4bf] hover:text-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
                 Forgot your password?
-              </a>
+              </button>
             </div>
           </form>
 
@@ -173,4 +183,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default memo(LoginForm); 
+export default memo(LoginForm);

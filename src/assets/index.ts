@@ -17,4 +17,4 @@ export const ICONS = {
 export const FONTS = {
   PRIMARY: '/assets/fonts/primary.woff2',
   SECONDARY: '/assets/fonts/secondary.woff2',
-} as const; 
+} as const;

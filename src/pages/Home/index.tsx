@@ -26,33 +26,31 @@ export default function HomePage() {
       totalTasks: 200,
       completedTasks: 180,
       currentStreak: 5,
-      bestStreak: 8
-    }
+      bestStreak: 8,
+    },
   };
 
   const mockLeaderboardData = {
     rank: 3,
     topUsers: [
-      { name: "Sarah Johnson", score: 1250, avatar: "SJ" },
-      { name: "Mike Chen", score: 1180, avatar: "MC" },
-      { name: "Emma Davis", score: 1150, avatar: "ED" },
-      { name: "Alex Wong", score: 1120, avatar: "AW" },
-      { name: "Lisa Brown", score: 1100, avatar: "LB" }
-    ]
+      { name: 'Sarah Johnson', score: 1250, avatar: 'SJ' },
+      { name: 'Mike Chen', score: 1180, avatar: 'MC' },
+      { name: 'Emma Davis', score: 1150, avatar: 'ED' },
+      { name: 'Alex Wong', score: 1120, avatar: 'AW' },
+      { name: 'Lisa Brown', score: 1100, avatar: 'LB' },
+    ],
   };
 
   const mockChallengeData = {
     title: 'Daily Challenge',
     description: 'Complete all assigned tasks with 100% accuracy',
     reward: '50 points',
-    difficulty: 'Medium'
+    difficulty: 'Medium',
   };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
-      {drawerOpen && (
-        <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-      )}
+      {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
       <div className="flex-1">
         {!drawerOpen && (
           <button
@@ -76,7 +74,7 @@ export default function HomePage() {
           </button>
         )}
         <div style={{ marginLeft: navBarMarginLeft, marginTop: navBarMarginTop }}>
-          <NavBar 
+          <NavBar
             onStatsClick={() => setIsStatsModalOpen(true)}
             onLeaderboardClick={() => setIsLeaderboardModalOpen(true)}
             onChallengeClick={() => setIsChallengeModalOpen(true)}

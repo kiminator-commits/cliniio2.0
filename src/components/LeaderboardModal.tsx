@@ -19,53 +19,50 @@ interface LeaderboardModalProps {
 const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   isOpen,
   onClose,
-  gamificationData
+  gamificationData,
 }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={onClose}
         >
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
             className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4"
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center">
                 <div className="p-3 bg-blue-500 rounded-xl">
                   <Icon path={mdiTrophy} size={1} className="text-white" />
                 </div>
-                <h2 className="ml-3 text-xl font-bold text-[#5b5b5b]">
-                  Office Leaderboard
-                </h2>
+                <h2 className="ml-3 text-xl font-bold text-[#5b5b5b]">Office Leaderboard</h2>
               </div>
-              <button 
-                onClick={onClose}
-                className="text-gray-400 hover:text-gray-600"
-              >
+              <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
                 <Icon path={mdiClose} size={1} />
               </button>
             </div>
-            
+
             <div className="flex items-center justify-between mb-4 bg-blue-50 p-3 rounded-lg">
               <div className="text-blue-700 font-medium">Your Rank</div>
               <div className="flex items-center">
-                <span className="text-xl font-bold text-blue-700 mr-1">#{gamificationData.rank}</span>
+                <span className="text-xl font-bold text-blue-700 mr-1">
+                  #{gamificationData.rank}
+                </span>
                 <span className="text-blue-500 text-sm">/15</span>
               </div>
             </div>
-            
+
             <div className="space-y-3 mb-4">
               {gamificationData.topUsers.map((user, index) => (
-                <motion.div 
+                <motion.div
                   key={user.name}
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -95,7 +92,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                 </motion.div>
               ))}
             </div>
-            
+
             <div className="mt-4">
               <button
                 onClick={onClose}
@@ -111,4 +108,4 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   );
 };
 
-export default React.memo(LeaderboardModal); 
+export default React.memo(LeaderboardModal);

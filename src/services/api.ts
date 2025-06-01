@@ -27,7 +27,7 @@ class ApiService {
   private async fetch<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
     const { params, ...fetchOptions } = options;
     const url = new URL(`${this.baseUrl}${endpoint}`);
-    
+
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         url.searchParams.append(key, value);
@@ -83,8 +83,8 @@ class ApiService {
 export const submitLoginForm = async (credentials: { email: string; password: string }) => {
   // TODO: Implement actual authentication logic
   console.log('Login attempt with:', credentials.email);
-  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulated delay
   return { success: true };
 };
 
-export const api = new ApiService(); 
+export const api = new ApiService();

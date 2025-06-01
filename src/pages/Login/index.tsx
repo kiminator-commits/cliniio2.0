@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from 'react';
 
-const LoginForm = lazy(() => import("./LoginForm"));
+const LoginForm = lazy(() => import('./LoginForm'));
 
 export default function LoginPage() {
   return (
@@ -8,4 +8,4 @@ export default function LoginPage() {
       <LoginForm />
     </Suspense>
   );
-} 
+}
