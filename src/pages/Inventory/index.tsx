@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
+import { HeaderSection } from '../../components/HeaderSection';
 
 const Inventory: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -32,6 +33,10 @@ const Inventory: React.FC = () => {
             <FaBars size={20} />
           </button>
         )}
+        <HeaderSection 
+          title="Inventory Management"
+          subtext="Track and manage your inventory levels and supplies"
+        />
         {/* No additional content */}
       </div>
     </div>

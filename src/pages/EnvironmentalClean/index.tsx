@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
+import { HeaderSection } from '../../components/HeaderSection';
 
-export default function EnvironmentalCleaning() {
+const EnvironmentalClean: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
 
   return (
@@ -32,8 +33,14 @@ export default function EnvironmentalCleaning() {
             <FaBars size={20} />
           </button>
         )}
+        <HeaderSection 
+          title="Environmental Clean"
+          subtext="Manage your environmental cleaning protocols and schedules"
+        />
         {/* No additional content */}
       </div>
     </div>
   );
-} 
+};
+
+export default EnvironmentalClean; 

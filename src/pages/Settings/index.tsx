@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
+import { HeaderSection } from '../../components/HeaderSection';
 
-export default function Settings() {
+const Settings: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
 
   return (
@@ -32,8 +33,14 @@ export default function Settings() {
             <FaBars size={20} />
           </button>
         )}
+        <HeaderSection 
+          title="Settings"
+          subtext="Configure your application preferences and account settings"
+        />
         {/* No additional content */}
       </div>
     </div>
   );
-} 
+};
+
+export default Settings; 

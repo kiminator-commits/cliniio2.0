@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
+import { HeaderSection } from '../../components/HeaderSection';
 
 const Sterilization: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -32,6 +33,10 @@ const Sterilization: React.FC = () => {
             <FaBars size={20} />
           </button>
         )}
+        <HeaderSection 
+          title="Sterilization Management"
+          subtext="Manage your sterilization processes and equipment"
+        />
         {/* No additional content */}
       </div>
     </div>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
+import { HeaderSection } from '../../components/HeaderSection';
 
-export default function KnowledgeHub() {
+const KnowledgeHub: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
 
   return (
@@ -32,8 +33,14 @@ export default function KnowledgeHub() {
             <FaBars size={20} />
           </button>
         )}
+        <HeaderSection 
+          title="Knowledge Hub"
+          subtext="Access training materials and educational resources"
+        />
         {/* No additional content */}
       </div>
     </div>
   );
-} 
+};
+
+export default KnowledgeHub; 

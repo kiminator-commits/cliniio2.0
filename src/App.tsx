@@ -4,7 +4,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Sterilization from './pages/Sterilization'
 import Inventory from './pages/Inventory'
-import EnvironmentalCleaning from './pages/EnvironmentalCleaning'
+import EnvironmentalClean from './pages/EnvironmentalClean'
 import KnowledgeHub from './pages/KnowledgeHub'
 import Settings from './pages/Settings'
 import { UIProvider } from './contexts/UIContext'
@@ -26,7 +26,7 @@ function AppContainer() {
         <Route path="/home" element={<Home />} />
         <Route path="/sterilization" element={<Sterilization />} />
         <Route path="/inventory" element={<Inventory />} />
-        <Route path="/environmental-clean" element={<EnvironmentalCleaning />} />
+        <Route path="/environmental-clean" element={<EnvironmentalClean />} />
         <Route path="/knowledge-hub" element={<KnowledgeHub />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
