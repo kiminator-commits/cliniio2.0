@@ -2,6 +2,11 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Sterilization from './pages/Sterilization'
+import Inventory from './pages/Inventory'
+import EnvironmentalCleaning from './pages/EnvironmentalCleaning'
+import KnowledgeHub from './pages/KnowledgeHub'
+import Settings from './pages/Settings'
 import { UIProvider } from './contexts/UIContext'
 
 function AppContainer() {
@@ -19,6 +24,11 @@ function AppContainer() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/sterilization" element={<Sterilization />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/environmental-clean" element={<EnvironmentalCleaning />} />
+        <Route path="/knowledge-hub" element={<KnowledgeHub />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>

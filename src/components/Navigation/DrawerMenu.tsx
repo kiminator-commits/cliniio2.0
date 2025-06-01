@@ -19,6 +19,8 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
   const userRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  const currentPath = window.location.pathname;
+
   return (
     <div className={`bg-white shadow-lg transition-all duration-300 flex flex-col h-screen ${isOpen ? 'w-64' : 'w-16'}`}>
       <div className="flex-1">
@@ -34,29 +36,29 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
           </button>
         </div>
         <nav>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4]" href="/home">
-            <FaHome size={20} className="mr-4 text-[#4ECDC4]" />
-            <span className="font-medium text-[#4ECDC4]">Home</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/home' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/home">
+            <FaHome size={20} className={`mr-4 ${currentPath === '/home' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/home' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Home</span>
           </a>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]" href="/sterilization">
-            <FaFlask size={20} className="mr-4 text-gray-400" />
-            <span className="font-medium text-[#5b5b5b]">Sterilization</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/sterilization' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/sterilization">
+            <FaFlask size={20} className={`mr-4 ${currentPath === '/sterilization' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/sterilization' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Sterilization</span>
           </a>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]" href="/inventory">
-            <FaBoxOpen size={20} className="mr-4 text-gray-400" />
-            <span className="font-medium text-[#5b5b5b]">Inventory</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/inventory' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/inventory">
+            <FaBoxOpen size={20} className={`mr-4 ${currentPath === '/inventory' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/inventory' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Inventory</span>
           </a>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]" href="/environmental-clean">
-            <FaBroom size={20} className="mr-4 text-gray-400" />
-            <span className="font-medium text-[#5b5b5b]">Environmental Clean</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/environmental-clean' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/environmental-clean">
+            <FaBroom size={20} className={`mr-4 ${currentPath === '/environmental-clean' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/environmental-clean' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Environmental Clean</span>
           </a>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]" href="/knowledge-hub">
-            <FaBookOpen size={20} className="mr-4 text-gray-400" />
-            <span className="font-medium text-[#5b5b5b]">Knowledge Hub</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/knowledge-hub' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/knowledge-hub">
+            <FaBookOpen size={20} className={`mr-4 ${currentPath === '/knowledge-hub' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/knowledge-hub' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Knowledge Hub</span>
           </a>
-          <a className="flex items-center px-6 py-4 transition-colors duration-200 text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]" href="/settings">
-            <FaCog size={20} className="mr-4 text-gray-400" />
-            <span className="font-medium text-[#5b5b5b]">Settings</span>
+          <a className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/settings' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`} href="/settings">
+            <FaCog size={20} className={`mr-4 ${currentPath === '/settings' ? 'text-[#4ECDC4]' : 'text-gray-400'}`} />
+            <span className={`font-medium ${currentPath === '/settings' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}>Settings</span>
           </a>
         </nav>
       </div>
