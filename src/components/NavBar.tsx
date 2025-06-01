@@ -31,7 +31,7 @@ const NavBar = () => {
         </div>
       </div>
       <p className="text-sm text-gray-500">
-        Here's your impact and progress for today.
+        Here&apos;s your impact and progress for today.
       </p>
     </div>
   );

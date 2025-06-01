@@ -26,7 +26,7 @@ const HeaderSection = () => {
     <div className="mb-6">
       <Greeting />
       <p className="text-sm text-gray-500 mb-4">
-        Here's your impact and progress for today.
+        Here&apos;s your impact and progress for today.
       </p>
       <div className="flex gap-4">
         {features.map((f) => (
