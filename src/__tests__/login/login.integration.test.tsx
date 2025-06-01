@@ -3,6 +3,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { UIProvider } from "../../contexts/UIContext";
 import LoginForm from "../../pages/Login/LoginForm";
+import { LOGIN_LABELS } from "../../constants/loginConstants";
 
 describe("LoginForm Integration", () => {
   it("allows user to type into fields", async () => {
@@ -16,8 +17,8 @@ describe("LoginForm Integration", () => {
       );
     });
 
-    const emailInput = screen.getByLabelText(/email address/i);
-    const passwordInput = screen.getByLabelText(/password/i);
+    const emailInput = screen.getByLabelText(LOGIN_LABELS.email);
+    const passwordInput = screen.getByLabelText(LOGIN_LABELS.password);
 
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: "test@example.com" } });

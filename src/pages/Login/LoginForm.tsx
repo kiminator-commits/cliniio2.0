@@ -4,6 +4,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
 import { submitLoginForm } from '../../services/api';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import { LOGIN_LABELS } from '../../constants/loginConstants';
 import './styles.css';
 
 const SocialLoginButtons = lazy(() => import('../../components/SocialLoginButtons'));
@@ -57,7 +58,7 @@ const LoginForm: React.FC = () => {
               <div>
                 <span id="emailHelp" className="sr-only">Enter your email address.</span>
                 <label htmlFor="email" className="sr-only">
-                  Email address
+                  {LOGIN_LABELS.email}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -85,7 +86,7 @@ const LoginForm: React.FC = () => {
               <div>
                 <span id="passwordHelp" className="sr-only">Enter your account password.</span>
                 <label htmlFor="password" className="sr-only">
-                  Password
+                  {LOGIN_LABELS.password}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -122,12 +123,12 @@ const LoginForm: React.FC = () => {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    aria-label="Remember me"
+                    aria-label={LOGIN_LABELS.rememberMe}
                     tabIndex={0}
                     className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                    Remember me
+                    {LOGIN_LABELS.rememberMe}
                   </label>
                 </div>
                 <div className="flex items-center">
@@ -135,12 +136,12 @@ const LoginForm: React.FC = () => {
                     id="remember-device"
                     name="remember-device"
                     type="checkbox"
-                    aria-label="Remember device"
+                    aria-label={LOGIN_LABELS.rememberDevice}
                     tabIndex={0}
                     className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-device" className="ml-2 block text-sm text-gray-900">
-                    Remember this device
+                    {LOGIN_LABELS.rememberDevice}
                   </label>
                 </div>
               </div>
@@ -152,7 +153,7 @@ const LoginForm: React.FC = () => {
                 tabIndex={0}
                 className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#2dd4bf] hover:bg-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-[#2dd4bf] transition-colors duration-200"
               >
-                Sign in
+                {LOGIN_LABELS.submit}
               </button>
             </div>
 
