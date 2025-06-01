@@ -2,14 +2,51 @@ import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
+import StatsModal from '../../components/StatsModal';
+import LeaderboardModal from '../../components/LeaderboardModal';
+import ChallengeModal from '../../components/ChallengeModal';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
+  const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
+  const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
   // Top margin to align with Cliniio logo (e.g., 24px)
   const navBarMarginTop = 24;
+
+  // Mock data - replace with real data from your backend
+  const mockGamificationData = {
+    stats: {
+      toolsSterilized: 150,
+      inventoryChecks: 45,
+      perfectDays: 12,
+      totalTasks: 200,
+      completedTasks: 180,
+      currentStreak: 5,
+      bestStreak: 8
+    }
+  };
+
+  const mockLeaderboardData = {
+    rank: 3,
+    topUsers: [
+      { name: "Sarah Johnson", score: 1250, avatar: "SJ" },
+      { name: "Mike Chen", score: 1180, avatar: "MC" },
+      { name: "Emma Davis", score: 1150, avatar: "ED" },
+      { name: "Alex Wong", score: 1120, avatar: "AW" },
+      { name: "Lisa Brown", score: 1100, avatar: "LB" }
+    ]
+  };
+
+  const mockChallengeData = {
+    title: 'Daily Challenge',
+    description: 'Complete all assigned tasks with 100% accuracy',
+    reward: '50 points',
+    difficulty: 'Medium'
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
@@ -39,9 +76,31 @@ export default function HomePage() {
           </button>
         )}
         <div style={{ marginLeft: navBarMarginLeft, marginTop: navBarMarginTop }}>
-          <NavBar />
+          <NavBar 
+            onStatsClick={() => setIsStatsModalOpen(true)}
+            onLeaderboardClick={() => setIsLeaderboardModalOpen(true)}
+            onChallengeClick={() => setIsChallengeModalOpen(true)}
+          />
         </div>
       </div>
+
+      <StatsModal
+        isOpen={isStatsModalOpen}
+        onClose={() => setIsStatsModalOpen(false)}
+        gamificationData={mockGamificationData}
+      />
+
+      <LeaderboardModal
+        isOpen={isLeaderboardModalOpen}
+        onClose={() => setIsLeaderboardModalOpen(false)}
+        gamificationData={mockLeaderboardData}
+      />
+
+      <ChallengeModal
+        isOpen={isChallengeModalOpen}
+        onClose={() => setIsChallengeModalOpen(false)}
+        dailyChallenge={mockChallengeData}
+      />
     </div>
   );
 }

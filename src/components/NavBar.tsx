@@ -3,13 +3,23 @@ import { mdiChartPie, mdiTrophy, mdiTarget } from "@mdi/js";
 import Icon from "@mdi/react";
 import Greeting from './Greeting';
 
+interface NavBarProps {
+  onStatsClick?: () => void;
+  onLeaderboardClick?: () => void;
+  onChallengeClick?: () => void;
+}
+
 const features = [
   { icon: mdiChartPie, bg: "teal", label: "Cumulative Stats" },
   { icon: mdiTrophy, bg: "purple", label: "Leaderboard" },
   { icon: mdiTarget, bg: "blue", label: "Daily Challenge" },
 ];
 
-const NavBar = () => {
+const NavBar: React.FC<NavBarProps> = ({ 
+  onStatsClick,
+  onLeaderboardClick,
+  onChallengeClick
+}) => {
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between">
@@ -24,6 +34,17 @@ const NavBar = () => {
                 "bg-blue-600"
               }`}
               title={f.label}
+              onClick={
+                f.label === "Cumulative Stats" ? onStatsClick :
+                f.label === "Leaderboard" ? onLeaderboardClick :
+                f.label === "Daily Challenge" ? onChallengeClick :
+                undefined
+              }
+              style={{ 
+                cursor: f.label === "Cumulative Stats" || f.label === "Leaderboard" || f.label === "Daily Challenge" 
+                  ? "pointer" 
+                  : "default" 
+              }}
             >
               <Icon path={f.icon} size={1.5} color="#fff" />
             </div>

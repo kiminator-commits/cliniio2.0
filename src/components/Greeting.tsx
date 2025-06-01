@@ -13,7 +13,22 @@ const funGreetings = [
   "Ready to master the medical inventory? 📋",
   "The sterilization superstar has arrived! 🌟",
   "Let's make those tools SHINE today! ✨",
-  "Welcome back to your sterilization kingdom! 👑"
+  "Welcome back to your sterilization kingdom! 👑",
+  "Ready to conquer today's challenge? Let's do this! 🏅",
+  "Another day, another challenge to crush! 🚀",
+  "Your daily challenge awaits—show it who's boss! 💪",
+  "Inventory hero reporting for duty! 📦",
+  "Let's keep those supplies in tip-top shape! 🗂️",
+  "Inventory wizardry in progress—abracadabra! 🧙‍♂️",
+  "Time to check off those tasks like a pro! ✅",
+  "Taskmaster mode: activated! 🕹️",
+  "Let's make that to-do list disappear! ✨",
+  "Sparkle squad, assemble! 🧽",
+  "Let's make every room shine bright! 💡",
+  "Clean team, ready for action! 🦸‍♀️",
+  "Knowledge quest begins now! 📚",
+  "Time to level up your skills! 🎮",
+  "Learning legend in the house! 🏆"
 ];
 
 const Greeting: React.FC = () => {

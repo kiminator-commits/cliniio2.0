@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
-import { HeaderSection } from '../../components/HeaderSection';
 
 const EnvironmentalClean: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -33,10 +32,10 @@ const EnvironmentalClean: React.FC = () => {
             <FaBars size={20} />
           </button>
         )}
-        <HeaderSection 
-          title="Environmental Clean"
-          subtext="Manage your environmental cleaning protocols and schedules"
-        />
+        <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 0, marginTop: 24 }}>
+          <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">Environmental Clean</h1>
+          <p className="text-sm text-gray-500 mb-4">Manage your environmental cleaning protocols and schedules</p>
+        </div>
         {/* No additional content */}
       </div>
     </div>

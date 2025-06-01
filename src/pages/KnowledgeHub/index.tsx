@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import { FaBars } from 'react-icons/fa';
-import { HeaderSection } from '../../components/HeaderSection';
 
 const KnowledgeHub: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -33,10 +32,10 @@ const KnowledgeHub: React.FC = () => {
             <FaBars size={20} />
           </button>
         )}
-        <HeaderSection 
-          title="Knowledge Hub"
-          subtext="Access training materials and educational resources"
-        />
+        <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 0, marginTop: 24 }}>
+          <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">Knowledge Hub</h1>
+          <p className="text-sm text-gray-500 mb-4">Access training materials and educational resources</p>
+        </div>
         {/* No additional content */}
       </div>
     </div>
