@@ -54,7 +54,10 @@ const LoginForm: React.FC = () => {
         >
           Skip to main content
         </a>
-        <div id="main-content" className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+        <div
+          id="main-content"
+          className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg"
+        >
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
               Welcome to Cliniio

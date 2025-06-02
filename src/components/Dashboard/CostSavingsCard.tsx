@@ -11,27 +11,29 @@ interface CostSavingsCardProps {
   timeframe: string;
 }
 
-export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data, timeframe }) => {
-  const value = timeframe === 'daily' ? data.monthly / 30 : data.monthly;
-  const label = timeframe === 'daily' ? 'Daily' : 'Monthly';
-
+export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#4ECDC4]">
-      <div className="flex items-center space-x-3">
-        <div className="p-2 bg-[#4ECDC4] bg-opacity-10 rounded-full">
-          <FaDollarSign className="text-[#4ECDC4]" />
-        </div>
-        <div>
-          <h3 className="text-sm font-medium text-gray-700">Cost Savings</h3>
-          <p className="text-xs text-gray-500">{label} Impact</p>
-        </div>
+    <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
+      <div className="flex items-center mb-4">
+        <span className="bg-blue-200 rounded-md p-2 mr-3">
+          <FaDollarSign size={20} className="text-blue-900" />
+        </span>
+        <h3 className="text-base font-medium text-gray-700">Cost Savings</h3>
       </div>
-      <div className="mt-4">
-        <div className="text-2xl font-semibold text-[#4ECDC4]">${value.toFixed(2)}</div>
-        <div className="text-sm text-gray-500">
-          {timeframe === 'daily' ? `$${data.monthly}/mo` : `$${data.annual}/yr`}
+      <div className="flex flex-col gap-2 mt-2">
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 text-xs text-left">Monthly Savings</span>
+          <span className="text-base text-blue-900 text-right">
+            ${data.monthly.toLocaleString()}
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 text-xs text-left">Annual Savings</span>
+          <span className="text-base text-blue-900 text-right">
+            ${data.annual.toLocaleString()}
+          </span>
         </div>
       </div>
     </div>
   );
-}; 
+};

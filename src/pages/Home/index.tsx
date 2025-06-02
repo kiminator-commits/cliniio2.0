@@ -6,7 +6,7 @@ import StatsModal from '../../components/StatsModal';
 import LeaderboardModal from '../../components/LeaderboardModal';
 import ChallengeModal from '../../components/ChallengeModal';
 import { GamificationStats } from '../../components/Dashboard/GamificationStats';
-import { OperationsMetrics } from '../../components/Dashboard/OperationsMetrics';
+import { PerformanceMetrics } from '../../components/Dashboard/PerformanceMetrics';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -14,7 +14,6 @@ export default function HomePage() {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [totalPoints, setTotalPoints] = useState(1625);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
@@ -26,7 +25,7 @@ export default function HomePage() {
     streak: 7,
     level: 5,
     rank: 5,
-    totalScore: totalPoints,
+    totalScore: 1625,
     stats: {
       toolsSterilized: 150,
       inventoryChecks: 45,
@@ -76,10 +75,12 @@ export default function HomePage() {
     },
   };
 
+  const calculateAvailablePoints = () => 250;
+
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 scrollbar-hide">
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
       {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
-      <div className="flex-1">
+      <div className="flex-1 border-l-4 border-teal-400">
         {!drawerOpen && (
           <button
             onClick={() => setDrawerOpen(true)}
@@ -109,13 +110,19 @@ export default function HomePage() {
           />
           <div className="p-6">
             <GamificationStats gamificationData={mockGamificationData} />
-            <OperationsMetrics
-              metrics={mockMetricsData}
-              totalPoints={totalPoints}
-              setTotalPoints={setTotalPoints}
-              showFilters={showFilters}
-              setShowFilters={setShowFilters}
-            />
+            <div className="flex gap-6 mt-6">
+              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
+                <h2 className="text-2xl font-bold text-[#4ECDC4] mb-6">Daily Operations Tasks</h2>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
+                <PerformanceMetrics
+                  metrics={mockMetricsData}
+                  calculateAvailablePoints={calculateAvailablePoints}
+                  showFilters={showFilters}
+                  setShowFilters={setShowFilters}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
