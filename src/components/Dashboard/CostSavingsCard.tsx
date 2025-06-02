@@ -8,15 +8,14 @@ interface CostSavingsData {
 
 interface CostSavingsCardProps {
   data: CostSavingsData;
-  timeframe: string;
 }
 
 export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data }) => {
   return (
     <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
       <div className="flex items-center mb-4">
-        <span className="bg-blue-200 rounded-md p-2 mr-3">
-          <FaDollarSign size={20} className="text-blue-900" />
+        <span className="bg-green-100 rounded-md p-2 mr-3">
+          <FaDollarSign size={20} className="text-green-800" />
         </span>
         <h3 className="text-base font-medium text-gray-700">Cost Savings</h3>
       </div>
