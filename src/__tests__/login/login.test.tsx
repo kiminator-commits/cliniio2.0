@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { UIProvider } from '../../contexts/UIContext';
 import LoginForm from '../../pages/Login/LoginForm';
@@ -15,6 +15,11 @@ describe('LoginForm', () => {
           </UIProvider>
         </MemoryRouter>
       );
+    });
+
+    // Wait for lazy-loaded components to finish loading
+    await waitFor(() => {
+      expect(screen.queryByText('Loading Social Logins...')).not.toBeInTheDocument();
     });
 
     expect(screen.getByLabelText(LOGIN_LABELS.email)).toBeInTheDocument();

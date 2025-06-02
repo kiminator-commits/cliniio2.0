@@ -47,19 +47,14 @@ const LoginForm: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div
-        className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-        onClick={() => navigate('/home')}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            navigate('/home');
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label="Skip to home page"
-      >
-        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-black"
+        >
+          Skip to main content
+        </a>
+        <div id="main-content" className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
               Welcome to Cliniio
@@ -88,7 +83,6 @@ const LoginForm: React.FC = () => {
                     required
                     aria-label="Email address"
                     aria-describedby="emailHelp"
-                    tabIndex={0}
                     className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:border-blue-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                     value={formData.email}
@@ -116,7 +110,6 @@ const LoginForm: React.FC = () => {
                     required
                     aria-label="Password"
                     aria-describedby="passwordHelp"
-                    tabIndex={0}
                     className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:border-blue-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                     value={formData.password}
@@ -136,7 +129,6 @@ const LoginForm: React.FC = () => {
                     name="remember-me"
                     type="checkbox"
                     aria-label={LOGIN_LABELS.rememberMe}
-                    tabIndex={0}
                     className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
@@ -149,7 +141,6 @@ const LoginForm: React.FC = () => {
                     name="remember-device"
                     type="checkbox"
                     aria-label={LOGIN_LABELS.rememberDevice}
-                    tabIndex={0}
                     className="h-4 w-4 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-device" className="ml-2 block text-sm text-gray-900">
@@ -162,7 +153,6 @@ const LoginForm: React.FC = () => {
             <div>
               <button
                 type="submit"
-                tabIndex={0}
                 className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#2dd4bf] hover:bg-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-[#2dd4bf] transition-colors duration-200"
               >
                 {LOGIN_LABELS.submit}
@@ -171,22 +161,13 @@ const LoginForm: React.FC = () => {
 
             <div className="text-center">
               <div className="mt-4 text-center flex items-center justify-center">
-                <div
-                  className="flex items-center justify-center space-x-2 cursor-pointer"
+                <button
+                  type="button"
                   onClick={handleForgotPassword}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      handleForgotPassword();
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Forgot password"
+                  className="text-sm text-[#4ECDC4] hover:text-[#45b7af] cursor-pointer focus:outline-none"
                 >
-                  <span className="text-sm text-[#4ECDC4] hover:text-[#45b7af]">
-                    Forgot Password?
-                  </span>
-                </div>
+                  Forgot Password?
+                </button>
                 <span className="mx-2 text-gray-400">|</span>
                 <button
                   type="button"
