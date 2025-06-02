@@ -6,7 +6,7 @@ import StatsModal from '../../components/StatsModal';
 import LeaderboardModal from '../../components/LeaderboardModal';
 import ChallengeModal from '../../components/ChallengeModal';
 import { GamificationStats } from '../../components/Dashboard/GamificationStats';
-import { PerformanceMetrics } from '../../components/Dashboard/PerformanceMetrics';
+import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
