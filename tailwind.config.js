@@ -57,12 +57,12 @@ export default {
       },
       keyframes: {
         pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.5 },
         },
       },
       animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        pulse: 'pulse 2s ease-in-out infinite',
       },
     },
   },

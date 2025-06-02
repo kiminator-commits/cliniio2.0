@@ -14,9 +14,11 @@ export default function TeamPerformanceCard({ metrics }) {
         </div>
       </div>
       <div className="text-right">
-        <div className="text-lg font-semibold text-[#4ECDC4]">{metrics.teamPerformance.skills}%</div>
+        <div className="text-lg font-semibold text-[#FF1493]">
+          {metrics.teamPerformance.skills}%
+        </div>
         <div className="text-sm text-gray-500">{metrics.teamPerformance.inventory}% inventory</div>
       </div>
     </div>
   );
-} 
+}

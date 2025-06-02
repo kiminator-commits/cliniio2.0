@@ -26,10 +26,10 @@ const NavBar: React.FC<NavBarProps> = ({ onStatsClick, onLeaderboardClick, onCha
               key={f.label}
               className={`rounded-xl w-12 h-12 flex items-center justify-center transition-transform duration-200 hover:scale-110 ${
                 f.label === 'Cumulative Stats'
-                  ? 'bg-purple-400'
+                  ? 'bg-purple-100'
                   : f.label === 'Leaderboard'
-                    ? 'bg-amber-400'
-                    : 'bg-blue-600'
+                    ? 'bg-amber-100'
+                    : 'bg-blue-100'
               }`}
               title={f.label}
               onClick={
@@ -43,7 +43,17 @@ const NavBar: React.FC<NavBarProps> = ({ onStatsClick, onLeaderboardClick, onCha
               }
               aria-label={f.label}
             >
-              <Icon path={f.icon} size={1.5} color="#fff" />
+              <Icon
+                path={f.icon}
+                size={1.1}
+                color={
+                  f.label === 'Cumulative Stats'
+                    ? '#9333ea' // purple-600
+                    : f.label === 'Leaderboard'
+                      ? '#d97706' // amber-600
+                      : '#2563eb' // blue-600
+                }
+              />
             </button>
           ))}
         </div>

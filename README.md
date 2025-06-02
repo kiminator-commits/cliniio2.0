@@ -30,17 +30,20 @@ A modern healthcare management system built with React, TypeScript, and Tailwind
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/kiminator-commits/cliniio2.0.git
 ```
 
 2. Install dependencies:
+
 ```bash
 cd cliniio2.0
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -79,4 +82,4 @@ cliniio2.0/
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.

@@ -40,6 +40,11 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    // Implement the forgot password logic here
+    console.log('Forgot Password clicked');
+  };
+
   return (
     <ErrorBoundary>
       <div
@@ -52,6 +57,7 @@ const LoginForm: React.FC = () => {
         }}
         role="button"
         tabIndex={0}
+        aria-label="Skip to home page"
       >
         <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
           <div>
@@ -164,13 +170,32 @@ const LoginForm: React.FC = () => {
             </div>
 
             <div className="text-center">
-              <button
-                type="button"
-                onClick={() => navigate('/home')}
-                className="font-medium text-[#2dd4bf] hover:text-[#14b8a6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Forgot your password?
-              </button>
+              <div className="mt-4 text-center flex items-center justify-center">
+                <div
+                  className="flex items-center justify-center space-x-2 cursor-pointer"
+                  onClick={handleForgotPassword}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleForgotPassword();
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Forgot password"
+                >
+                  <span className="text-sm text-[#4ECDC4] hover:text-[#45b7af]">
+                    Forgot Password?
+                  </span>
+                </div>
+                <span className="mx-2 text-gray-400">|</span>
+                <button
+                  type="button"
+                  onClick={() => navigate('/home')}
+                  className="text-sm text-[#4ECDC4] hover:text-[#45b7af] cursor-pointer focus:outline-none"
+                >
+                  Skip Login
+                </button>
+              </div>
             </div>
           </form>
 

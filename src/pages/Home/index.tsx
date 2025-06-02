@@ -14,6 +14,7 @@ export default function HomePage() {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [totalPoints, setTotalPoints] = useState(1625);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
@@ -25,7 +26,7 @@ export default function HomePage() {
     streak: 7,
     level: 5,
     rank: 5,
-    totalScore: 1625,
+    totalScore: totalPoints,
     stats: {
       toolsSterilized: 150,
       inventoryChecks: 45,
@@ -58,27 +59,25 @@ export default function HomePage() {
   const mockMetricsData = {
     timeSaved: {
       daily: 2.5,
-      monthly: 45.8
+      monthly: 45.8,
     },
     costSavings: {
       monthly: 1250,
-      annual: 15000
+      annual: 15000,
     },
     aiEfficiency: {
       timeSavings: 15.5,
-      proactiveMgmt: 22.3
+      proactiveMgmt: 22.3,
     },
     teamPerformance: {
       skills: 85,
       inventory: 92,
-      sterilization: 88
-    }
+      sterilization: 88,
+    },
   };
 
-  const calculateAvailablePoints = () => 250;
-
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 scrollbar-hide">
       {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
       <div className="flex-1">
         {!drawerOpen && (
@@ -110,9 +109,10 @@ export default function HomePage() {
           />
           <div className="p-6">
             <GamificationStats gamificationData={mockGamificationData} />
-            <OperationsMetrics 
+            <OperationsMetrics
               metrics={mockMetricsData}
-              calculateAvailablePoints={calculateAvailablePoints}
+              totalPoints={totalPoints}
+              setTotalPoints={setTotalPoints}
               showFilters={showFilters}
               setShowFilters={setShowFilters}
             />
