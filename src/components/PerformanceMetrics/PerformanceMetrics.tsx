@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TimeSavedCard } from './TimeSavedCard';
-import { CostSavingsCard } from './CostSavingsCard';
-import { AiEfficiencyCard } from './AiEfficiencyCard';
-import { TeamPerformanceCard } from './TeamPerformanceCard';
+import { TimeSavedCard } from '../Dashboard/TimeSavedCard';
+import { CostSavingsCard } from '../Dashboard/CostSavingsCard';
+import { AiEfficiencyCard } from '../Dashboard/AiEfficiencyCard';
+import { TeamPerformanceCard } from '../Dashboard/TeamPerformanceCard';
 import { MdInsertChart } from 'react-icons/md';
 
 interface MetricsData {

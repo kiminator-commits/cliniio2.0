@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
+import { mdiClipboardText } from '@mdi/js';
+import Icon from '@mdi/react';
 import StatsModal from '../../components/StatsModal';
 import LeaderboardModal from '../../components/LeaderboardModal';
 import ChallengeModal from '../../components/ChallengeModal';
@@ -112,7 +114,12 @@ export default function HomePage() {
             <GamificationStats gamificationData={mockGamificationData} />
             <div className="flex gap-6 mt-6">
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
-                <h2 className="text-2xl font-bold text-[#4ECDC4] mb-6">Daily Operations Tasks</h2>
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="bg-teal-100 rounded-md p-1">
+                    <Icon path={mdiClipboardText} size={1} color="#4ECDC4" />
+                  </span>
+                  <h2 className="text-lg font-semibold text-[#38b2ac]">Daily Operations Tasks</h2>
+                </div>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
                 <PerformanceMetrics

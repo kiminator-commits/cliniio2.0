@@ -15,8 +15,8 @@ export const TimeSavedCard: React.FC<TimeSavedCardProps> = ({ data }) => {
   return (
     <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
       <div className="flex items-center mb-4">
-        <span className="bg-blue-200 rounded-md p-2 mr-3">
-          <FaClock size={20} className="text-blue-900" />
+        <span className="bg-blue-100 rounded-md p-2 mr-3">
+          <FaClock size={20} className="text-[#2563eb]" />
         </span>
         <h3 className="text-base font-medium text-gray-700">Time Savings</h3>
       </div>
