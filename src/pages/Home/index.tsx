@@ -56,13 +56,6 @@ export default function HomePage() {
     ],
   };
 
-  const mockChallengeData = {
-    title: 'Daily Challenge',
-    description: 'Complete all assigned tasks with 100% accuracy',
-    reward: '50 points',
-    difficulty: 'Medium',
-  };
-
   const mockMetricsData = {
     timeSaved: {
       daily: 2.5,
@@ -86,28 +79,22 @@ export default function HomePage() {
   const calculateAvailablePoints = () => 250;
 
   const handleTaskComplete = (taskId: string, points: number) => {
-    setTasks(prevTasks => 
-      prevTasks.map(task => 
-        task.id === taskId 
-          ? { ...task, status: 'completed', completed: true }
-          : task
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, status: 'completed', completed: true } : task
       )
     );
     // Subtract points from available points
-    setAvailablePoints(prevPoints => Math.max(0, prevPoints - points));
+    setAvailablePoints((prevPoints) => Math.max(0, prevPoints - points));
     // Add points to total score
-    setGamificationData(prevData => ({
+    setGamificationData((prevData) => ({
       ...prevData,
-      totalScore: prevData.totalScore + points
+      totalScore: prevData.totalScore + points,
     }));
   };
 
   const handleRefresh = () => {
     // Refresh tasks logic here
-  };
-
-  const handleFilter = () => {
-    setShowFilters(!showFilters);
   };
 
   return (
@@ -201,9 +188,9 @@ export default function HomePage() {
         isOpen={isChallengeModalOpen}
         onClose={() => setIsChallengeModalOpen(false)}
         onChallengeComplete={(points) => {
-          setGamificationData(prevData => ({
+          setGamificationData((prevData) => ({
             ...prevData,
-            totalScore: prevData.totalScore + points
+            totalScore: prevData.totalScore + points,
           }));
         }}
       />

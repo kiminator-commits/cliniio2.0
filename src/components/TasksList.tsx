@@ -29,7 +29,7 @@ const TasksList: React.FC<TasksListProps> = ({
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('pending');
 
   // Filter tasks based on status
-  const filteredTasks = tasks.filter(task => 
+  const filteredTasks = tasks.filter((task) =>
     statusFilter === 'all' ? true : task.status === statusFilter
   );
 
@@ -76,17 +76,6 @@ const TasksList: React.FC<TasksListProps> = ({
       }
       return newSet;
     });
-  };
-
-  const handleEdit = (taskId: string) => {
-    const taskToEdit = tasks.find((t) => t.id === taskId);
-    if (taskToEdit) {
-      setEditingTaskId(taskId);
-      setEditedTask(taskToEdit);
-      if (!expandedTasks.has(taskId)) {
-        setExpandedTasks((prev) => new Set([...prev, taskId]));
-      }
-    }
   };
 
   const handleSave = (taskId: string) => {
@@ -314,10 +303,10 @@ const TasksList: React.FC<TasksListProps> = ({
                             task.priority === 'urgent'
                               ? 'bg-red-100 text-red-700 hover:bg-red-200'
                               : task.priority === 'high'
-                              ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                              : task.priority === 'medium'
-                              ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                                : task.priority === 'medium'
+                                  ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
+                                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                           }`}
                         >
                           {task.priority}

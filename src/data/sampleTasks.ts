@@ -10,7 +10,7 @@ export const sampleTasks: Task[] = [
     category: 'Policy Updates',
     priority: 'high',
     dueDate: '10/16/2023',
-    status: 'pending'
+    status: 'pending',
   },
   {
     id: '2',
@@ -21,7 +21,7 @@ export const sampleTasks: Task[] = [
     category: 'Policy Updates',
     priority: 'medium',
     dueDate: '10/21/2023',
-    status: 'pending'
+    status: 'pending',
   },
   {
     id: '3',
@@ -32,6 +32,6 @@ export const sampleTasks: Task[] = [
     category: 'Policy Updates',
     priority: 'urgent',
     dueDate: '10/24/2023',
-    status: 'pending'
+    status: 'pending',
   },
 ];

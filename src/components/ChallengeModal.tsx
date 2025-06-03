@@ -39,9 +39,14 @@ const difficultyColors = {
   hard: 'bg-red-100 text-red-800',
 };
 
-const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose, onChallengeComplete }) => {
+const ChallengeModal: React.FC<ChallengeModalProps> = ({
+  isOpen,
+  onClose,
+  onChallengeComplete,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
+  const [selectedStatus, setSelectedStatus] = useState<string>('pending');
   const [sampleChallenges, setSampleChallenges] = useState<
     Array<{
       id: string;
@@ -140,7 +145,11 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose, onChal
     const matchesCategory = selectedCategory === 'all' || challenge.category === selectedCategory;
     const matchesDifficulty =
       selectedDifficulty === 'all' || challenge.difficulty === selectedDifficulty;
-    return matchesCategory && matchesDifficulty;
+    const matchesStatus =
+      selectedStatus === 'all' ||
+      (selectedStatus === 'pending' && !challenge.completed) ||
+      (selectedStatus === 'completed' && challenge.completed);
+    return matchesCategory && matchesDifficulty && matchesStatus;
   });
 
   const handleCompleteChallenge = (challenge: (typeof sampleChallenges)[0]) => {
@@ -220,6 +229,20 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose, onChal
                       {difficulty.label}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              {/* Status Filter */}
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-gray-500 mb-3">Status</h3>
+                <select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
+                >
+                  <option value="all">All Challenges</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
                 </select>
               </div>
             </div>
