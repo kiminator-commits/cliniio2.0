@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface LoginFormData {
+export interface LoginFormData {
   email: string;
   password: string;
   rememberMe: boolean;

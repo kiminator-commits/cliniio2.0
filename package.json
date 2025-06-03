@@ -2,13 +2,15 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
+    "@supabase/supabase-js": "^2.49.9",
     "canvas-confetti": "^1.9.3",
     "framer-motion": "^12.15.0",
     "react": "^18.2.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.6.1"
+    "react-router-dom": "^7.6.1",
+    "zustand": "^5.0.5"
   },
   "scripts": {
     "dev": "vite",
@@ -23,6 +25,7 @@
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
+    "@types/jest-axe": "^3.5.9",
     "@types/node": "22.15.29",
     "@types/react": "19.1.6",
     "@types/react-dom": "^19.1.0",

@@ -1,9 +1,11 @@
-import { create, StateCreator } from 'zustand';
+import { create } from 'zustand';
 
 export interface LeaderboardUser {
+  id: string;
   name: string;
   score: number;
-  avatar: string;
+  rank: number;
+  avatar?: string;
 }
 
 export interface HomeState {
@@ -11,43 +13,37 @@ export interface HomeState {
   totalScore: number;
   availablePoints: number;
   showFilters: boolean;
-  isStatsModalOpen: boolean;
-  isLeaderboardModalOpen: boolean;
-  isChallengeModalOpen: boolean;
-  drawerOpen: boolean;
-  leaderboard: LeaderboardUser[];
+  showLeaderboardModal: boolean;
+  showStatsModal: boolean;
+  showChallengeModal: boolean;
+  leaderboardUsers: LeaderboardUser[];
 
   // Actions
   setTotalScore: (value: number) => void;
   setAvailablePoints: (value: number) => void;
   setShowFilters: (value: boolean) => void;
-  setIsStatsModalOpen: (value: boolean) => void;
-  setIsLeaderboardModalOpen: (value: boolean) => void;
-  setIsChallengeModalOpen: (value: boolean) => void;
-  setDrawerOpen: (value: boolean) => void;
-  setLeaderboard: (value: LeaderboardUser[]) => void;
+  setShowLeaderboardModal: (value: boolean) => void;
+  setShowStatsModal: (value: boolean) => void;
+  setShowChallengeModal: (value: boolean) => void;
+  setLeaderboardUsers: (users: LeaderboardUser[]) => void;
 }
 
-type HomeStore = StateCreator<HomeState>;
-
-export const useHomeStore = create<HomeState>((set: HomeStore['setState']) => ({
+export const useHomeStore = create<HomeState>((set) => ({
   // Initial state
   totalScore: 0,
   availablePoints: 0,
   showFilters: false,
-  isStatsModalOpen: false,
-  isLeaderboardModalOpen: false,
-  isChallengeModalOpen: false,
-  drawerOpen: false,
-  leaderboard: [],
+  showLeaderboardModal: false,
+  showStatsModal: false,
+  showChallengeModal: false,
+  leaderboardUsers: [],
 
   // Actions
   setTotalScore: (value: number) => set({ totalScore: value }),
   setAvailablePoints: (value: number) => set({ availablePoints: value }),
   setShowFilters: (value: boolean) => set({ showFilters: value }),
-  setIsStatsModalOpen: (value: boolean) => set({ isStatsModalOpen: value }),
-  setIsLeaderboardModalOpen: (value: boolean) => set({ isLeaderboardModalOpen: value }),
-  setIsChallengeModalOpen: (value: boolean) => set({ isChallengeModalOpen: value }),
-  setDrawerOpen: (value: boolean) => set({ drawerOpen: value }),
-  setLeaderboard: (value: LeaderboardUser[]) => set({ leaderboard: value }),
+  setShowLeaderboardModal: (value: boolean) => set({ showLeaderboardModal: value }),
+  setShowStatsModal: (value: boolean) => set({ showStatsModal: value }),
+  setShowChallengeModal: (value: boolean) => set({ showChallengeModal: value }),
+  setLeaderboardUsers: (users: LeaderboardUser[]) => set({ leaderboardUsers: users }),
 }));

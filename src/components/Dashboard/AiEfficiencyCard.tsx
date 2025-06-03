@@ -9,6 +9,7 @@ interface AiEfficiencyData {
 
 interface AiEfficiencyCardProps {
   data: AiEfficiencyData;
+  timeframe: string;
 }
 
 export const AiEfficiencyCard: React.FC<AiEfficiencyCardProps> = ({ data }) => {

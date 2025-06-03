@@ -8,6 +8,7 @@ interface CostSavingsData {
 
 interface CostSavingsCardProps {
   data: CostSavingsData;
+  timeframe: string;
 }
 
 export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data }) => {

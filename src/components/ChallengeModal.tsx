@@ -13,7 +13,7 @@ import {
   mdiStarOutline,
 } from '@mdi/js';
 
-export type ChallengeCategory = 'knowledge' | 'process' | 'quality' | 'collaboration';
+export type ChallengeCategory = 'knowledge' | 'process' | 'quality' | 'collaboration' | 'daily';
 export type ChallengeDifficulty = 'easy' | 'medium' | 'hard';
 export type ChallengeStatus = 'pending' | 'completed' | 'all';
 
@@ -51,6 +51,8 @@ const categoryIcons: Record<ChallengeCategory, string> = {
   process: mdiCogOutline,
   quality: mdiShieldCheckOutline,
   collaboration: mdiAccountGroupOutline,
+  daily: mdiClockOutline,
+  team: mdiAccountGroupOutline,
 };
 
 const categoryColors: Record<ChallengeCategory, string> = {
@@ -58,6 +60,8 @@ const categoryColors: Record<ChallengeCategory, string> = {
   process: 'bg-purple-100 text-purple-800',
   quality: 'bg-green-100 text-green-800',
   collaboration: 'bg-orange-100 text-orange-800',
+  daily: 'bg-gray-100 text-gray-800',
+  team: 'bg-pink-100 text-pink-800',
 };
 
 const difficultyColors: Record<ChallengeDifficulty, string> = {
@@ -81,7 +85,27 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
     const generateChallenges = async () => {
       try {
         // Generate challenges based on real work data
-        const newChallenges = [
+        const newChallenges: Challenge[] = [
+          {
+            id: '1',
+            title: 'Complete Daily Tasks',
+            description: 'Complete all assigned tasks for the day',
+            category: 'daily' as ChallengeCategory,
+            difficulty: 'easy',
+            points: 50,
+            timeEstimate: '2 hours',
+            completed: false,
+          },
+          {
+            id: '2',
+            title: 'Team Collaboration',
+            description: 'Participate in team meetings and discussions',
+            category: 'team' as ChallengeCategory,
+            difficulty: 'medium',
+            points: 100,
+            timeEstimate: '4 hours',
+            completed: false,
+          },
           {
             id: 'challenge-001',
             title: 'Sterilization Sprint',
@@ -149,6 +173,8 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
     { id: 'process', icon: mdiCogOutline, label: 'Process' },
     { id: 'quality', icon: mdiShieldCheckOutline, label: 'Quality' },
     { id: 'collaboration', icon: mdiAccountGroupOutline, label: 'Collaboration' },
+    { id: 'daily', icon: mdiClockOutline, label: 'Daily' },
+    { id: 'team', icon: mdiAccountGroupOutline, label: 'Team' },
   ];
 
   const difficulties = [

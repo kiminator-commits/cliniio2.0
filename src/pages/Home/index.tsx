@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
@@ -20,33 +20,30 @@ export default function HomePage() {
   const {
     drawerOpen,
     setDrawerOpen,
-    showFilters,
-    setShowFilters,
     tasks,
-    availablePoints,
     gamificationData,
     setGamificationData,
     mockMetricsData,
-    calculateAvailablePoints,
     handleTaskComplete,
     handleRefresh,
   } = useHomeState();
 
   const {
     totalScore,
-    isStatsModalOpen,
-    setIsStatsModalOpen,
-    isLeaderboardModalOpen,
-    setIsLeaderboardModalOpen,
-    isChallengeModalOpen,
-    setIsChallengeModalOpen,
-    leaderboard,
+    setTotalScore,
+    availablePoints: storeAvailablePoints,
+    showFilters: storeShowFilters,
+    setShowFilters: setStoreShowFilters,
+    showStatsModal,
+    setShowStatsModal,
+    showLeaderboardModal,
+    setShowLeaderboardModal,
+    showChallengeModal,
+    setShowChallengeModal,
+    leaderboardUsers,
   } = useHomeStore();
 
-  const { navBarMarginLeft, navBarMarginTop } = useMemo(
-    () => calculateNavBarMargins(drawerOpen),
-    [drawerOpen]
-  );
+  const { navBarMarginLeft, navBarMarginTop } = calculateNavBarMargins(drawerOpen);
 
   return (
     <ErrorBoundary>
@@ -80,9 +77,9 @@ export default function HomePage() {
           )}
           <div style={{ marginLeft: navBarMarginLeft, marginTop: navBarMarginTop }}>
             <NavBar
-              onStatsClick={() => setIsStatsModalOpen(true)}
-              onLeaderboardClick={() => setIsLeaderboardModalOpen(true)}
-              onChallengeClick={() => setIsChallengeModalOpen(true)}
+              onStatsClick={() => setShowStatsModal(true)}
+              onLeaderboardClick={() => setShowLeaderboardModal(true)}
+              onChallengeClick={() => setShowChallengeModal(true)}
             />
             <div className={`p-${HOME_UI_CONSTANTS.SPACING.PADDING}`}>
               <GamificationStats gamificationData={gamificationData} />
@@ -90,7 +87,7 @@ export default function HomePage() {
                 className={`flex gap-${HOME_UI_CONSTANTS.SPACING.GAP} mt-${HOME_UI_CONSTANTS.SPACING.MARGIN_TOP}`}
               >
                 <div
-                  className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1`}
+                  className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1 flex flex-col`}
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
@@ -111,10 +108,10 @@ export default function HomePage() {
                       <span
                         className={`px-3 py-1 text-sm ${HOME_UI_CONSTANTS.COLORS.TEXT_SECONDARY} border border-gray-300 rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} hidden sm:inline-block`}
                       >
-                        Available: {availablePoints} Points
+                        Available: {storeAvailablePoints} Points
                       </span>
                       <button
-                        onClick={() => setShowFilters(!showFilters)}
+                        onClick={() => setStoreShowFilters(!storeShowFilters)}
                         className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 flex items-center"
                       >
                         <Icon path={mdiFilter} size={0.8} />
@@ -122,22 +119,19 @@ export default function HomePage() {
                       </button>
                     </div>
                   </div>
-                  <TasksList
-                    tasks={tasks}
-                    onTaskComplete={handleTaskComplete}
-                    onRefresh={handleRefresh}
-                    showFilters={showFilters}
-                  />
+                  <div className="flex-1 min-h-0 overflow-y-auto">
+                    <TasksList
+                      tasks={tasks}
+                      onTaskComplete={handleTaskComplete}
+                      onRefresh={handleRefresh}
+                      showFilters={storeShowFilters}
+                    />
+                  </div>
                 </div>
                 <div
                   className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1`}
                 >
-                  <PerformanceMetrics
-                    metrics={mockMetricsData}
-                    calculateAvailablePoints={calculateAvailablePoints}
-                    showFilters={showFilters}
-                    setShowFilters={setShowFilters}
-                  />
+                  <PerformanceMetrics metrics={mockMetricsData} />
                 </div>
               </div>
             </div>
@@ -145,19 +139,19 @@ export default function HomePage() {
         </div>
 
         <StatsModal
-          isOpen={isStatsModalOpen}
-          onClose={() => setIsStatsModalOpen(false)}
+          isOpen={showStatsModal}
+          onClose={() => setShowStatsModal(false)}
           gamificationData={gamificationData}
         />
 
         <LeaderboardModal
-          isOpen={isLeaderboardModalOpen}
-          onClose={() => setIsLeaderboardModalOpen(false)}
+          isOpen={showLeaderboardModal}
+          onClose={() => setShowLeaderboardModal(false)}
           gamificationData={{
             rank:
-              leaderboard.findIndex((user) => user.score <= totalScore) + 1 ||
-              leaderboard.length + 1,
-            topUsers: leaderboard.map((user) => ({
+              leaderboardUsers.findIndex((user) => user.score <= totalScore) + 1 ||
+              leaderboardUsers.length + 1,
+            topUsers: leaderboardUsers.map((user) => ({
               name: user.name || 'Anonymous',
               score: user.score || 0,
               avatar: user.avatar || '/default-avatar.png',
@@ -166,9 +160,9 @@ export default function HomePage() {
         />
 
         <ChallengeModal
-          isOpen={isChallengeModalOpen}
-          onClose={() => setIsChallengeModalOpen(false)}
-          onChallengeComplete={(points) => {
+          isOpen={showChallengeModal}
+          onClose={() => setShowChallengeModal(false)}
+          onChallengeComplete={(points: number) => {
             setTotalScore(totalScore + points);
             setGamificationData((prevData) => ({
               ...prevData,

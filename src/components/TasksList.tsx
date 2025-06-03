@@ -4,11 +4,18 @@ import Icon from '@mdi/react';
 import { Task } from '../types/task';
 import ReactConfetti from 'react-confetti';
 
+// Extend the Task interface with additional fields
+interface ExtendedTask extends Task {
+  instructions?: string;
+  estimatedTime?: number;
+}
+
 interface TasksListProps {
-  tasks?: Task[];
-  onTaskComplete?: (taskId: string, points: number) => void;
-  onRefresh?: () => void;
-  showFilters?: boolean;
+  tasks: Task[];
+  onTaskComplete: (taskId: string, points: number) => void;
+  onRefresh: () => void;
+  showFilters: boolean;
+  onFilter?: () => void;
 }
 
 const TasksList: React.FC<TasksListProps> = ({
@@ -16,13 +23,14 @@ const TasksList: React.FC<TasksListProps> = ({
   onTaskComplete,
   onRefresh,
   showFilters = false,
+  onFilter,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
-  const [editedTask, setEditedTask] = useState<Partial<Task>>({});
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [windowSize, setWindowSize] = useState({
+  const [editedTask, setEditedTask] = useState<Partial<ExtendedTask>>({});
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
     width: window.innerWidth,
     height: window.innerHeight,
   });
@@ -90,7 +98,7 @@ const TasksList: React.FC<TasksListProps> = ({
     setEditedTask({});
   };
 
-  const handleInputChange = (field: keyof Task, value: string) => {
+  const handleInputChange = (field: keyof ExtendedTask, value: string | number) => {
     setEditedTask((prev) => ({
       ...prev,
       [field]: value,

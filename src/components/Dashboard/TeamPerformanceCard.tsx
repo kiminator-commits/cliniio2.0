@@ -9,6 +9,7 @@ interface TeamPerformanceData {
 
 interface TeamPerformanceCardProps {
   data: TeamPerformanceData;
+  timeframe: string;
 }
 
 export const TeamPerformanceCard: React.FC<TeamPerformanceCardProps> = ({ data }) => {

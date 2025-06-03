@@ -1,12 +1,16 @@
 import React from 'react';
-import Icon from '@mdi/react';
-import type { IconProps } from '@mdi/react';
+import { Icon as MdiIcon } from '@mdi/react';
 
-interface Props extends IconProps {
+interface IconProps {
+  path: string;
   size?: number;
   color?: string;
+  className?: string;
 }
 
-export default function MdiIcon({ size = 1, color = 'currentColor', ...rest }: Props) {
-  return <Icon size={size} color={color} {...rest} />;
-}
+export const Icon: React.FC<IconProps> = ({
+  path,
+  size = 24,
+  color = 'currentColor',
+  className,
+}) => <MdiIcon path={path} size={size} color={color} className={className} />;

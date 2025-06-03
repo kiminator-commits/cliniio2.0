@@ -25,7 +25,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
   userRole = 'Administrator',
 }) => {
   const [showLogout, setShowLogout] = useState(false);
-  const userRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
   const currentPath = window.location.pathname;
