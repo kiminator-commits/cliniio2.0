@@ -251,7 +251,7 @@ const TasksList: React.FC<TasksListProps> = ({
                     )}
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-gray-500 mt-1">
                   {editingTaskId === task.id ? (
                     <div className="flex gap-2">
                       <select
@@ -317,7 +317,7 @@ const TasksList: React.FC<TasksListProps> = ({
                       </div>
                     </>
                   )}
-                </p>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 {editingTaskId === task.id ? (

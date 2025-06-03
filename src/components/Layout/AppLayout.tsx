@@ -8,7 +8,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="flex-1">
         <TopNavbar />
-        <main className="p-4">{children}</main>
+        <main className="p-4 hide-scrollbar overflow-y-auto h-full">{children}</main>
       </div>
     </div>
   );

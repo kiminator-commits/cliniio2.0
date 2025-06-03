@@ -51,4 +51,4 @@ export interface MetricsData {
   costSavings: CostSavings;
   aiEfficiency: AiEfficiency;
   teamPerformance: TeamPerformance;
-} 
+}

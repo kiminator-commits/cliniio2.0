@@ -3,7 +3,7 @@ export const HOME_UI_CONSTANTS = {
   NAV_BAR_MARGIN_TOP: 24,
   NAV_BAR_MARGIN_LEFT_DRAWER_OPEN: 24,
   NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED: 72,
-  
+
   // Menu Button
   MENU_BUTTON: {
     TOP: 24,
@@ -14,7 +14,7 @@ export const HOME_UI_CONSTANTS = {
     BORDER_RADIUS: '0 8px 8px 0',
     PADDING: '12px 8px',
     BOX_SHADOW: '0 2px 8px rgba(0,0,0,0.1)',
-    ICON_SIZE: 20
+    ICON_SIZE: 20,
   },
 
   // Colors
@@ -28,23 +28,23 @@ export const HOME_UI_CONSTANTS = {
     TEXT_SECONDARY: 'text-gray-600',
     BG_GRADIENT: {
       FROM: 'blue-50',
-      TO: 'teal-50'
-    }
+      TO: 'teal-50',
+    },
   },
 
   // Spacing
   SPACING: {
     PADDING: 6,
     GAP: 6,
-    MARGIN_TOP: 6
+    MARGIN_TOP: 6,
   },
 
   // Border
   BORDER: {
     LEFT_WIDTH: 4,
-    RADIUS: 'lg'
+    RADIUS: 'lg',
   },
 
   // Shadow
-  SHADOW: 'md'
-} as const; 
+  SHADOW: 'md',
+} as const;
