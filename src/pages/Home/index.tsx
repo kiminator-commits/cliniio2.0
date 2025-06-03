@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
-import { mdiClipboardText } from '@mdi/js';
+import { mdiClipboardText, mdiFilter } from '@mdi/js';
 import Icon from '@mdi/react';
 import StatsModal from '../../components/StatsModal';
 import LeaderboardModal from '../../components/LeaderboardModal';
 import ChallengeModal from '../../components/ChallengeModal';
 import { GamificationStats } from '../../components/Dashboard/GamificationStats';
 import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
+import TasksList from '../../components/TasksList';
+import { sampleTasks } from '../../data/sampleTasks';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -114,12 +116,38 @@ export default function HomePage() {
             <GamificationStats gamificationData={mockGamificationData} />
             <div className="flex gap-6 mt-6">
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
-                <div className="flex items-center gap-2 mb-6">
-                  <span className="bg-teal-100 rounded-md p-1">
-                    <Icon path={mdiClipboardText} size={1} color="#4ECDC4" />
-                  </span>
-                  <h2 className="text-lg font-semibold text-[#38b2ac]">Daily Operations Tasks</h2>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="bg-teal-100 rounded-md p-1">
+                      <Icon path={mdiClipboardText} size={1} color="#4ECDC4" />
+                    </span>
+                    <h2 className="text-lg font-semibold text-[#38b2ac]">Daily Operations Tasks</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hidden sm:inline-block">
+                      Available: {calculateAvailablePoints()} Points
+                    </span>
+                    <button 
+                      onClick={() => setShowFilters(!showFilters)}
+                      className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 flex items-center"
+                    >
+                      <Icon path={mdiFilter} size={0.8} />
+                      <span className="ml-1 text-sm hidden sm:inline-block">Filter</span>
+                    </button>
+                  </div>
                 </div>
+                <TasksList 
+                  tasks={sampleTasks}
+                  onTaskComplete={(taskId, points) => {
+                    console.log(`Task ${taskId} completed with ${points} points`);
+                  }}
+                  userPoints={mockGamificationData.totalScore}
+                  availablePoints={calculateAvailablePoints()}
+                  onFilter={() => setShowFilters(!showFilters)}
+                  onRefresh={() => {
+                    console.log('Refreshing tasks...');
+                  }}
+                />
               </div>
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
                 <PerformanceMetrics
