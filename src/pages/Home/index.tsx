@@ -127,7 +127,7 @@ export default function HomePage() {
                     <span className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hidden sm:inline-block">
                       Available: {calculateAvailablePoints()} Points
                     </span>
-                    <button 
+                    <button
                       onClick={() => setShowFilters(!showFilters)}
                       className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 flex items-center"
                     >
@@ -136,7 +136,7 @@ export default function HomePage() {
                     </button>
                   </div>
                 </div>
-                <TasksList 
+                <TasksList
                   tasks={sampleTasks}
                   onTaskComplete={(taskId, points) => {
                     console.log(`Task ${taskId} completed with ${points} points`);

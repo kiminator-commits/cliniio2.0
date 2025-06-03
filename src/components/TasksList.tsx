@@ -9,11 +9,7 @@ interface TasksListProps {
   onRefresh?: () => void;
 }
 
-const TasksList: React.FC<TasksListProps> = ({
-  tasks = [],
-  onTaskComplete,
-  onRefresh,
-}) => {
+const TasksList: React.FC<TasksListProps> = ({ tasks = [], onTaskComplete, onRefresh }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 3;
   const totalPages = Math.ceil(tasks.length / tasksPerPage);
@@ -63,20 +59,20 @@ const TasksList: React.FC<TasksListProps> = ({
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
-        <button 
+        <button
           onClick={onRefresh}
           className="px-4 py-2 text-sm font-medium text-gray-600 hover:underline flex items-center"
         >
           <Icon path={mdiRefresh} size={0.8} className="mr-1" />
           Refresh tasks
         </button>
-        
+
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="text-sm text-gray-600">
             Showing {startIndex + 1} to {Math.min(endIndex, tasks.length)} of {tasks.length} tasks
           </div>
-          
-          <nav 
+
+          <nav
             className="inline-flex -space-x-px rounded-md shadow-sm isolate"
             aria-label="Pagination"
           >
@@ -87,10 +83,14 @@ const TasksList: React.FC<TasksListProps> = ({
             >
               <span className="sr-only">Previous</span>
               <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                  clipRule="evenodd"
+                />
               </svg>
             </button>
-            
+
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
@@ -104,7 +104,7 @@ const TasksList: React.FC<TasksListProps> = ({
                 {page}
               </button>
             ))}
-            
+
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
@@ -112,7 +112,11 @@ const TasksList: React.FC<TasksListProps> = ({
             >
               <span className="sr-only">Next</span>
               <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clipRule="evenodd"
+                />
               </svg>
             </button>
           </nav>
@@ -122,4 +126,4 @@ const TasksList: React.FC<TasksListProps> = ({
   );
 };
 
-export default TasksList; 
+export default TasksList;

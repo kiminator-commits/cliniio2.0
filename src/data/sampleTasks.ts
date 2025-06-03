@@ -8,7 +8,7 @@ export const sampleTasks: Task[] = [
     points: 61,
     type: 'Training Task',
     category: 'Policy Updates',
-    dueDate: '10/16/2023'
+    dueDate: '10/16/2023',
   },
   {
     id: '2',
@@ -17,7 +17,7 @@ export const sampleTasks: Task[] = [
     points: 93,
     type: 'Required Task',
     category: 'Policy Updates',
-    dueDate: '10/21/2023'
+    dueDate: '10/21/2023',
   },
   {
     id: '3',
@@ -26,6 +26,6 @@ export const sampleTasks: Task[] = [
     points: 147,
     type: 'Required Task',
     category: 'Policy Updates',
-    dueDate: '10/24/2023'
-  }
-]; 
+    dueDate: '10/24/2023',
+  },
+];
