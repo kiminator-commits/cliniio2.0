@@ -13,27 +13,54 @@ import {
   mdiStarOutline,
 } from '@mdi/js';
 
-interface ChallengeModalProps {
+export type ChallengeCategory = 'knowledge' | 'process' | 'quality' | 'collaboration';
+export type ChallengeDifficulty = 'easy' | 'medium' | 'hard';
+export type ChallengeStatus = 'pending' | 'completed' | 'all';
+
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  category: ChallengeCategory;
+  difficulty: ChallengeDifficulty;
+  points: number;
+  timeEstimate: string;
+  completed: boolean;
+}
+
+export interface CategoryOption {
+  id: ChallengeCategory;
+  icon: string;
+  label: string;
+}
+
+export interface DifficultyOption {
+  id: ChallengeDifficulty;
+  label: string;
+  color: string;
+}
+
+export interface ChallengeModalProps {
   isOpen: boolean;
   onClose: () => void;
   onChallengeComplete: (points: number) => void;
 }
 
-const categoryIcons = {
+const categoryIcons: Record<ChallengeCategory, string> = {
   knowledge: mdiLightbulbOutline,
   process: mdiCogOutline,
   quality: mdiShieldCheckOutline,
   collaboration: mdiAccountGroupOutline,
 };
 
-const categoryColors = {
+const categoryColors: Record<ChallengeCategory, string> = {
   knowledge: 'bg-blue-100 text-blue-800',
   process: 'bg-purple-100 text-purple-800',
   quality: 'bg-green-100 text-green-800',
   collaboration: 'bg-orange-100 text-orange-800',
 };
 
-const difficultyColors = {
+const difficultyColors: Record<ChallengeDifficulty, string> = {
   easy: 'bg-green-100 text-green-800',
   medium: 'bg-yellow-100 text-yellow-800',
   hard: 'bg-red-100 text-red-800',
@@ -44,21 +71,10 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
   onClose,
   onChallengeComplete,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
-  const [selectedStatus, setSelectedStatus] = useState<string>('pending');
-  const [sampleChallenges, setSampleChallenges] = useState<
-    Array<{
-      id: string;
-      title: string;
-      description: string;
-      category: string;
-      difficulty: string;
-      points: number;
-      timeEstimate: string;
-      completed: boolean;
-    }>
-  >([]);
+  const [selectedCategory, setSelectedCategory] = useState<ChallengeCategory | 'all'>('all');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<ChallengeDifficulty | 'all'>('all');
+  const [selectedStatus, setSelectedStatus] = useState<ChallengeStatus>('pending');
+  const [sampleChallenges, setSampleChallenges] = useState<Challenge[]>([]);
 
   // Load and generate challenges based on real work data
   useEffect(() => {
@@ -152,7 +168,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
     return matchesCategory && matchesDifficulty && matchesStatus;
   });
 
-  const handleCompleteChallenge = (challenge: (typeof sampleChallenges)[0]) => {
+  const handleCompleteChallenge = (challenge: Challenge) => {
     // Update challenge completion status
     const updatedChallenges = sampleChallenges.map((c) =>
       c.id === challenge.id ? { ...c, completed: true } : c
@@ -203,7 +219,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Category</h3>
                 <select
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e) => setSelectedCategory(e.target.value as ChallengeCategory | 'all')}
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                 >
                   <option value="all">All Categories</option>
@@ -220,8 +236,10 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Difficulty</h3>
                 <select
                   value={selectedDifficulty}
-                  onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
+                  onChange={(e) =>
+                    setSelectedDifficulty(e.target.value as ChallengeDifficulty | 'all')
+                  }
+                  className="w-full p-2 border rounded-lg bg-white"
                 >
                   <option value="all">All Difficulties</option>
                   {difficulties.map((difficulty) => (
@@ -237,7 +255,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Status</h3>
                 <select
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  onChange={(e) => setSelectedStatus(e.target.value as ChallengeStatus)}
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                 >
                   <option value="all">All Challenges</option>

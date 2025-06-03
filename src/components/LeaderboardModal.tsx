@@ -3,17 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '@mdi/react';
 import { mdiTrophy, mdiClose } from '@mdi/js';
 
-interface LeaderboardModalProps {
+export interface LeaderboardUser {
+  name: string;
+  score: number;
+  avatar: string;
+}
+
+export interface GamificationData {
+  rank: number;
+  topUsers: LeaderboardUser[];
+}
+
+export interface LeaderboardModalProps {
   isOpen: boolean;
   onClose: () => void;
-  gamificationData: {
-    rank: number;
-    topUsers: Array<{
-      name: string;
-      score: number;
-      avatar: string;
-    }>;
-  };
+  gamificationData: GamificationData;
 }
 
 const LeaderboardModal: React.FC<LeaderboardModalProps> = ({

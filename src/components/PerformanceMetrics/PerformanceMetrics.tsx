@@ -4,28 +4,9 @@ import { CostSavingsCard } from '../Dashboard/CostSavingsCard';
 import { AiEfficiencyCard } from '../Dashboard/AiEfficiencyCard';
 import { TeamPerformanceCard } from '../Dashboard/TeamPerformanceCard';
 import { MdInsertChart } from 'react-icons/md';
+import { MetricsData } from '../../types/homeTypes';
 
-interface MetricsData {
-  timeSaved: {
-    daily: number;
-    monthly: number;
-  };
-  costSavings: {
-    monthly: number;
-    annual: number;
-  };
-  aiEfficiency: {
-    timeSavings: number;
-    proactiveMgmt: number;
-  };
-  teamPerformance: {
-    skills: number;
-    inventory: number;
-    sterilization: number;
-  };
-}
-
-interface PerformanceMetricsProps {
+export interface PerformanceMetricsProps {
   metrics: MetricsData;
 }
 

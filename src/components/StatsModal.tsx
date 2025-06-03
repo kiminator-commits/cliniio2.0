@@ -3,20 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '@mdi/react';
 import { mdiChartLine, mdiClose } from '@mdi/js';
 
-interface StatsModalProps {
+export interface StatsData {
+  toolsSterilized: number;
+  inventoryChecks: number;
+  perfectDays: number;
+  totalTasks: number;
+  completedTasks: number;
+  currentStreak: number;
+  bestStreak: number;
+}
+
+export interface GamificationData {
+  stats: StatsData;
+}
+
+export interface StatsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  gamificationData: {
-    stats: {
-      toolsSterilized: number;
-      inventoryChecks: number;
-      perfectDays: number;
-      totalTasks: number;
-      completedTasks: number;
-      currentStreak: number;
-      bestStreak: number;
-    };
-  };
+  gamificationData: GamificationData;
 }
 
 const StatsModal: React.FC<StatsModalProps> = ({ isOpen, onClose, gamificationData }) => {

@@ -1,6 +1,12 @@
-import { create } from 'zustand';
+import { create, StateCreator } from 'zustand';
 
-interface HomeState {
+export interface LeaderboardUser {
+  name: string;
+  score: number;
+  avatar: string;
+}
+
+export interface HomeState {
   // State
   totalScore: number;
   availablePoints: number;
@@ -9,6 +15,7 @@ interface HomeState {
   isLeaderboardModalOpen: boolean;
   isChallengeModalOpen: boolean;
   drawerOpen: boolean;
+  leaderboard: LeaderboardUser[];
 
   // Actions
   setTotalScore: (value: number) => void;
@@ -18,9 +25,12 @@ interface HomeState {
   setIsLeaderboardModalOpen: (value: boolean) => void;
   setIsChallengeModalOpen: (value: boolean) => void;
   setDrawerOpen: (value: boolean) => void;
+  setLeaderboard: (value: LeaderboardUser[]) => void;
 }
 
-export const useHomeStore = create<HomeState>((set) => ({
+type HomeStore = StateCreator<HomeState>;
+
+export const useHomeStore = create<HomeState>((set: HomeStore['setState']) => ({
   // Initial state
   totalScore: 0,
   availablePoints: 0,
@@ -29,13 +39,15 @@ export const useHomeStore = create<HomeState>((set) => ({
   isLeaderboardModalOpen: false,
   isChallengeModalOpen: false,
   drawerOpen: false,
+  leaderboard: [],
 
   // Actions
-  setTotalScore: (value) => set({ totalScore: value }),
-  setAvailablePoints: (value) => set({ availablePoints: value }),
-  setShowFilters: (value) => set({ showFilters: value }),
-  setIsStatsModalOpen: (value) => set({ isStatsModalOpen: value }),
-  setIsLeaderboardModalOpen: (value) => set({ isLeaderboardModalOpen: value }),
-  setIsChallengeModalOpen: (value) => set({ isChallengeModalOpen: value }),
-  setDrawerOpen: (value) => set({ drawerOpen: value }),
+  setTotalScore: (value: number) => set({ totalScore: value }),
+  setAvailablePoints: (value: number) => set({ availablePoints: value }),
+  setShowFilters: (value: boolean) => set({ showFilters: value }),
+  setIsStatsModalOpen: (value: boolean) => set({ isStatsModalOpen: value }),
+  setIsLeaderboardModalOpen: (value: boolean) => set({ isLeaderboardModalOpen: value }),
+  setIsChallengeModalOpen: (value: boolean) => set({ isChallengeModalOpen: value }),
+  setDrawerOpen: (value: boolean) => set({ drawerOpen: value }),
+  setLeaderboard: (value: LeaderboardUser[]) => set({ leaderboard: value }),
 }));

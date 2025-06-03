@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
@@ -14,29 +14,34 @@ import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 import { useHomeState } from '../../hooks/useHomeState';
 import { calculateNavBarMargins } from '../../utils/homeUtils';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import { useHomeStore } from '../../store/homeStore';
 
 export default function HomePage() {
   const {
     drawerOpen,
     setDrawerOpen,
-    isStatsModalOpen,
-    setIsStatsModalOpen,
-    isLeaderboardModalOpen,
-    setIsLeaderboardModalOpen,
-    isChallengeModalOpen,
-    setIsChallengeModalOpen,
     showFilters,
     setShowFilters,
     tasks,
     availablePoints,
     gamificationData,
     setGamificationData,
-    mockLeaderboardData,
     mockMetricsData,
     calculateAvailablePoints,
     handleTaskComplete,
     handleRefresh,
   } = useHomeState();
+
+  const {
+    totalScore,
+    isStatsModalOpen,
+    setIsStatsModalOpen,
+    isLeaderboardModalOpen,
+    setIsLeaderboardModalOpen,
+    isChallengeModalOpen,
+    setIsChallengeModalOpen,
+    leaderboard,
+  } = useHomeStore();
 
   const { navBarMarginLeft, navBarMarginTop } = useMemo(
     () => calculateNavBarMargins(drawerOpen),
@@ -148,16 +153,26 @@ export default function HomePage() {
         <LeaderboardModal
           isOpen={isLeaderboardModalOpen}
           onClose={() => setIsLeaderboardModalOpen(false)}
-          gamificationData={mockLeaderboardData}
+          gamificationData={{
+            rank:
+              leaderboard.findIndex((user) => user.score <= totalScore) + 1 ||
+              leaderboard.length + 1,
+            topUsers: leaderboard.map((user) => ({
+              name: user.name || 'Anonymous',
+              score: user.score || 0,
+              avatar: user.avatar || '/default-avatar.png',
+            })),
+          }}
         />
 
         <ChallengeModal
           isOpen={isChallengeModalOpen}
           onClose={() => setIsChallengeModalOpen(false)}
           onChallengeComplete={(points) => {
+            setTotalScore(totalScore + points);
             setGamificationData((prevData) => ({
               ...prevData,
-              totalScore: prevData.totalScore + points,
+              totalScore: totalScore + points,
             }));
           }}
         />
