@@ -7,9 +7,6 @@ interface TasksListProps {
   tasks?: Task[];
   onTaskComplete?: (taskId: string, points: number) => void;
   onRefresh?: () => void;
-  userPoints?: number;
-  availablePoints?: number;
-  onFilter?: () => void;
   showFilters?: boolean;
 }
 
@@ -17,9 +14,6 @@ const TasksList: React.FC<TasksListProps> = ({
   tasks = [],
   onTaskComplete,
   onRefresh,
-  userPoints,
-  availablePoints,
-  onFilter,
   showFilters = false,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);

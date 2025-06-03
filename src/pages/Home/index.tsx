@@ -18,7 +18,7 @@ export default function HomePage() {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [filteredTasks, setFilteredTasks] = useState(sampleTasks);
+  const [filteredTasks] = useState(sampleTasks);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
