@@ -60,7 +60,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
               </div>
             </div>
 
-            <div className="space-y-3 mb-4">
+            <div className="space-y-3">
               {gamificationData.topUsers.map((user, index) => (
                 <motion.div
                   key={user.name}
@@ -91,15 +91,6 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                   </div>
                 </motion.div>
               ))}
-            </div>
-
-            <div className="mt-4">
-              <button
-                onClick={onClose}
-                className="w-full px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
-              >
-                Close
-              </button>
             </div>
           </motion.div>
         </motion.div>

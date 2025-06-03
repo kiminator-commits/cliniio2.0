@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { mdiRefresh } from '@mdi/js';
 import Icon from '@mdi/react';
 import { Task } from '../types/task';
+import ReactConfetti from 'react-confetti';
 
 interface TasksListProps {
   tasks?: Task[];
@@ -20,11 +21,46 @@ const TasksList: React.FC<TasksListProps> = ({
   const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editedTask, setEditedTask] = useState<Partial<Task>>({});
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('pending');
+
+  // Filter tasks based on status
+  const filteredTasks = tasks.filter(task => 
+    statusFilter === 'all' ? true : task.status === statusFilter
+  );
+
   const tasksPerPage = 3;
-  const totalPages = Math.ceil(tasks.length / tasksPerPage);
+  const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
   const startIndex = (currentPage - 1) * tasksPerPage;
   const endIndex = startIndex + tasksPerPage;
-  const currentTasks = tasks.slice(startIndex, endIndex);
+  const currentTasks = filteredTasks.slice(startIndex, endIndex);
+
+  // Add window resize handler
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Add confetti timeout
+  React.useEffect(() => {
+    if (showConfetti) {
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000); // Stop confetti after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [showConfetti]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -72,8 +108,24 @@ const TasksList: React.FC<TasksListProps> = ({
     }));
   };
 
+  const handleTaskComplete = (taskId: string, points: number) => {
+    setShowConfetti(true);
+    if (onTaskComplete) {
+      onTaskComplete(taskId, points);
+    }
+  };
+
   return (
     <>
+      {showConfetti && (
+        <ReactConfetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.3}
+        />
+      )}
       {showFilters && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
           <div>
@@ -83,10 +135,12 @@ const TasksList: React.FC<TasksListProps> = ({
             <select
               id="status"
               name="status"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as 'all' | 'pending' | 'completed')}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md"
             >
               <option value="all">All Statuses</option>
-              <option value="approved">Pending</option>
+              <option value="pending">Pending</option>
               <option value="completed">Completed</option>
             </select>
           </div>
@@ -294,7 +348,7 @@ const TasksList: React.FC<TasksListProps> = ({
                   </>
                 ) : (
                   <button
-                    onClick={() => onTaskComplete && onTaskComplete(task.id, task.points || 0)}
+                    onClick={() => handleTaskComplete(task.id, task.points || 0)}
                     className="px-3 py-1 bg-white text-[#4ECDC4] border border-[#4ECDC4] hover:bg-[#4ECDC4] hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
                   >
                     Complete

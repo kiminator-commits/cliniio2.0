@@ -18,7 +18,8 @@ export default function HomePage() {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [filteredTasks] = useState(sampleTasks);
+  const [tasks, setTasks] = useState(sampleTasks);
+  const [availablePoints, setAvailablePoints] = useState(250); // Initial available points
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
@@ -42,14 +43,16 @@ export default function HomePage() {
     },
   };
 
+  const [gamificationData, setGamificationData] = useState(mockGamificationData);
+
   const mockLeaderboardData = {
-    rank: 3,
+    rank: 1,
     topUsers: [
+      { name: 'You', score: 1779, avatar: 'YO' },
       { name: 'Sarah Johnson', score: 1250, avatar: 'SJ' },
       { name: 'Mike Chen', score: 1180, avatar: 'MC' },
       { name: 'Emma Davis', score: 1150, avatar: 'ED' },
       { name: 'Alex Wong', score: 1120, avatar: 'AW' },
-      { name: 'Lisa Brown', score: 1100, avatar: 'LB' },
     ],
   };
 
@@ -82,20 +85,29 @@ export default function HomePage() {
 
   const calculateAvailablePoints = () => 250;
 
-  const handleFilter = () => {
-    setShowFilters(!showFilters);
-    // Here you can implement the actual filtering logic
-    // For now, we'll just toggle the filter state
-  };
-
   const handleTaskComplete = (taskId: string, points: number) => {
-    console.log(`Task ${taskId} completed with ${points} points`);
-    // Here you can implement the task completion logic
+    setTasks(prevTasks => 
+      prevTasks.map(task => 
+        task.id === taskId 
+          ? { ...task, status: 'completed', completed: true }
+          : task
+      )
+    );
+    // Subtract points from available points
+    setAvailablePoints(prevPoints => Math.max(0, prevPoints - points));
+    // Add points to total score
+    setGamificationData(prevData => ({
+      ...prevData,
+      totalScore: prevData.totalScore + points
+    }));
   };
 
   const handleRefresh = () => {
-    console.log('Refreshing tasks...');
-    // Here you can implement the refresh logic
+    // Refresh tasks logic here
+  };
+
+  const handleFilter = () => {
+    setShowFilters(!showFilters);
   };
 
   return (
@@ -130,7 +142,7 @@ export default function HomePage() {
             onChallengeClick={() => setIsChallengeModalOpen(true)}
           />
           <div className="p-6">
-            <GamificationStats gamificationData={mockGamificationData} />
+            <GamificationStats gamificationData={gamificationData} />
             <div className="flex gap-6 mt-6">
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
                 <div className="flex items-center justify-between mb-6">
@@ -142,7 +154,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hidden sm:inline-block">
-                      Available: {calculateAvailablePoints()} Points
+                      Available: {availablePoints} Points
                     </span>
                     <button
                       onClick={() => setShowFilters(!showFilters)}
@@ -154,11 +166,8 @@ export default function HomePage() {
                   </div>
                 </div>
                 <TasksList
-                  tasks={filteredTasks}
+                  tasks={tasks}
                   onTaskComplete={handleTaskComplete}
-                  userPoints={mockGamificationData.totalScore}
-                  availablePoints={calculateAvailablePoints()}
-                  onFilter={handleFilter}
                   onRefresh={handleRefresh}
                   showFilters={showFilters}
                 />
@@ -179,7 +188,7 @@ export default function HomePage() {
       <StatsModal
         isOpen={isStatsModalOpen}
         onClose={() => setIsStatsModalOpen(false)}
-        gamificationData={mockGamificationData}
+        gamificationData={gamificationData}
       />
 
       <LeaderboardModal
@@ -191,7 +200,12 @@ export default function HomePage() {
       <ChallengeModal
         isOpen={isChallengeModalOpen}
         onClose={() => setIsChallengeModalOpen(false)}
-        dailyChallenge={mockChallengeData}
+        onChallengeComplete={(points) => {
+          setGamificationData(prevData => ({
+            ...prevData,
+            totalScore: prevData.totalScore + points
+          }));
+        }}
       />
     </div>
   );

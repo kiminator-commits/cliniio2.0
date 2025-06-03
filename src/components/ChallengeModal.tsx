@@ -16,6 +16,7 @@ import {
 interface ChallengeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onChallengeComplete: (points: number) => void;
 }
 
 const categoryIcons = {
@@ -38,7 +39,7 @@ const difficultyColors = {
   hard: 'bg-red-100 text-red-800',
 };
 
-const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose }) => {
+const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose, onChallengeComplete }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [sampleChallenges, setSampleChallenges] = useState<
@@ -152,6 +153,9 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ isOpen, onClose }) => {
     // Store completed challenge in localStorage
     const completedIds = updatedChallenges.filter((c) => c.completed).map((c) => c.id);
     localStorage.setItem('completedChallenges', JSON.stringify(completedIds));
+
+    // Add points to total score
+    onChallengeComplete(challenge.points);
   };
 
   return (
