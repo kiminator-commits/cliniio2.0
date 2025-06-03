@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
@@ -11,6 +11,7 @@ import { GamificationStats } from '../../components/Dashboard/GamificationStats'
 import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
 import TasksList from '../../components/TasksList';
 import { sampleTasks } from '../../data/sampleTasks';
+import { calculateLevel } from '../../utils/gamification';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -19,7 +20,8 @@ export default function HomePage() {
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [tasks, setTasks] = useState(sampleTasks);
-  const [availablePoints, setAvailablePoints] = useState(250); // Initial available points
+  const [availablePoints, setAvailablePoints] = useState(250);
+  const [lastResetDate, setLastResetDate] = useState<string | null>(null);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
@@ -78,6 +80,25 @@ export default function HomePage() {
 
   const calculateAvailablePoints = () => 250;
 
+  // Check for annual reset
+  useEffect(() => {
+    const checkForReset = () => {
+      const now = new Date();
+      const lastReset = lastResetDate ? new Date(lastResetDate) : null;
+
+      if (!lastReset || lastReset.getFullYear() < now.getFullYear()) {
+        setGamificationData((prevData) => ({
+          ...prevData,
+          totalScore: 0,
+          level: 1,
+        }));
+        setLastResetDate(now.toISOString());
+      }
+    };
+
+    checkForReset();
+  }, [lastResetDate]);
+
   const handleTaskComplete = (taskId: string, points: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -86,11 +107,15 @@ export default function HomePage() {
     );
     // Subtract points from available points
     setAvailablePoints((prevPoints) => Math.max(0, prevPoints - points));
-    // Add points to total score
-    setGamificationData((prevData) => ({
-      ...prevData,
-      totalScore: prevData.totalScore + points,
-    }));
+    // Add points to total score and update level
+    setGamificationData((prevData) => {
+      const newTotalScore = prevData.totalScore + points;
+      return {
+        ...prevData,
+        totalScore: newTotalScore,
+        level: calculateLevel(newTotalScore),
+      };
+    });
   };
 
   const handleRefresh = () => {
