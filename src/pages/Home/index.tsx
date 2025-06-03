@@ -12,6 +12,8 @@ import { PerformanceMetrics } from '../../components/PerformanceMetrics/Performa
 import TasksList from '../../components/TasksList';
 import { sampleTasks } from '../../data/sampleTasks';
 import { calculateLevel } from '../../utils/gamification';
+import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
+import type { GamificationStats as GamificationStatsType, LeaderboardData, MetricsData } from '../../types/homeTypes';
 
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -24,12 +26,12 @@ export default function HomePage() {
   const [lastResetDate, setLastResetDate] = useState<string | null>(null);
 
   // Menu icon width + desired gap (12px + 60px)
-  const navBarMarginLeft = drawerOpen ? 24 : 72;
-  // Top margin to align with Cliniio logo (e.g., 24px)
-  const navBarMarginTop = 24;
+  const navBarMarginLeft = drawerOpen ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED;
+  // Top margin to align with Cliniio logo
+  const navBarMarginTop = HOME_UI_CONSTANTS.NAV_BAR_MARGIN_TOP;
 
   // Mock data - replace with real data from your backend
-  const mockGamificationData = {
+  const mockGamificationData: GamificationStatsType = {
     streak: 7,
     level: 5,
     rank: 5,
@@ -47,7 +49,7 @@ export default function HomePage() {
 
   const [gamificationData, setGamificationData] = useState(mockGamificationData);
 
-  const mockLeaderboardData = {
+  const mockLeaderboardData: LeaderboardData = {
     rank: 1,
     topUsers: [
       { name: 'You', score: 1779, avatar: 'YO' },
@@ -58,7 +60,7 @@ export default function HomePage() {
     ],
   };
 
-  const mockMetricsData = {
+  const mockMetricsData: MetricsData = {
     timeSaved: {
       daily: 2.5,
       monthly: 45.8,
@@ -123,28 +125,28 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
+    <div className={`flex min-h-screen bg-gradient-to-br from-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.FROM} to-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.TO}`}>
       {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
-      <div className="flex-1 border-l-4 border-teal-400">
+      <div className={`flex-1 border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-${HOME_UI_CONSTANTS.COLORS.BORDER}`}>
         {!drawerOpen && (
           <button
             onClick={() => setDrawerOpen(true)}
             style={{
               position: 'fixed',
-              top: 24,
-              left: 12, // about 0.5 inch from the left edge
-              zIndex: 50,
-              background: '#4ECDC4',
-              color: 'white',
-              borderRadius: '0 8px 8px 0',
-              padding: '12px 8px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              top: HOME_UI_CONSTANTS.MENU_BUTTON.TOP,
+              left: HOME_UI_CONSTANTS.MENU_BUTTON.LEFT,
+              zIndex: HOME_UI_CONSTANTS.MENU_BUTTON.Z_INDEX,
+              background: HOME_UI_CONSTANTS.MENU_BUTTON.BACKGROUND,
+              color: HOME_UI_CONSTANTS.MENU_BUTTON.COLOR,
+              borderRadius: HOME_UI_CONSTANTS.MENU_BUTTON.BORDER_RADIUS,
+              padding: HOME_UI_CONSTANTS.MENU_BUTTON.PADDING,
+              boxShadow: HOME_UI_CONSTANTS.MENU_BUTTON.BOX_SHADOW,
               border: 'none',
               cursor: 'pointer',
             }}
             aria-label="Open main menu"
           >
-            <FaBars size={20} />
+            <FaBars size={HOME_UI_CONSTANTS.MENU_BUTTON.ICON_SIZE} />
           </button>
         )}
         <div style={{ marginLeft: navBarMarginLeft, marginTop: navBarMarginTop }}>
@@ -153,19 +155,19 @@ export default function HomePage() {
             onLeaderboardClick={() => setIsLeaderboardModalOpen(true)}
             onChallengeClick={() => setIsChallengeModalOpen(true)}
           />
-          <div className="p-6">
+          <div className={`p-${HOME_UI_CONSTANTS.SPACING.PADDING}`}>
             <GamificationStats gamificationData={gamificationData} />
-            <div className="flex gap-6 mt-6">
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
+            <div className={`flex gap-${HOME_UI_CONSTANTS.SPACING.GAP} mt-${HOME_UI_CONSTANTS.SPACING.MARGIN_TOP}`}>
+              <div className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1`}>
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <span className="bg-teal-100 rounded-md p-1">
-                      <Icon path={mdiClipboardText} size={1} color="#4ECDC4" />
+                    <span className={`bg-${HOME_UI_CONSTANTS.COLORS.PRIMARY_BG} rounded-md p-1`}>
+                      <Icon path={mdiClipboardText} size={1} color={HOME_UI_CONSTANTS.COLORS.PRIMARY} />
                     </span>
-                    <h2 className="text-lg font-semibold text-[#38b2ac]">Daily Operations Tasks</h2>
+                    <h2 className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}>Daily Operations Tasks</h2>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hidden sm:inline-block">
+                    <span className={`px-3 py-1 text-sm ${HOME_UI_CONSTANTS.COLORS.TEXT_SECONDARY} border border-gray-300 rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} hidden sm:inline-block`}>
                       Available: {availablePoints} Points
                     </span>
                     <button
@@ -184,7 +186,7 @@ export default function HomePage() {
                   showFilters={showFilters}
                 />
               </div>
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
+              <div className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1`}>
                 <PerformanceMetrics
                   metrics={mockMetricsData}
                   calculateAvailablePoints={calculateAvailablePoints}
