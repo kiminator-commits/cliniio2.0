@@ -75,7 +75,7 @@ const TasksList: React.FC<TasksListProps> = ({
   return (
     <>
       {showFilters && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
           <div>
             <label htmlFor="status" className="block text-xs text-gray-500 mb-1">
               Status
@@ -139,7 +139,7 @@ const TasksList: React.FC<TasksListProps> = ({
               <option value="Custom">Custom</option>
             </select>
           </div>
-          <div>
+          <div className="md:col-span-4">
             <label htmlFor="search" className="block text-xs text-gray-500 mb-1">
               Search
             </label>
@@ -174,37 +174,39 @@ const TasksList: React.FC<TasksListProps> = ({
           >
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0 mr-4">
-                <div className="flex items-center">
-                  <button
-                    onClick={() => toggleTask(task.id)}
-                    className="mr-2 text-gray-500 hover:text-gray-700"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      role="presentation"
-                      style={{
-                        width: '1.2rem',
-                        height: '1.2rem',
-                        transform: expandedTasks.has(task.id) ? 'rotate(180deg)' : 'none',
-                        transition: 'transform 0.2s',
-                      }}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => toggleTask(task.id)}
+                      className="mr-2 text-gray-500 hover:text-gray-700"
                     >
-                      <path
-                        d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
-                        style={{ fill: 'currentcolor' }}
+                      <svg
+                        viewBox="0 0 24 24"
+                        role="presentation"
+                        style={{
+                          width: '1.2rem',
+                          height: '1.2rem',
+                          transform: expandedTasks.has(task.id) ? 'rotate(180deg)' : 'none',
+                          transition: 'transform 0.2s',
+                        }}
+                      >
+                        <path
+                          d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+                          style={{ fill: 'currentcolor' }}
+                        />
+                      </svg>
+                    </button>
+                    {editingTaskId === task.id ? (
+                      <input
+                        type="text"
+                        value={editedTask.title || ''}
+                        onChange={(e) => handleInputChange('title', e.target.value)}
+                        className="text-sm font-medium text-gray-700 border border-gray-300 rounded px-2 py-1 w-full"
                       />
-                    </svg>
-                  </button>
-                  {editingTaskId === task.id ? (
-                    <input
-                      type="text"
-                      value={editedTask.title || ''}
-                      onChange={(e) => handleInputChange('title', e.target.value)}
-                      className="text-sm font-medium text-gray-700 border border-gray-300 rounded px-2 py-1 w-full"
-                    />
-                  ) : (
-                    <h3 className="text-sm font-medium text-gray-700">{task.title}</h3>
-                  )}
+                    ) : (
+                      <h3 className="text-sm font-medium text-gray-700">{task.title}</h3>
+                    )}
+                  </div>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
                   {editingTaskId === task.id ? (
@@ -239,16 +241,42 @@ const TasksList: React.FC<TasksListProps> = ({
                     </div>
                   ) : (
                     <>
-                      {task.type} - {task.category}
-                      <span className="ml-2 text-xs">Due: {task.dueDate}</span>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          onClick={() => onFilter && onFilter()}
+                          className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200"
+                        >
+                          {task.type}
+                        </button>
+                        <button
+                          onClick={() => onFilter && onFilter()}
+                          className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700 rounded-full hover:bg-green-200"
+                        >
+                          {task.category}
+                        </button>
+                        <button
+                          onClick={() => onFilter && onFilter()}
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                            task.priority === 'urgent'
+                              ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                              : task.priority === 'high'
+                              ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                              : task.priority === 'medium'
+                              ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
+                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                        >
+                          {task.priority}
+                        </button>
+                        <span className="text-sm font-medium whitespace-nowrap text-fuchsia-600">
+                          +{task.points} pts
+                        </span>
+                      </div>
                     </>
                   )}
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium whitespace-nowrap text-fuchsia-600">
-                  +{task.points} pts
-                </span>
                 {editingTaskId === task.id ? (
                   <>
                     <button
@@ -265,29 +293,12 @@ const TasksList: React.FC<TasksListProps> = ({
                     </button>
                   </>
                 ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(task.id)}
-                      className="p-1 text-gray-500 hover:text-gray-700"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        role="presentation"
-                        style={{ width: '1.2rem', height: '1.2rem' }}
-                      >
-                        <path
-                          d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
-                          style={{ fill: 'currentcolor' }}
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => onTaskComplete && onTaskComplete(task.id, task.points || 0)}
-                      className="px-3 py-1 bg-white text-[#4ECDC4] border border-[#4ECDC4] hover:bg-[#4ECDC4] hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
-                    >
-                      Complete
-                    </button>
-                  </>
+                  <button
+                    onClick={() => onTaskComplete && onTaskComplete(task.id, task.points || 0)}
+                    className="px-3 py-1 bg-white text-[#4ECDC4] border border-[#4ECDC4] hover:bg-[#4ECDC4] hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
+                  >
+                    Complete
+                  </button>
                 )}
               </div>
             </div>
