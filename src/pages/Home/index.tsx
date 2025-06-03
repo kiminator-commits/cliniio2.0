@@ -18,6 +18,7 @@ export default function HomePage() {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState(sampleTasks);
 
   // Menu icon width + desired gap (12px + 60px)
   const navBarMarginLeft = drawerOpen ? 24 : 72;
@@ -81,6 +82,22 @@ export default function HomePage() {
 
   const calculateAvailablePoints = () => 250;
 
+  const handleFilter = () => {
+    setShowFilters(!showFilters);
+    // Here you can implement the actual filtering logic
+    // For now, we'll just toggle the filter state
+  };
+
+  const handleTaskComplete = (taskId: string, points: number) => {
+    console.log(`Task ${taskId} completed with ${points} points`);
+    // Here you can implement the task completion logic
+  };
+
+  const handleRefresh = () => {
+    console.log('Refreshing tasks...');
+    // Here you can implement the refresh logic
+  };
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
       {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
@@ -137,16 +154,13 @@ export default function HomePage() {
                   </div>
                 </div>
                 <TasksList
-                  tasks={sampleTasks}
-                  onTaskComplete={(taskId, points) => {
-                    console.log(`Task ${taskId} completed with ${points} points`);
-                  }}
+                  tasks={filteredTasks}
+                  onTaskComplete={handleTaskComplete}
                   userPoints={mockGamificationData.totalScore}
                   availablePoints={calculateAvailablePoints()}
-                  onFilter={() => setShowFilters(!showFilters)}
-                  onRefresh={() => {
-                    console.log('Refreshing tasks...');
-                  }}
+                  onFilter={handleFilter}
+                  onRefresh={handleRefresh}
+                  showFilters={showFilters}
                 />
               </div>
               <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50 flex-1">
