@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   FaHome,
   FaFlask,
@@ -27,8 +27,18 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
   const [showLogout, setShowLogout] = useState(false);
   const userRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const currentPath = window.location.pathname;
+  const currentPath = location.pathname;
+
+  const menuItems = [
+    { path: '/home', icon: FaHome, label: 'Home' },
+    { path: '/sterilization', icon: FaFlask, label: 'Sterilization' },
+    { path: '/inventory', icon: FaBoxOpen, label: 'Inventory' },
+    { path: '/environmental-clean', icon: FaBroom, label: 'Environmental Clean' },
+    { path: '/knowledge-hub', icon: FaBookOpen, label: 'Knowledge Hub' },
+    { path: '/settings', icon: FaCog, label: 'Settings' },
+  ];
 
   return (
     <div
@@ -44,90 +54,27 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
           </button>
         </div>
         <nav>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/home' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/home"
-          >
-            <FaHome
-              size={20}
-              className={`mr-4 ${currentPath === '/home' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/home' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
+          {menuItems.map(({ path, icon: Icon, label }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`flex items-center px-6 py-4 transition-colors duration-200 ${
+                currentPath === path
+                  ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]'
+                  : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'
+              }`}
             >
-              Home
-            </span>
-          </a>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/sterilization' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/sterilization"
-          >
-            <FaFlask
-              size={20}
-              className={`mr-4 ${currentPath === '/sterilization' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/sterilization' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
-            >
-              Sterilization
-            </span>
-          </a>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/inventory' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/inventory"
-          >
-            <FaBoxOpen
-              size={20}
-              className={`mr-4 ${currentPath === '/inventory' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/inventory' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
-            >
-              Inventory
-            </span>
-          </a>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/environmental-clean' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/environmental-clean"
-          >
-            <FaBroom
-              size={20}
-              className={`mr-4 ${currentPath === '/environmental-clean' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/environmental-clean' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
-            >
-              Environmental Clean
-            </span>
-          </a>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/knowledge-hub' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/knowledge-hub"
-          >
-            <FaBookOpen
-              size={20}
-              className={`mr-4 ${currentPath === '/knowledge-hub' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/knowledge-hub' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
-            >
-              Knowledge Hub
-            </span>
-          </a>
-          <a
-            className={`flex items-center px-6 py-4 transition-colors duration-200 ${currentPath === '/settings' ? 'bg-[#4ECDC4] bg-opacity-10 border-r-4 border-[#4ECDC4] text-[#4ECDC4]' : 'text-[#5b5b5b] hover:bg-gray-50 hover:text-[#4ECDC4]'}`}
-            href="/settings"
-          >
-            <FaCog
-              size={20}
-              className={`mr-4 ${currentPath === '/settings' ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
-            />
-            <span
-              className={`font-medium ${currentPath === '/settings' ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
-            >
-              Settings
-            </span>
-          </a>
+              <Icon
+                size={20}
+                className={`mr-4 ${currentPath === path ? 'text-[#4ECDC4]' : 'text-gray-400'}`}
+              />
+              <span
+                className={`font-medium ${currentPath === path ? 'text-[#4ECDC4]' : 'text-[#5b5b5b]'}`}
+              >
+                {label}
+              </span>
+            </Link>
+          ))}
         </nav>
       </div>
       <div className="p-4">

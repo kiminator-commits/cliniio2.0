@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Sterilization from './pages/Sterilization';
@@ -37,11 +38,13 @@ function AppContainer() {
 
 function App() {
   return (
-    <UIProvider>
-      <Router>
-        <AppContainer />
-      </Router>
-    </UIProvider>
+    <ErrorBoundary>
+      <UIProvider>
+        <Router>
+          <AppContainer />
+        </Router>
+      </UIProvider>
+    </ErrorBoundary>
   );
 }
 

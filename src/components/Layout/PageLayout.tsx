@@ -39,7 +39,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, description, chil
                 <FaBars size={20} />
               </button>
             )}
-            <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 0, marginTop: 24 }}>
+            <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 64, marginTop: 24 }}>
               <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">{title}</h1>
               <p className="text-sm text-gray-500 mb-4">{description}</p>
             </div>

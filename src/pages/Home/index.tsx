@@ -14,7 +14,7 @@ import TasksList from '../../components/TasksList';
 import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 import { useHomeState } from '../../hooks/useHomeState';
 import { calculateNavBarMargins } from '../../utils/homeUtils';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
 
 export default function HomePage() {

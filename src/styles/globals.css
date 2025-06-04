@@ -4,7 +4,8 @@
 
 /* Global styles scaffold */
 
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden;
   margin: 0;
@@ -13,12 +14,12 @@ html, body {
     'Helvetica Neue', sans-serif;
   background-color: #f9fafb;
   color: #111827;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 body::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none; /* Chrome, Safari and Opera */
 }
 
 a {
@@ -32,11 +33,11 @@ a {
 
 /* Hide scrollbar for all browsers */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   overflow-y: auto;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none; /* Chrome, Safari and Opera */
 }

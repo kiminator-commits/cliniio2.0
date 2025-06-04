@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
 import { submitLoginForm } from '../../services/api';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { LOGIN_LABELS } from '../../constants/loginConstants';
 import './styles.css';
 
