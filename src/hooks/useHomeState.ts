@@ -27,7 +27,7 @@ export const useHomeState = () => {
       const lastReset = lastResetDate ? new Date(lastResetDate) : null;
 
       if (!lastReset || lastReset.getFullYear() < now.getFullYear()) {
-        setGamificationData((prevData) => ({
+        setGamificationData(prevData => ({
           ...prevData,
           totalScore: 0,
           level: 1,
@@ -40,15 +40,15 @@ export const useHomeState = () => {
   }, [lastResetDate]);
 
   const handleTaskComplete = (taskId: string, points: number) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
         task.id === taskId ? { ...task, status: 'completed', completed: true } : task
       )
     );
     // Subtract points from available points
-    setAvailablePoints((prevPoints) => Math.max(0, prevPoints - points));
+    setAvailablePoints(prevPoints => Math.max(0, prevPoints - points));
     // Add points to total score and update level
-    setGamificationData((prevData) => {
+    setGamificationData(prevData => {
       const newTotalScore = prevData.totalScore + points;
       return {
         ...prevData,

@@ -21,7 +21,7 @@ const NavBar: React.FC<NavBarProps> = ({ onStatsClick, onLeaderboardClick, onCha
       <div className="flex items-center justify-between">
         <Greeting />
         <div className="flex gap-4 pr-8">
-          {features.map((f) => (
+          {features.map(f => (
             <button
               key={f.label}
               className={`rounded-xl w-12 h-12 flex items-center justify-center transition-transform duration-200 hover:scale-110 ${

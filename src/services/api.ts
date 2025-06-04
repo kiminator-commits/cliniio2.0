@@ -83,7 +83,7 @@ class ApiService {
 export const submitLoginForm = async (credentials: { email: string; password: string }) => {
   // TODO: Implement actual authentication logic
   console.log('Login attempt with:', credentials.email);
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulated delay
+  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
   return { success: true };
 };
 

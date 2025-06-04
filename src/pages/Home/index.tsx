@@ -1,4 +1,4 @@
-import React, { MouseEvent, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
@@ -48,15 +48,16 @@ export default function HomePage() {
 
   const leaderboardRank = useMemo(() => {
     const idx = leaderboardUsers.findIndex((user: { score: number }) => user.score <= totalScore);
-    return (idx + 1) || (leaderboardUsers.length + 1);
+    return idx + 1 || leaderboardUsers.length + 1;
   }, [leaderboardUsers, totalScore]);
 
-  const leaderboardTopUsers = useMemo(() =>
-    leaderboardUsers.map((user) => ({
-      name: user.name || 'Anonymous',
-      score: user.score || 0,
-      avatar: user.avatar || '/default-avatar.png',
-    })),
+  const leaderboardTopUsers = useMemo(
+    () =>
+      leaderboardUsers.map(user => ({
+        name: user.name || 'Anonymous',
+        score: user.score || 0,
+        avatar: user.avatar || '/default-avatar.png',
+      })),
     [leaderboardUsers]
   );
 
@@ -75,7 +76,7 @@ export default function HomePage() {
         >
           {!drawerOpen && (
             <button
-              onClick={(e: MouseEvent<HTMLButtonElement>) => setDrawerOpen(true)}
+              onClick={() => setDrawerOpen(true)}
               style={{
                 position: 'fixed',
                 top: HOME_UI_CONSTANTS.MENU_BUTTON.TOP,
@@ -120,7 +121,10 @@ export default function HomePage() {
                     `border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY}`
                   )}
                 >
-                  <div className="flex items-center justify-between mb-6" style={{ marginTop: '12px' }}>
+                  <div
+                    className="flex items-center justify-between mb-6"
+                    style={{ marginTop: '12px' }}
+                  >
                     <div className="flex items-center gap-2">
                       <span className={`bg-${HOME_UI_CONSTANTS.COLORS.PRIMARY_BG} rounded-md p-1`}>
                         <Icon
@@ -129,7 +133,9 @@ export default function HomePage() {
                           color={HOME_UI_CONSTANTS.COLORS.PRIMARY}
                         />
                       </span>
-                      <h2 className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}>
+                      <h2
+                        className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}
+                      >
                         Daily Operations Tasks
                       </h2>
                     </div>
@@ -140,7 +146,7 @@ export default function HomePage() {
                         Available: {storeAvailablePoints} Points
                       </span>
                       <button
-                        onClick={(e: MouseEvent<HTMLButtonElement>) => setStoreShowFilters(!storeShowFilters)}
+                        onClick={() => setStoreShowFilters(!storeShowFilters)}
                         className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 flex items-center"
                       >
                         <Icon path={mdiFilter} size={0.8} />

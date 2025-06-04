@@ -152,7 +152,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
         const storedChallenges = localStorage.getItem('completedChallenges');
         if (storedChallenges) {
           const completedIds = JSON.parse(storedChallenges);
-          newChallenges.forEach((challenge) => {
+          newChallenges.forEach(challenge => {
             if (completedIds.includes(challenge.id)) {
               challenge.completed = true;
             }
@@ -183,7 +183,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
     { id: 'hard', label: 'Hard', color: 'text-red-500' },
   ];
 
-  const filteredChallenges = sampleChallenges.filter((challenge) => {
+  const filteredChallenges = sampleChallenges.filter(challenge => {
     const matchesCategory = selectedCategory === 'all' || challenge.category === selectedCategory;
     const matchesDifficulty =
       selectedDifficulty === 'all' || challenge.difficulty === selectedDifficulty;
@@ -196,13 +196,13 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
 
   const handleCompleteChallenge = (challenge: Challenge) => {
     // Update challenge completion status
-    const updatedChallenges = sampleChallenges.map((c) =>
+    const updatedChallenges = sampleChallenges.map(c =>
       c.id === challenge.id ? { ...c, completed: true } : c
     );
     setSampleChallenges(updatedChallenges);
 
     // Store completed challenge in localStorage
-    const completedIds = updatedChallenges.filter((c) => c.completed).map((c) => c.id);
+    const completedIds = updatedChallenges.filter(c => c.completed).map(c => c.id);
     localStorage.setItem('completedChallenges', JSON.stringify(completedIds));
 
     // Add points to total score
@@ -224,7 +224,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
             className="bg-white p-6 rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto scrollbar-hide"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center">
@@ -245,11 +245,11 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Category</h3>
                 <select
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value as ChallengeCategory | 'all')}
+                  onChange={e => setSelectedCategory(e.target.value as ChallengeCategory | 'all')}
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                 >
                   <option value="all">All Categories</option>
-                  {categories.map((category) => (
+                  {categories.map(category => (
                     <option key={category.id} value={category.id}>
                       {category.label}
                     </option>
@@ -262,13 +262,13 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Difficulty</h3>
                 <select
                   value={selectedDifficulty}
-                  onChange={(e) =>
+                  onChange={e =>
                     setSelectedDifficulty(e.target.value as ChallengeDifficulty | 'all')
                   }
                   className="w-full p-2 border rounded-lg bg-white"
                 >
                   <option value="all">All Difficulties</option>
-                  {difficulties.map((difficulty) => (
+                  {difficulties.map(difficulty => (
                     <option key={difficulty.id} value={difficulty.id}>
                       {difficulty.label}
                     </option>
@@ -281,7 +281,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Status</h3>
                 <select
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value as ChallengeStatus)}
+                  onChange={e => setSelectedStatus(e.target.value as ChallengeStatus)}
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                 >
                   <option value="all">All Challenges</option>
@@ -293,7 +293,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
 
             {/* Challenges List */}
             <div className="space-y-4">
-              {filteredChallenges.map((challenge) => (
+              {filteredChallenges.map(challenge => (
                 <motion.div
                   key={challenge.id}
                   initial={{ opacity: 0, y: 10 }}

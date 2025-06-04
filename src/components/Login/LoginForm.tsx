@@ -85,11 +85,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
           type="email"
           required
           value={formState.email}
-          onChange={(e) => {
+          onChange={e => {
             onEmailChange(e.target.value);
             validateEmail(e.target.value);
           }}
-          onBlur={(e) => validateEmail(e.target.value)}
+          onBlur={e => validateEmail(e.target.value)}
           onKeyDown={handleKeyDown}
           className={`w-full px-3 py-2 border ${formState.emailError ? 'border-red-500' : 'border-gray-300'} bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] text-base`}
           placeholder="your@email.com"
@@ -117,11 +117,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
             type={formState.showPassword ? 'text' : 'password'}
             required
             value={formState.password}
-            onChange={(e) => {
+            onChange={e => {
               onPasswordChange(e.target.value);
               validatePassword(e.target.value);
             }}
-            onBlur={(e) => validatePassword(e.target.value)}
+            onBlur={e => validatePassword(e.target.value)}
             onKeyDown={handleKeyDown}
             className={`w-full px-3 py-2 border ${formState.passwordError ? 'border-red-500' : 'border-gray-300'} bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] text-base pr-10`}
             placeholder="••••••••"

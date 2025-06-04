@@ -28,7 +28,7 @@ export interface HomeState {
   setLeaderboardUsers: (users: LeaderboardUser[]) => void;
 }
 
-export const useHomeStore = create<HomeState>((set) => ({
+export const useHomeStore = create<HomeState>(set => ({
   // Initial state
   totalScore: 0,
   availablePoints: 0,

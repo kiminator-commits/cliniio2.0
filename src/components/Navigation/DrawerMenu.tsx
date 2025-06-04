@@ -135,10 +135,10 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
           <button
             ref={userRef}
             className="flex items-center space-x-4 mb-4 w-full text-left"
-            onClick={() => setShowLogout((v) => !v)}
-            onKeyDown={(e) => {
+            onClick={() => setShowLogout(v => !v)}
+            onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') {
-                setShowLogout((v) => !v);
+                setShowLogout(v => !v);
               }
             }}
             aria-expanded={showLogout}

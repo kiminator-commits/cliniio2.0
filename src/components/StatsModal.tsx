@@ -39,7 +39,7 @@ const StatsModal: React.FC<StatsModalProps> = ({ isOpen, onClose, gamificationDa
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
             className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center">

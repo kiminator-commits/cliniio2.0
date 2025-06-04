@@ -37,7 +37,7 @@ const TasksList: React.FC<TasksListProps> = ({
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('pending');
 
   // Filter tasks based on status
-  const filteredTasks = tasks.filter((task) =>
+  const filteredTasks = tasks.filter(task =>
     statusFilter === 'all' ? true : task.status === statusFilter
   );
 
@@ -75,7 +75,7 @@ const TasksList: React.FC<TasksListProps> = ({
   };
 
   const toggleTask = (taskId: string) => {
-    setExpandedTasks((prev) => {
+    setExpandedTasks(prev => {
       const newSet = new Set(prev);
       if (newSet.has(taskId)) {
         newSet.delete(taskId);
@@ -99,7 +99,7 @@ const TasksList: React.FC<TasksListProps> = ({
   };
 
   const handleInputChange = (field: keyof ExtendedTask, value: string | number) => {
-    setEditedTask((prev) => ({
+    setEditedTask(prev => ({
       ...prev,
       [field]: value,
     }));
@@ -133,7 +133,7 @@ const TasksList: React.FC<TasksListProps> = ({
               id="status"
               name="status"
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as 'all' | 'pending' | 'completed')}
+              onChange={e => setStatusFilter(e.target.value as 'all' | 'pending' | 'completed')}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md"
             >
               <option value="all">All Statuses</option>
@@ -218,7 +218,7 @@ const TasksList: React.FC<TasksListProps> = ({
         </div>
       )}
       <div className="space-y-3">
-        {currentTasks.map((task) => (
+        {currentTasks.map(task => (
           <div
             key={task.id}
             className="bg-white rounded-lg border border-gray-200 p-4 transition-all duration-200 hover:shadow-md"
@@ -251,7 +251,7 @@ const TasksList: React.FC<TasksListProps> = ({
                       <input
                         type="text"
                         value={editedTask.title || ''}
-                        onChange={(e) => handleInputChange('title', e.target.value)}
+                        onChange={e => handleInputChange('title', e.target.value)}
                         className="text-sm font-medium text-gray-700 border border-gray-300 rounded px-2 py-1 w-full"
                       />
                     ) : (
@@ -264,7 +264,7 @@ const TasksList: React.FC<TasksListProps> = ({
                     <div className="flex gap-2">
                       <select
                         value={editedTask.type || ''}
-                        onChange={(e) => handleInputChange('type', e.target.value)}
+                        onChange={e => handleInputChange('type', e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1"
                       >
                         <option value="Training">Training</option>
@@ -274,7 +274,7 @@ const TasksList: React.FC<TasksListProps> = ({
                       </select>
                       <select
                         value={editedTask.category || ''}
-                        onChange={(e) => handleInputChange('category', e.target.value)}
+                        onChange={e => handleInputChange('category', e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1"
                       >
                         <option value="Policy Updates">Policy Updates</option>
@@ -286,7 +286,7 @@ const TasksList: React.FC<TasksListProps> = ({
                       <input
                         type="date"
                         value={editedTask.dueDate || ''}
-                        onChange={(e) => handleInputChange('dueDate', e.target.value)}
+                        onChange={e => handleInputChange('dueDate', e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1"
                       />
                     </div>
@@ -360,7 +360,7 @@ const TasksList: React.FC<TasksListProps> = ({
                   {editingTaskId === task.id ? (
                     <textarea
                       value={editedTask.instructions || ''}
-                      onChange={(e) => handleInputChange('instructions', e.target.value)}
+                      onChange={e => handleInputChange('instructions', e.target.value)}
                       className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
                       rows={3}
                     />
@@ -378,7 +378,7 @@ const TasksList: React.FC<TasksListProps> = ({
                     <input
                       type="number"
                       value={editedTask.estimatedTime || 120}
-                      onChange={(e) => handleInputChange('estimatedTime', e.target.value)}
+                      onChange={e => handleInputChange('estimatedTime', e.target.value)}
                       className="ml-2 border border-gray-300 rounded px-2 py-1 w-20"
                     />
                   ) : (
@@ -423,7 +423,7 @@ const TasksList: React.FC<TasksListProps> = ({
               </svg>
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
