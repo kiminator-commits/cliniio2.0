@@ -14,8 +14,8 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({ metrics 
   const [selectedTimeframe] = useState('daily');
 
   return (
-    <div className="bg-white rounded-lg p-4">
-      <div className="flex items-center justify-between mb-6" style={{ marginTop: '-6px' }}>
+    <div className="bg-white rounded-lg p-4 pt-2">
+      <div className="flex items-center justify-between mb-6" style={{ marginTop: '-8px' }}>
         <div className="flex items-center gap-2">
           <span className="bg-teal-100 rounded-md p-1">
             <MdInsertChart size={24} color="#4ECDC4" />

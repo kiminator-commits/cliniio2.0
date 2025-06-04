@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { MouseEvent, useMemo } from 'react';
+import clsx from 'clsx';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
 import NavBar from '../../components/NavBar';
 import { FaBars } from 'react-icons/fa';
@@ -45,10 +46,28 @@ export default function HomePage() {
 
   const { navBarMarginLeft, navBarMarginTop } = calculateNavBarMargins(drawerOpen);
 
+  const leaderboardRank = useMemo(() => {
+    const idx = leaderboardUsers.findIndex((user: { score: number }) => user.score <= totalScore);
+    return (idx + 1) || (leaderboardUsers.length + 1);
+  }, [leaderboardUsers, totalScore]);
+
+  const leaderboardTopUsers = useMemo(() =>
+    leaderboardUsers.map((user) => ({
+      name: user.name || 'Anonymous',
+      score: user.score || 0,
+      avatar: user.avatar || '/default-avatar.png',
+    })),
+    [leaderboardUsers]
+  );
+
   return (
     <ErrorBoundary>
       <div
-        className={`flex min-h-screen bg-gradient-to-br from-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.FROM} to-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.TO} hide-scrollbar`}
+        className={clsx(
+          'flex min-h-screen bg-gradient-to-br hide-scrollbar',
+          `from-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.FROM}`,
+          `to-${HOME_UI_CONSTANTS.COLORS.BG_GRADIENT.TO}`
+        )}
       >
         {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
         <div
@@ -56,7 +75,7 @@ export default function HomePage() {
         >
           {!drawerOpen && (
             <button
-              onClick={() => setDrawerOpen(true)}
+              onClick={(e: MouseEvent<HTMLButtonElement>) => setDrawerOpen(true)}
               style={{
                 position: 'fixed',
                 top: HOME_UI_CONSTANTS.MENU_BUTTON.TOP,
@@ -81,15 +100,27 @@ export default function HomePage() {
               onLeaderboardClick={() => setShowLeaderboardModal(true)}
               onChallengeClick={() => setShowChallengeModal(true)}
             />
-            <div className={`p-${HOME_UI_CONSTANTS.SPACING.PADDING}`}>
+            <div className={clsx(`p-${HOME_UI_CONSTANTS.SPACING.PADDING}`)}>
               <GamificationStats gamificationData={gamificationData} />
               <div
-                className={`flex gap-${HOME_UI_CONSTANTS.SPACING.GAP} mt-${HOME_UI_CONSTANTS.SPACING.MARGIN_TOP}`}
+                className={clsx(
+                  'grid grid-cols-1 lg:grid-cols-2',
+                  `gap-${HOME_UI_CONSTANTS.SPACING.GAP}`,
+                  `mt-${HOME_UI_CONSTANTS.SPACING.MARGIN_TOP}`
+                )}
               >
                 <div
-                  className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1 flex flex-col`}
+                  className={clsx(
+                    'bg-white min-w-[400px] flex flex-col',
+                    `rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS}`,
+                    `shadow-${HOME_UI_CONSTANTS.SHADOW}`,
+                    `p-${HOME_UI_CONSTANTS.SPACING.PADDING}`,
+                    `border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH}`,
+                    `border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}]`,
+                    `border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY}`
+                  )}
                 >
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6" style={{ marginTop: '12px' }}>
                     <div className="flex items-center gap-2">
                       <span className={`bg-${HOME_UI_CONSTANTS.COLORS.PRIMARY_BG} rounded-md p-1`}>
                         <Icon
@@ -98,9 +129,7 @@ export default function HomePage() {
                           color={HOME_UI_CONSTANTS.COLORS.PRIMARY}
                         />
                       </span>
-                      <h2
-                        className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}
-                      >
+                      <h2 className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}>
                         Daily Operations Tasks
                       </h2>
                     </div>
@@ -111,7 +140,7 @@ export default function HomePage() {
                         Available: {storeAvailablePoints} Points
                       </span>
                       <button
-                        onClick={() => setStoreShowFilters(!storeShowFilters)}
+                        onClick={(e: MouseEvent<HTMLButtonElement>) => setStoreShowFilters(!storeShowFilters)}
                         className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-600 flex items-center"
                       >
                         <Icon path={mdiFilter} size={0.8} />
@@ -129,7 +158,15 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div
-                  className={`bg-white rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS} shadow-${HOME_UI_CONSTANTS.SHADOW} p-${HOME_UI_CONSTANTS.SPACING.PADDING} border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}] border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY} flex-1`}
+                  className={clsx(
+                    'bg-white min-w-[400px]',
+                    `rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS}`,
+                    `shadow-${HOME_UI_CONSTANTS.SHADOW}`,
+                    `p-${HOME_UI_CONSTANTS.SPACING.PADDING}`,
+                    `border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH}`,
+                    `border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}]`,
+                    `border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY}`
+                  )}
                 >
                   <PerformanceMetrics metrics={mockMetricsData} />
                 </div>
@@ -148,14 +185,8 @@ export default function HomePage() {
           isOpen={showLeaderboardModal}
           onClose={() => setShowLeaderboardModal(false)}
           gamificationData={{
-            rank:
-              leaderboardUsers.findIndex((user) => user.score <= totalScore) + 1 ||
-              leaderboardUsers.length + 1,
-            topUsers: leaderboardUsers.map((user) => ({
-              name: user.name || 'Anonymous',
-              score: user.score || 0,
-              avatar: user.avatar || '/default-avatar.png',
-            })),
+            rank: leaderboardRank,
+            topUsers: leaderboardTopUsers,
           }}
         />
 
@@ -164,7 +195,7 @@ export default function HomePage() {
           onClose={() => setShowChallengeModal(false)}
           onChallengeComplete={(points: number) => {
             setTotalScore(totalScore + points);
-            setGamificationData((prevData) => ({
+            setGamificationData((prevData: typeof gamificationData) => ({
               ...prevData,
               totalScore: totalScore + points,
             }));
