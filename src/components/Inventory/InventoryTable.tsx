@@ -1,14 +1,11 @@
 import React from 'react';
-import { InventoryItem, TabType } from '../../pages/Inventory/models';
+import { InventoryItem } from '../../pages/Inventory/models';
 import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
 
 interface InventoryTableProps {
   items: InventoryItem[];
-  activeTab: TabType;
   onSearch: (query: string) => void;
-  onSort: (field: keyof InventoryItem) => void;
-  onFilter: (filters: Partial<InventoryItem>) => void;
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -16,10 +13,7 @@ interface InventoryTableProps {
 
 const InventoryTable: React.FC<InventoryTableProps> = ({
   items,
-  activeTab,
   onSearch,
-  onSort,
-  onFilter,
   currentPage,
   totalPages,
   onPageChange,

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Table, Button, Form } from 'react-bootstrap';
-import { TabType } from '../../pages/Inventory/models';
 
 interface Item {
   id: string;
@@ -10,11 +9,7 @@ interface Item {
   description: string;
 }
 
-interface InventoryManagementTableProps {
-  activeTab: TabType;
-}
-
-const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({ activeTab }) => {
+const InventoryManagementTable: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -23,7 +18,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({ act
   };
 
   const handleSort = (field: keyof Item) => {
-    setItems(prev => 
+    setItems(prev =>
       [...prev].sort((a, b) => {
         if (typeof a[field] === 'string') {
           return (a[field] as string).localeCompare(b[field] as string);
@@ -33,7 +28,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({ act
     );
   };
 
-  const handleEdit = (item: Item) => {
+  const handleEdit = () => {
     // Implement edit logic
   };
 
@@ -41,9 +36,10 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({ act
     setItems(prev => prev.filter(item => item.id !== itemId));
   };
 
-  const filteredItems = items.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredItems = items.filter(
+    item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -83,15 +79,11 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({ act
                   variant="outline-primary"
                   size="sm"
                   className="me-2"
-                  onClick={() => handleEdit(item)}
+                  onClick={() => handleEdit()}
                 >
                   Edit
                 </Button>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  onClick={() => handleDelete(item.id)}
-                >
+                <Button variant="outline-danger" size="sm" onClick={() => handleDelete(item.id)}>
                   Delete
                 </Button>
               </td>

@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiClose, mdiCheckCircle } from '@mdi/js';
-import { TabType } from '../../pages/Inventory/models';
+import { InventoryItem } from '../../pages/Inventory/models';
 
 interface TrackItemsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  activeTab: TabType;
-  items: any[];
+  items: InventoryItem[];
   onTrack: (itemId: number, isTracked: boolean) => void;
 }
 
-const TrackItemsModal: React.FC<TrackItemsModalProps> = ({
-  isOpen,
-  onClose,
-  activeTab,
-  items,
-  onTrack,
-}) => {
+const TrackItemsModal: React.FC<TrackItemsModalProps> = ({ isOpen, onClose, items, onTrack }) => {
   const [trackedItems, setTrackedItems] = useState<number[]>([]);
 
   const handleTrackItem = (itemId: number) => {

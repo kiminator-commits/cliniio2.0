@@ -6,12 +6,7 @@ interface AddItemModalProps {
   show: boolean;
   onHide: () => void;
   activeTab: TabType;
-  onAdd: (item: {
-    name: string;
-    quantity: number;
-    category: string;
-    description: string;
-  }) => void;
+  onAdd: (item: { name: string; quantity: number; category: string; description: string }) => void;
 }
 
 const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAdd }) => {
@@ -28,7 +23,9 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAdd }) => {
     onHide();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,

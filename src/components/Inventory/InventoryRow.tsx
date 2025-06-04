@@ -1,23 +1,16 @@
 import React from 'react';
 import Icon from '@mdi/react';
 import { mdiPencil, mdiDotsVertical, mdiCheckCircleOutline } from '@mdi/js';
-import { InventoryItem, TabType } from '../../pages/Inventory/models';
+import { InventoryItem } from '../../pages/Inventory/models';
 
 interface InventoryRowProps {
   item: InventoryItem;
-  activeTab: TabType;
   onEdit: (item: InventoryItem) => void;
   onDelete: (item: InventoryItem) => void;
   onTrack: (item: InventoryItem) => void;
 }
 
-const InventoryRow: React.FC<InventoryRowProps> = ({
-  item,
-  activeTab,
-  onEdit,
-  onDelete,
-  onTrack,
-}) => {
+const InventoryRow: React.FC<InventoryRowProps> = ({ item, onEdit, onDelete, onTrack }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'In Stock':
