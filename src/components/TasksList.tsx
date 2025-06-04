@@ -224,9 +224,9 @@ const TasksList: React.FC<TasksListProps> = ({
             className="bg-white rounded-lg border border-gray-200 p-4 transition-all duration-200 hover:shadow-md"
           >
             <div className="flex items-center justify-between">
-              <div className="flex-1 min-w-0 mr-4">
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
+                  <div className="flex items-center w-full">
                     <button
                       onClick={() => toggleTask(task.id)}
                       className="mr-2 text-gray-500 hover:text-gray-700"
@@ -328,22 +328,7 @@ const TasksList: React.FC<TasksListProps> = ({
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {editingTaskId === task.id ? (
-                  <>
-                    <button
-                      onClick={() => handleSave(task.id)}
-                      className="px-3 py-1 bg-[#4ECDC4] text-white border border-[#4ECDC4] hover:bg-opacity-90 rounded-lg text-xs font-medium"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={handleCancel}
-                      className="px-3 py-1 bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 rounded-lg text-xs font-medium"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
+                {editingTaskId !== task.id && (
                   <button
                     onClick={() => handleTaskComplete(task.id, task.points || 0)}
                     className="px-3 py-1 bg-white text-[#4ECDC4] border border-[#4ECDC4] hover:bg-[#4ECDC4] hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
@@ -365,11 +350,7 @@ const TasksList: React.FC<TasksListProps> = ({
                       rows={3}
                     />
                   ) : (
-                    <p>
-                      Create training materials to support the implementation of Environmental
-                      Cleaning Standards (v2.0). This is a major policy change requiring staff
-                      education.
-                    </p>
+                    <p>{task.instructions || 'No instructions provided'}</p>
                   )}
                 </div>
                 <div className="text-sm text-gray-500">
@@ -385,6 +366,46 @@ const TasksList: React.FC<TasksListProps> = ({
                     ' 120 minutes'
                   )}
                 </div>
+                {editingTaskId === task.id ? (
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={() => handleSave(task.id)}
+                      className="px-3 py-1 bg-[#4ECDC4] text-white border border-[#4ECDC4] hover:bg-opacity-90 rounded-lg text-xs font-medium"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="px-3 py-1 bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 rounded-lg text-xs font-medium"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-3">
+                    <button
+                      onClick={() => {
+                        setEditingTaskId(task.id);
+                        setEditedTask({
+                          id: task.id,
+                          title: task.title || '',
+                          type: task.type || 'Training',
+                          category: task.category || 'Policy Updates',
+                          dueDate: task.dueDate || new Date().toISOString().split('T')[0],
+                          priority: task.priority || 'medium',
+                          points: task.points || 0,
+                          status: task.status || 'pending',
+                          completed: task.completed || false,
+                          instructions: task.instructions || 'No instructions provided',
+                          estimatedTime: task.estimatedTime || 120,
+                        });
+                      }}
+                      className="px-3 py-1 bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 rounded-lg text-xs font-medium"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
