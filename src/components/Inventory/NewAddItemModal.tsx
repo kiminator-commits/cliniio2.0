@@ -1,11 +1,11 @@
 import { Modal, Button } from 'react-bootstrap';
 
-interface AddItemModalProps {
+interface NewAddItemModalProps {
   show: boolean;
   onHide: () => void;
 }
 
-const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide }) => {
+const NewAddItemModal: React.FC<NewAddItemModalProps> = ({ show, onHide }) => {
   return (
     <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
@@ -26,4 +26,4 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide }) => {
   );
 };
 
-export default AddItemModal; 
+export default NewAddItemModal; 

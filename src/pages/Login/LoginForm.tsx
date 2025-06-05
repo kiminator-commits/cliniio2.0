@@ -1,13 +1,12 @@
-import React, { useState, lazy, Suspense, memo } from 'react';
+import React, { useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useUI } from '../../contexts/UIContext';
 import { submitLoginForm } from '../../services/api';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { LOGIN_LABELS } from '../../constants/loginConstants';
+import SocialLoginButtons from '../../components/SocialLoginButtons';
 import './styles.css';
-
-const SocialLoginButtons = lazy(() => import('../../components/SocialLoginButtons'));
 
 interface LoginFormData {
   email: string;
@@ -183,9 +182,7 @@ const LoginForm: React.FC = () => {
             </div>
           </form>
 
-          <Suspense fallback={<div>Loading Social Logins...</div>}>
-            <SocialLoginButtons />
-          </Suspense>
+          <SocialLoginButtons />
         </div>
       </div>
     </ErrorBoundary>

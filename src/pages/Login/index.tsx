@@ -1,11 +1,6 @@
-import React, { Suspense, lazy } from 'react';
-
-const LoginForm = lazy(() => import('./LoginForm'));
+import React from 'react';
+import LoginForm from './LoginForm';
 
 export default function LoginPage() {
-  return (
-    <Suspense fallback={<div>Loading Login...</div>}>
-      <LoginForm />
-    </Suspense>
-  );
+  return <LoginForm />;
 }

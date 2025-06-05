@@ -1,93 +1,127 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Modal, Form, Button } from 'react-bootstrap';
 
 interface Item {
   id: string;
   name: string;
-  quantity: number;
   category: string;
-  description: string;
+  toolId: string;
+  location: string;
+  p2Status: string;
 }
 
 interface EditItemModalProps {
   show: boolean;
   onHide: () => void;
-  item: Item;
-  onEdit: (item: Item) => void;
+  item: Item | null;
+  onSave: (updatedItem: Item) => void;
 }
 
-const EditItemModal: React.FC<EditItemModalProps> = ({ show, onHide, item, onEdit }) => {
-  const [formData, setFormData] = useState<Item>(item);
+const EditItemModal: React.FC<EditItemModalProps> = ({ show, onHide, item, onSave }) => {
+  const [formData, setFormData] = useState<Omit<Item, 'id'>>({
+    name: '',
+    category: '',
+    toolId: '',
+    location: '',
+    p2Status: ''
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onEdit(formData);
-    onHide();
-  };
+  // Update form data when item changes
+  useEffect(() => {
+    if (item) {
+      const { id, ...itemData } = item;
+      setFormData(itemData);
+    }
+  }, [item]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'quantity' ? parseInt(value) || 0 : value,
+      [name]: value
     }));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (item) {
+      onSave({
+        ...item,
+        ...formData
+      });
+    }
+  };
+
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>Edit Item</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Item Name</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              id="name"
               type="text"
               name="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="quantity">Quantity</Form.Label>
-            <Form.Control
-              id="quantity"
-              type="number"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="category">Category</Form.Label>
-            <Form.Control
-              id="category"
-              type="text"
+            <Form.Label>Category</Form.Label>
+            <Form.Select
               name="category"
               value={formData.category}
-              onChange={handleChange}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Diagnostic Tools">Diagnostic Tools</option>
+              <option value="Monitoring Equipment">Monitoring Equipment</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Tool ID</Form.Label>
+            <Form.Control
+              type="text"
+              name="toolId"
+              value={formData.toolId}
+              onChange={handleInputChange}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="description">Description</Form.Label>
-            <Form.Control
-              id="description"
-              as="textarea"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-            />
+            <Form.Label>Location</Form.Label>
+            <Form.Select
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Location</option>
+              <option value="Cabinet A">Cabinet A</option>
+              <option value="Cabinet B">Cabinet B</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>P2 Status</Form.Label>
+            <Form.Select
+              name="p2Status"
+              value={formData.p2Status}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Status</option>
+              <option value="Available">Available</option>
+              <option value="In Use">In Use</option>
+              <option value="Maintenance">Maintenance</option>
+            </Form.Select>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
