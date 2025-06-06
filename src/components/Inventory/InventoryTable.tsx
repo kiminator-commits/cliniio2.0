@@ -24,6 +24,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   const pagination = useInventoryStore(state => state.pagination);
   const sorting = useInventoryStore(state => state.sorting);
   const setSorting = useInventoryStore(state => state.setSorting);
+  const filters = useInventoryStore(state => state.filters);
 
   const handleSort = (field: keyof InventoryItem) => {
     if (sorting.field === field) {
@@ -36,10 +37,20 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
 
   const memoizedItems = useMemo(() => items, [items]);
 
-  const sortedItems = useMemo(() => {
-    if (!sorting.field) return memoizedItems;
+  const filteredItems = useMemo(() => {
+    return memoizedItems.filter(item => {
+      const matchesCategory = !filters.category || item.category === filters.category;
+      const matchesLocation = !filters.location || item.location === filters.location;
+      const matchesSearch =
+        !filters.searchQuery || item.name.toLowerCase().includes(filters.searchQuery.toLowerCase());
+      return matchesCategory && matchesLocation && matchesSearch;
+    });
+  }, [memoizedItems, filters]);
 
-    return [...memoizedItems].sort((a, b) => {
+  const sortedItems = useMemo(() => {
+    if (!sorting.field) return filteredItems;
+
+    return [...filteredItems].sort((a, b) => {
       const fieldA = a[sorting.field];
       const fieldB = b[sorting.field];
 
@@ -50,7 +61,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
         return fieldA < fieldB ? 1 : -1;
       }
     });
-  }, [memoizedItems, sorting]);
+  }, [filteredItems, sorting]);
 
   const paginatedItems = useMemo(() => {
     const startIndex = Math.max((pagination.currentPage - 1) * pagination.pageSize, 0);

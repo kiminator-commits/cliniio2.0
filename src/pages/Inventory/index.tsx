@@ -13,6 +13,7 @@ import {
   mdiPrinter3d,
   mdiQrcodeScan,
 } from '@mdi/js';
+import { useInventoryStore } from '../../store/useInventoryStore';
 
 const mockData = [
   {
@@ -143,10 +144,14 @@ const Inventory: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [showScanModal, setShowScanModal] = useState(false);
+
+  const setCategoryFilter = useInventoryStore(state => state.setCategoryFilter);
+  const setLocationFilter = useInventoryStore(state => state.setLocationFilter);
+  const setSearchQuery = useInventoryStore(state => state.setSearchQuery);
+  const filters = useInventoryStore(state => state.filters);
 
   useEffect(() => {
     // Simulate loading delay
@@ -190,40 +195,40 @@ const Inventory: React.FC = () => {
   // Filtered data based on search
   const filteredData = mockData.filter(
     row =>
-      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.toolId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.p2Status.toLowerCase().includes(searchTerm.toLowerCase())
+      row.item.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.category.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.toolId.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.location.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.p2Status.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '')
   );
 
   const filteredSuppliesData = mockSuppliesData.filter(
     row =>
-      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.supplyId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.expiration.toLowerCase().includes(searchTerm.toLowerCase())
+      row.item.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.category.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.supplyId.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.location.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.expiration.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '')
   );
 
   const filteredEquipmentData = mockEquipmentData.filter(
     row =>
-      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.equipmentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.lastServiced.toLowerCase().includes(searchTerm.toLowerCase())
+      row.item.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.category.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.equipmentId.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.location.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.status.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.lastServiced.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '')
   );
 
   const filteredOfficeHardwareData = mockOfficeHardwareData.filter(
     row =>
-      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.hardwareId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.warranty.toLowerCase().includes(searchTerm.toLowerCase())
+      row.item.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.category.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.hardwareId.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.location.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.status.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '') ||
+      row.warranty.toLowerCase().includes(filters.searchQuery?.toLowerCase() || '')
   );
 
   const handleSaveEdit = (e: React.FormEvent) => {
@@ -377,8 +382,8 @@ const Inventory: React.FC = () => {
                     type="text"
                     placeholder="Search inventory..."
                     className="form-control w-full md:w-72 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
+                    value={filters.searchQuery || ''}
+                    onChange={e => setSearchQuery(e.target.value)}
                   />
                 </div>
               </div>
@@ -406,21 +411,14 @@ const Inventory: React.FC = () => {
                         >
                           Category
                         </label>
-                        <select id="category-select" className="form-select">
+                        <select
+                          id="category-select"
+                          className="form-select"
+                          value={filters.category || ''}
+                          onChange={e => setCategoryFilter(e.target.value || undefined)}
+                        >
                           <option value="">All</option>
                           <option value="Tools">Tools</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="tool-id-select"
-                          className="block text-xs font-semibold text-gray-600 mb-1"
-                        >
-                          Tool ID
-                        </label>
-                        <select id="tool-id-select" className="form-select">
-                          <option value="">All</option>
-                          <option value="T-001">T-001</option>
                         </select>
                       </div>
                       <div>
@@ -430,22 +428,15 @@ const Inventory: React.FC = () => {
                         >
                           Location
                         </label>
-                        <select id="location-select" className="form-select">
-                          <option value="">All</option>
-                          <option value="OR 1">OR 1</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="p2-status-select"
-                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        <select
+                          id="location-select"
+                          className="form-select"
+                          value={filters.location || ''}
+                          onChange={e => setLocationFilter(e.target.value || undefined)}
                         >
-                          P2 Status
-                        </label>
-                        <select id="p2-status-select" className="form-select">
                           <option value="">All</option>
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
+                          <option value="Storage Room">Storage Room</option>
+                          <option value="Lab">Lab</option>
                         </select>
                       </div>
                     </>
