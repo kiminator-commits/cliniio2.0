@@ -235,13 +235,6 @@ const Inventory: React.FC = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    const baseItem = {
-      item: formData.get('itemName') as string,
-      category: formData.get('category') as string,
-      location: formData.get('location') as string,
-      cost: Number(formData.get('cost')) || 0,
-    };
-
     if (activeTab === 'tools') {
       // Implementation of update for tools
     } else if (activeTab === 'supplies') {
@@ -401,7 +394,10 @@ const Inventory: React.FC = () => {
                   {activeTab === 'tools' && (
                     <>
                       <div>
-                        <label htmlFor="item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="item-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Item
                         </label>
                         <select id="item-select" className="form-select">
@@ -410,7 +406,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="category-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Category
                         </label>
                         <select id="category-select" className="form-select">
@@ -419,7 +418,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="tool-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="tool-id-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Tool ID
                         </label>
                         <select id="tool-id-select" className="form-select">
@@ -428,7 +430,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="location-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Location
                         </label>
                         <select id="location-select" className="form-select">
@@ -437,7 +442,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="p2-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="p2-status-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           P2 Status
                         </label>
                         <select id="p2-status-select" className="form-select">
@@ -950,11 +958,26 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">General Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="add-item-name" className="block text-sm font-medium text-gray-700">Item Name</label>
-                  <input id="add-item-name" type="text" className="form-control" placeholder="Enter item name" />
+                  <label
+                    htmlFor="add-item-name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Item Name
+                  </label>
+                  <input
+                    id="add-item-name"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter item name"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-category" className="block text-sm font-medium text-gray-700">Category</label>
+                  <label
+                    htmlFor="add-category"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Category
+                  </label>
                   <select id="add-category" className="form-select">
                     <option value="">Select category</option>
                     <option value="tools">Tools</option>
@@ -964,12 +987,32 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="add-id" className="block text-sm font-medium text-gray-700">ID / Serial #</label>
-                  <input id="add-id" type="text" className="form-control" placeholder="Enter ID or Serial #" />
+                  <label
+                    htmlFor="add-id"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    ID / Serial #
+                  </label>
+                  <input
+                    id="add-id"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter ID or Serial #"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-location" className="block text-sm font-medium text-gray-700">Location</label>
-                  <input id="add-location" type="text" className="form-control" placeholder="Enter location" />
+                  <label
+                    htmlFor="add-location"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Location
+                  </label>
+                  <input
+                    id="add-location"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter location"
+                  />
                 </div>
               </div>
             </div>
