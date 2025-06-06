@@ -12,9 +12,9 @@ export interface InventoryItem {
 }
 
 export interface InventoryFilter {
-  category?: string;
-  location?: string;
-  searchQuery?: string;
+  category?: string | undefined;
+  location?: string | undefined;
+  searchQuery?: string | undefined;
 }
 
 export interface InventoryPagination {
