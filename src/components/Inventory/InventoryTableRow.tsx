@@ -22,11 +22,13 @@ const InventoryTableRow: React.FC<InventoryTableRowProps> = ({ item }) => {
 
   return (
     <tr>
-      <td className="px-4 py-2 whitespace-nowrap">
+      <td scope="row" className="px-4 py-2 whitespace-nowrap">
         <input
           type="checkbox"
           checked={selectedItems.includes(item.id)}
           onChange={() => toggleSelectedItem(item.id)}
+          aria-label={`Select ${item.name}`}
+          className="focus:outline-blue-500"
         />
       </td>
       <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>

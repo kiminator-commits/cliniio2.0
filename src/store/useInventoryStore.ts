@@ -11,6 +11,8 @@ interface InventoryStore {
   };
   selectedItems: string[];
   categories: string[];
+  isInventoryLoading: boolean;
+  isCategoriesLoading: boolean;
   setInventoryItems: (items: InventoryItem[]) => void;
   addInventoryItem: (item: InventoryItem) => void;
   setFilters: (filters: InventoryFilter) => void;
@@ -24,6 +26,8 @@ interface InventoryStore {
   setCategories: (categories: string[]) => void;
   addCategory: (category: string) => void;
   removeCategory: (category: string) => void;
+  setInventoryLoading: (loading: boolean) => void;
+  setCategoriesLoading: (loading: boolean) => void;
 }
 
 export const useInventoryStore = create<InventoryStore>(set => ({
@@ -39,6 +43,8 @@ export const useInventoryStore = create<InventoryStore>(set => ({
   },
   selectedItems: [],
   categories: [],
+  isInventoryLoading: false,
+  isCategoriesLoading: false,
   setInventoryItems: items => set({ inventoryItems: items }),
   addInventoryItem: item => set(state => ({ inventoryItems: [...state.inventoryItems, item] })),
   setFilters: filters => set({ filters }),
@@ -74,4 +80,6 @@ export const useInventoryStore = create<InventoryStore>(set => ({
     set(state => ({
       categories: state.categories.filter(c => c !== category),
     })),
+  setInventoryLoading: loading => set({ isInventoryLoading: loading }),
+  setCategoriesLoading: loading => set({ isCategoriesLoading: loading }),
 }));

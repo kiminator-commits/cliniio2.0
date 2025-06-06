@@ -5,6 +5,7 @@ import { mdiMagnify } from '@mdi/js';
 import InventoryTableRow from './InventoryTableRow';
 import { useInventoryStore } from '../../store/useInventoryStore';
 import SortableTableHeader from '../../common/SortableTableHeader';
+import { FixedSizeList as List } from 'react-window';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -28,6 +29,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   const inventoryItems = useInventoryStore(state => state.inventoryItems);
   const selectedItems = useInventoryStore(state => state.selectedItems);
   const setSelectedItems = useInventoryStore(state => state.setSelectedItems);
+  const isInventoryLoading = useInventoryStore(state => state.isInventoryLoading);
 
   const handleSort = (field: keyof InventoryItem) => {
     if (sorting.field === field) {
@@ -87,6 +89,10 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
     [currentPage, onPageChange]
   );
 
+  if (isInventoryLoading) {
+    return <div className="p-4 text-center">Loading inventory...</div>;
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       {/* Search and Filter Section */}
@@ -106,10 +112,10 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full divide-y divide-gray-200" role="table">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 <input
                   type="checkbox"
                   checked={
@@ -130,6 +136,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
                 activeField={sorting.field}
                 direction={sorting.direction}
                 onSort={handleSort}
+                scope="col"
               />
               <SortableTableHeader
                 label="Category"
@@ -137,6 +144,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
                 activeField={sorting.field}
                 direction={sorting.direction}
                 onSort={handleSort}
+                scope="col"
               />
               <SortableTableHeader
                 label="Location"
@@ -144,6 +152,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
                 activeField={sorting.field}
                 direction={sorting.direction}
                 onSort={handleSort}
+                scope="col"
               />
               <SortableTableHeader
                 label="Status"
@@ -151,16 +160,29 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
                 activeField={sorting.field}
                 direction={sorting.direction}
                 onSort={handleSort}
+                scope="col"
               />
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {paginatedItems.map(item => (
-              <InventoryTableRow key={item.id} item={item} />
-            ))}
+            <List
+              height={400}
+              itemCount={paginatedItems.length}
+              itemSize={50}
+              width="100%"
+            >
+              {({ index, style }) => {
+                const item = paginatedItems[index];
+                return (
+                  <tr key={item.id} style={style}>
+                    <InventoryTableRow item={item} />
+                  </tr>
+                );
+              }}
+            </List>
           </tbody>
         </table>
       </div>

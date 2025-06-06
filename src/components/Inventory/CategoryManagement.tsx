@@ -5,6 +5,7 @@ const CategoryManagement: React.FC = () => {
   const categories = useInventoryStore(state => state.categories);
   const addCategory = useInventoryStore(state => state.addCategory);
   const removeCategory = useInventoryStore(state => state.removeCategory);
+  const isCategoriesLoading = useInventoryStore(state => state.isCategoriesLoading);
   const [newCategory, setNewCategory] = useState('');
 
   const handleAdd = () => {
@@ -13,6 +14,10 @@ const CategoryManagement: React.FC = () => {
       setNewCategory('');
     }
   };
+
+  if (isCategoriesLoading) {
+    return <div className="p-4 text-center">Loading categories...</div>;
+  }
 
   return (
     <div className="my-3">
@@ -24,8 +29,9 @@ const CategoryManagement: React.FC = () => {
           placeholder="New category"
           value={newCategory}
           onChange={e => setNewCategory(e.target.value)}
+          aria-label="New Category Name"
         />
-        <button className="btn btn-primary ms-2" onClick={handleAdd}>
+        <button className="btn btn-primary ms-2" onClick={handleAdd} aria-label="Add Category">
           Add
         </button>
       </div>
@@ -36,7 +42,11 @@ const CategoryManagement: React.FC = () => {
             className="list-group-item d-flex justify-content-between align-items-center"
           >
             {category}
-            <button className="btn btn-sm btn-danger" onClick={() => removeCategory(category)}>
+            <button 
+              className="btn btn-sm btn-danger" 
+              onClick={() => removeCategory(category)}
+              aria-label={`Remove ${category}`}
+            >
               Remove
             </button>
           </li>

@@ -111,6 +111,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
               value={formData.name}
               onChange={handleChange}
               isInvalid={!!errors.name}
+              aria-label="Name"
             />
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
           </Form.Group>
@@ -122,6 +123,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
               value={formData.category}
               onChange={handleChange}
               isInvalid={!!errors.category}
+              aria-label="Category"
             >
               <option value="">Select category</option>
               {categories.map(category => (
@@ -141,6 +143,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
               value={formData.quantity}
               onChange={handleChange}
               isInvalid={!!errors.quantity}
+              aria-label="Quantity"
             />
             <Form.Control.Feedback type="invalid">{errors.quantity}</Form.Control.Feedback>
           </Form.Group>
@@ -153,6 +156,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
               value={formData.location}
               onChange={handleChange}
               isInvalid={!!errors.location}
+              aria-label="Location"
             />
             <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
           </Form.Group>
