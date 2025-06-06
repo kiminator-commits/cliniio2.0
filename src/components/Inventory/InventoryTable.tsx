@@ -25,6 +25,9 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   const sorting = useInventoryStore(state => state.sorting);
   const setSorting = useInventoryStore(state => state.setSorting);
   const filters = useInventoryStore(state => state.filters);
+  const inventoryItems = useInventoryStore(state => state.inventoryItems);
+  const selectedItems = useInventoryStore(state => state.selectedItems);
+  const setSelectedItems = useInventoryStore(state => state.setSelectedItems);
 
   const handleSort = (field: keyof InventoryItem) => {
     if (sorting.field === field) {
@@ -106,6 +109,19 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <input
+                  type="checkbox"
+                  checked={selectedItems.length === inventoryItems.length && inventoryItems.length > 0}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedItems(inventoryItems.map(item => item.id));
+                    } else {
+                      setSelectedItems([]);
+                    }
+                  }}
+                />
+              </th>
               <SortableTableHeader
                 label="Item"
                 field="name"

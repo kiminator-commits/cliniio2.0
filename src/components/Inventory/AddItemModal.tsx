@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { inventoryItemSchema } from '../../validation/inventoryValidation';
 import { InventoryItem } from '../../types/inventory';
 import { ValidationError } from 'yup';
+import { useInventoryStore } from '../../store/inventoryStore';
 
 interface AddItemModalProps {
   show: boolean;
@@ -25,6 +26,8 @@ interface FormErrors {
 }
 
 const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) => {
+  const addInventoryItem = useInventoryStore(state => state.addInventoryItem);
+  const inventoryItems = useInventoryStore(state => state.inventoryItems);
   const [formData, setFormData] = useState<AddItemFormState>({
     name: '',
     category: '',
@@ -53,10 +56,33 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
     try {
       await inventoryItemSchema.validate(formData, { abortEarly: false });
       // If validation passes, proceed with form submission
-      onAddItem({
-        id: crypto.randomUUID(),
+      const generatedUniqueId = Date.now().toString();
+      
+      const existingItem = inventoryItems.find(item => item.id === generatedUniqueId);
+      if (existingItem) {
+        // Handle duplicate (for now, simply log to console and skip insertion)
+        console.warn('Duplicate ID detected, skipping add.');
+        return;
+      }
+
+      const newItem = {
+        id: generatedUniqueId,
         ...formData,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      addInventoryItem(newItem);
+      onAddItem(newItem);
+      
+      // Reset form state to initial values
+      setFormData({
+        name: '',
+        category: '',
+        quantity: 0,
+        location: '',
       });
+      setErrors({});
+      
       onHide();
     } catch (err) {
       if (err instanceof ValidationError) {

@@ -2,12 +2,16 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { InventoryItem } from '../../types/inventory';
+import { useInventoryStore } from '../../store/useInventoryStore';
 
 interface InventoryTableRowProps {
   item: InventoryItem;
 }
 
 const InventoryTableRow: React.FC<InventoryTableRowProps> = ({ item }) => {
+  const selectedItems = useInventoryStore(state => state.selectedItems);
+  const toggleSelectedItem = useInventoryStore(state => state.toggleSelectedItem);
+
   const getItemId = () => {
     return item.toolId || item.supplyId || item.equipmentId || item.hardwareId || '';
   };
@@ -18,6 +22,13 @@ const InventoryTableRow: React.FC<InventoryTableRowProps> = ({ item }) => {
 
   return (
     <tr>
+      <td className="px-4 py-2 whitespace-nowrap">
+        <input
+          type="checkbox"
+          checked={selectedItems.includes(item.id)}
+          onChange={() => toggleSelectedItem(item.id)}
+        />
+      </td>
       <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
       <td className="px-4 py-2 whitespace-nowrap">{item.category}</td>
       <td className="px-4 py-2 whitespace-nowrap">{getItemId()}</td>
