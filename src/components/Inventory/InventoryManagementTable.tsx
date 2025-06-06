@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import EditItemModal from './EditItemModal';
 import TrackItemModal from './TrackItemModal';
+import CategoryManagement from './CategoryManagement';
 import { InventoryItem } from '../../types/inventory';
 import { useInventoryStore } from '../../store/useInventoryStore';
 import Pagination from '../../common/Pagination';
@@ -62,6 +63,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
           Add Item
         </Button>
       </div>
+      <CategoryManagement />
       <Table striped bordered hover>
         <thead>
           <tr>

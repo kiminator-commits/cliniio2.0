@@ -21,3 +21,8 @@ export interface InventoryPagination {
   currentPage: number;
   pageSize: number;
 }
+
+export interface InventoryServiceResponse {
+  data: InventoryItem[];
+  error?: string;
+}

@@ -3,7 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { inventoryItemSchema } from '../../validation/inventoryValidation';
 import { InventoryItem } from '../../types/inventory';
 import { ValidationError } from 'yup';
-import { useInventoryStore } from '../../store/inventoryStore';
+import { useInventoryStore } from '../../store/useInventoryStore';
 
 interface AddItemModalProps {
   show: boolean;
@@ -28,6 +28,7 @@ interface FormErrors {
 const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) => {
   const addInventoryItem = useInventoryStore(state => state.addInventoryItem);
   const inventoryItems = useInventoryStore(state => state.inventoryItems);
+  const categories = useInventoryStore(state => state.categories);
   const [formData, setFormData] = useState<AddItemFormState>({
     name: '',
     category: '',
@@ -57,7 +58,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
       await inventoryItemSchema.validate(formData, { abortEarly: false });
       // If validation passes, proceed with form submission
       const generatedUniqueId = Date.now().toString();
-      
+
       const existingItem = inventoryItems.find(item => item.id === generatedUniqueId);
       if (existingItem) {
         // Handle duplicate (for now, simply log to console and skip insertion)
@@ -73,7 +74,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
       };
       addInventoryItem(newItem);
       onAddItem(newItem);
-      
+
       // Reset form state to initial values
       setFormData({
         name: '',
@@ -82,7 +83,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
         location: '',
       });
       setErrors({});
-      
+
       onHide();
     } catch (err) {
       if (err instanceof ValidationError) {
@@ -123,10 +124,11 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
               isInvalid={!!errors.category}
             >
               <option value="">Select category</option>
-              <option value="tools">Tools</option>
-              <option value="supplies">Supplies</option>
-              <option value="equipment">Equipment</option>
-              <option value="officeHardware">Office Hardware</option>
+              {categories.map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
           </Form.Group>

@@ -23,15 +23,18 @@ const CategoryManagement: React.FC = () => {
           className="form-control"
           placeholder="New category"
           value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
+          onChange={e => setNewCategory(e.target.value)}
         />
         <button className="btn btn-primary ms-2" onClick={handleAdd}>
           Add
         </button>
       </div>
       <ul className="list-group">
-        {categories.map((category) => (
-          <li key={category} className="list-group-item d-flex justify-content-between align-items-center">
+        {categories.map(category => (
+          <li
+            key={category}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
             {category}
             <button className="btn btn-sm btn-danger" onClick={() => removeCategory(category)}>
               Remove
@@ -43,4 +46,4 @@ const CategoryManagement: React.FC = () => {
   );
 };
 
-export default CategoryManagement; 
+export default CategoryManagement;
