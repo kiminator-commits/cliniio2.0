@@ -237,7 +237,7 @@ const Inventory: React.FC = () => {
   const handleSaveEdit = (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+    new FormData(form); // Create FormData but don't store it since it's not used yet
 
     if (activeTab === 'tools') {
       // Implementation of update for tools
@@ -248,8 +248,6 @@ const Inventory: React.FC = () => {
     } else if (activeTab === 'officeHardware') {
       // Implementation of update for office hardware
     }
-
-    handleCloseEditModal();
   };
 
   const handleCloseScanModal = () => setShowScanModal(false);
