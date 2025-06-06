@@ -27,4 +27,4 @@ const TrackItemModal: React.FC<TrackItemModalProps> = ({ show, onHide }) => {
   );
 };
 
-export default TrackItemModal; 
+export default TrackItemModal;

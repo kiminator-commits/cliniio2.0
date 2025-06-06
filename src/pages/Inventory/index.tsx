@@ -4,8 +4,7 @@ import ItemScannerCard from '../../components/Inventory/ItemScannerCard';
 import InventoryInsightsCard from '../../components/Inventory/InventoryInsightsCard';
 import CategoriesCard from '../../components/Inventory/CategoriesCard';
 import { TabType } from './models';
-import { Button, Modal, Dropdown } from 'react-bootstrap';
-import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { Button, Modal } from 'react-bootstrap';
 import Icon from '@mdi/react';
 import {
   mdiWrench,
@@ -14,6 +13,9 @@ import {
   mdiPrinter3d,
   mdiQrcodeScan,
 } from '@mdi/js';
+import EditItemModal from '../../components/Inventory/EditItemModal';
+import TrackItemModal from '../../components/Inventory/TrackItemModal';
+import InventoryManagementTable from '../../components/Inventory/InventoryManagementTable';
 
 const mockData = [
   {
@@ -22,7 +24,7 @@ const mockData = [
     toolId: 'T-001',
     location: 'OR 1',
     p2Status: 'Active',
-    cost: 150.00,
+    cost: 150.0,
   },
   {
     item: 'Gauze',
@@ -30,7 +32,7 @@ const mockData = [
     toolId: 'S-002',
     location: 'Supply Room',
     p2Status: 'Inactive',
-    cost: 25.50,
+    cost: 25.5,
   },
   {
     item: 'Monitor',
@@ -38,7 +40,7 @@ const mockData = [
     toolId: 'E-003',
     location: 'ICU',
     p2Status: 'Active',
-    cost: 2500.00,
+    cost: 2500.0,
   },
 ];
 
@@ -50,7 +52,7 @@ const mockSuppliesData = [
     location: 'Supply Room',
     quantity: 200,
     expiration: '2024-12-31',
-    cost: 25.50,
+    cost: 25.5,
   },
   {
     item: 'Syringe',
@@ -71,7 +73,7 @@ const mockEquipmentData = [
     location: 'ICU',
     status: 'Operational',
     lastServiced: '2024-01-10',
-    cost: 2500.00,
+    cost: 2500.0,
   },
   {
     item: 'Defibrillator',
@@ -80,7 +82,7 @@ const mockEquipmentData = [
     location: 'ER',
     status: 'Maintenance',
     lastServiced: '2023-11-05',
-    cost: 3500.00,
+    cost: 3500.0,
   },
 ];
 
@@ -92,7 +94,7 @@ const mockOfficeHardwareData = [
     location: 'Admin Office',
     status: 'Online',
     warranty: '2025-06-30',
-    cost: 800.00,
+    cost: 800.0,
   },
   {
     item: 'Desktop Computer',
@@ -101,107 +103,54 @@ const mockOfficeHardwareData = [
     location: 'Reception',
     status: 'Offline',
     warranty: '2024-09-15',
-    cost: 1200.00,
+    cost: 1200.0,
   },
 ];
+
+interface BaseInventoryItem {
+  item: string;
+  category: string;
+  location: string;
+  cost: number;
+}
+
+interface ToolItem extends BaseInventoryItem {
+  toolId: string;
+  p2Status: string;
+}
+
+interface SupplyItem extends BaseInventoryItem {
+  supplyId: string;
+  quantity: number;
+  expiration: string;
+}
+
+interface EquipmentItem extends BaseInventoryItem {
+  equipmentId: string;
+  status: string;
+  lastServiced: string;
+}
+
+interface OfficeHardwareItem extends BaseInventoryItem {
+  hardwareId: string;
+  status: string;
+  warranty: string;
+}
+
+type InventoryItem = ToolItem | SupplyItem | EquipmentItem | OfficeHardwareItem;
 
 const Inventory: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tools');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showTrackModal, setShowTrackModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [search, setSearch] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [mockData, setMockData] = useState([
-    {
-      item: 'Scalpel',
-      category: 'Tools',
-      toolId: 'T-001',
-      location: 'OR 1',
-      p2Status: 'Active',
-      cost: 150.00,
-    },
-    {
-      item: 'Gauze',
-      category: 'Supplies',
-      toolId: 'S-002',
-      location: 'Supply Room',
-      p2Status: 'Inactive',
-      cost: 25.50,
-    },
-    {
-      item: 'Monitor',
-      category: 'Equipment',
-      toolId: 'E-003',
-      location: 'ICU',
-      p2Status: 'Active',
-      cost: 2500.00,
-    },
-  ]);
-  const [mockSuppliesData, setMockSuppliesData] = useState([
-    {
-      item: 'Gauze',
-      category: 'Supplies',
-      supplyId: 'S-002',
-      location: 'Supply Room',
-      quantity: 200,
-      expiration: '2024-12-31',
-      cost: 25.50,
-    },
-    {
-      item: 'Syringe',
-      category: 'Supplies',
-      supplyId: 'S-003',
-      location: 'Supply Room',
-      quantity: 150,
-      expiration: '2025-03-15',
-      cost: 15.75,
-    },
-  ]);
-  const [mockEquipmentData, setMockEquipmentData] = useState([
-    {
-      item: 'Monitor',
-      category: 'Equipment',
-      equipmentId: 'E-003',
-      location: 'ICU',
-      status: 'Operational',
-      lastServiced: '2024-01-10',
-      cost: 2500.00,
-    },
-    {
-      item: 'Defibrillator',
-      category: 'Equipment',
-      equipmentId: 'E-004',
-      location: 'ER',
-      status: 'Maintenance',
-      lastServiced: '2023-11-05',
-      cost: 3500.00,
-    },
-  ]);
-  const [mockOfficeHardwareData, setMockOfficeHardwareData] = useState([
-    {
-      item: 'Printer',
-      category: 'Office Hardware',
-      hardwareId: 'H-001',
-      location: 'Admin Office',
-      status: 'Online',
-      warranty: '2025-06-30',
-      cost: 800.00,
-    },
-    {
-      item: 'Desktop Computer',
-      category: 'Office Hardware',
-      hardwareId: 'H-002',
-      location: 'Reception',
-      status: 'Offline',
-      warranty: '2024-09-15',
-      cost: 1200.00,
-    },
-  ]);
   const [isLoading, setIsLoading] = useState(true);
   const [showScanModal, setShowScanModal] = useState(false);
+  const [trackingItem, setTrackingItem] = useState<InventoryItem | null>(null);
 
   useEffect(() => {
     // Simulate loading delay
@@ -220,7 +169,7 @@ const Inventory: React.FC = () => {
   const handleCloseTrackModal = () => setShowTrackModal(false);
   const handleShowTrackModal = () => setShowTrackModal(true);
 
-  const handleEditClick = (item: any) => {
+  const handleEditClick = (item: InventoryItem) => {
     setEditingItem(item);
     setShowEditModal(true);
   };
@@ -230,51 +179,55 @@ const Inventory: React.FC = () => {
     setEditingItem(null);
   };
 
-  const handleDeleteItem = (item: any) => {
+  const handleDeleteItem = () => {
     if (activeTab === 'tools') {
-      setMockData(prevData => prevData.filter(i => i.toolId !== item.toolId));
+      // Implementation of delete for tools
     } else if (activeTab === 'supplies') {
-      setMockSuppliesData(prevData => prevData.filter(i => i.supplyId !== item.supplyId));
+      // Implementation of delete for supplies
     } else if (activeTab === 'equipment') {
-      setMockEquipmentData(prevData => prevData.filter(i => i.equipmentId !== item.equipmentId));
+      // Implementation of delete for equipment
     } else if (activeTab === 'officeHardware') {
-      setMockOfficeHardwareData(prevData => prevData.filter(i => i.hardwareId !== item.hardwareId));
+      // Implementation of delete for office hardware
     }
   };
 
   // Filtered data based on search
-  const filteredData = mockData.filter(row =>
-    row.item.toLowerCase().includes(search.toLowerCase()) ||
-    row.category.toLowerCase().includes(search.toLowerCase()) ||
-    row.toolId.toLowerCase().includes(search.toLowerCase()) ||
-    row.location.toLowerCase().includes(search.toLowerCase()) ||
-    row.p2Status.toLowerCase().includes(search.toLowerCase())
+  const filteredData = mockData.filter(
+    row =>
+      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.toolId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.p2Status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredSuppliesData = mockSuppliesData.filter(row =>
-    row.item.toLowerCase().includes(search.toLowerCase()) ||
-    row.category.toLowerCase().includes(search.toLowerCase()) ||
-    row.supplyId.toLowerCase().includes(search.toLowerCase()) ||
-    row.location.toLowerCase().includes(search.toLowerCase()) ||
-    row.expiration.toLowerCase().includes(search.toLowerCase())
+  const filteredSuppliesData = mockSuppliesData.filter(
+    row =>
+      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.supplyId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.expiration.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredEquipmentData = mockEquipmentData.filter(row =>
-    row.item.toLowerCase().includes(search.toLowerCase()) ||
-    row.category.toLowerCase().includes(search.toLowerCase()) ||
-    row.equipmentId.toLowerCase().includes(search.toLowerCase()) ||
-    row.location.toLowerCase().includes(search.toLowerCase()) ||
-    row.status.toLowerCase().includes(search.toLowerCase()) ||
-    row.lastServiced.toLowerCase().includes(search.toLowerCase())
+  const filteredEquipmentData = mockEquipmentData.filter(
+    row =>
+      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.equipmentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.lastServiced.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredOfficeHardwareData = mockOfficeHardwareData.filter(row =>
-    row.item.toLowerCase().includes(search.toLowerCase()) ||
-    row.category.toLowerCase().includes(search.toLowerCase()) ||
-    row.hardwareId.toLowerCase().includes(search.toLowerCase()) ||
-    row.location.toLowerCase().includes(search.toLowerCase()) ||
-    row.status.toLowerCase().includes(search.toLowerCase()) ||
-    row.warranty.toLowerCase().includes(search.toLowerCase())
+  const filteredOfficeHardwareData = mockOfficeHardwareData.filter(
+    row =>
+      row.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.hardwareId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.warranty.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSaveEdit = (e: React.FormEvent) => {
@@ -282,58 +235,21 @@ const Inventory: React.FC = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    const updatedItem = {
+    const baseItem = {
       item: formData.get('itemName') as string,
       category: formData.get('category') as string,
       location: formData.get('location') as string,
       cost: Number(formData.get('cost')) || 0,
-      // Add other fields based on category
-      ...(activeTab === 'tools' && {
-        toolId: formData.get('id') as string,
-        p2Status: formData.get('status') as string,
-      }),
-      ...(activeTab === 'supplies' && {
-        supplyId: formData.get('id') as string,
-        quantity: Number(formData.get('quantity')),
-        expiration: formData.get('expiration') as string,
-      }),
-      ...(activeTab === 'equipment' && {
-        equipmentId: formData.get('id') as string,
-        status: formData.get('status') as string,
-        lastServiced: formData.get('lastServiced') as string,
-      }),
-      ...(activeTab === 'officeHardware' && {
-        hardwareId: formData.get('id') as string,
-        status: formData.get('status') as string,
-        warranty: formData.get('warranty') as string,
-      }),
     };
 
-    // Update the appropriate data array based on the active tab
     if (activeTab === 'tools') {
-      setMockData(prevData => 
-        prevData.map(item => 
-          item.toolId === editingItem.toolId ? { ...item, ...updatedItem } : item
-        )
-      );
+      // Implementation of update for tools
     } else if (activeTab === 'supplies') {
-      setMockSuppliesData(prevData => 
-        prevData.map(item => 
-          item.supplyId === editingItem.supplyId ? { ...item, ...updatedItem } : item
-        )
-      );
+      // Implementation of update for supplies
     } else if (activeTab === 'equipment') {
-      setMockEquipmentData(prevData => 
-        prevData.map(item => 
-          item.equipmentId === editingItem.equipmentId ? { ...item, ...updatedItem } : item
-        )
-      );
+      // Implementation of update for equipment
     } else if (activeTab === 'officeHardware') {
-      setMockOfficeHardwareData(prevData => 
-        prevData.map(item => 
-          item.hardwareId === editingItem.hardwareId ? { ...item, ...updatedItem } : item
-        )
-      );
+      // Implementation of update for office hardware
     }
 
     handleCloseEditModal();
@@ -342,6 +258,14 @@ const Inventory: React.FC = () => {
   const handleCloseScanModal = () => setShowScanModal(false);
   const handleShowScanModal = () => setShowScanModal(true);
 
+  const getItemId = (item: InventoryItem): string => {
+    if ('toolId' in item) return item.toolId;
+    if ('supplyId' in item) return item.supplyId;
+    if ('equipmentId' in item) return item.equipmentId;
+    if ('hardwareId' in item) return item.hardwareId;
+    return '';
+  };
+
   return (
     <PageLayout
       title="Inventory Management"
@@ -349,35 +273,41 @@ const Inventory: React.FC = () => {
     >
       <div className="flex flex-col">
         {/* Header row with ItemScannerCard aligned right */}
-        <div className={`flex justify-end -mt-20 mr-4 mb-6 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+        <div
+          className={`flex justify-end -mt-20 mr-4 mb-6 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+        >
           <ItemScannerCard />
         </div>
 
         {/* Main content area */}
         <div className="flex flex-col lg:flex-row gap-6">
-          <div className={`flex flex-col gap-6 lg:w-1/4 pl-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <div
+            className={`flex flex-col gap-6 lg:w-1/4 pl-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+          >
             <InventoryInsightsCard />
             <CategoriesCard onCategoryChange={handleCategoryChange} />
           </div>
-          <div className={`flex-1 pr-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <div
+            className={`flex-1 pr-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+          >
             <div className="bg-white rounded-lg shadow p-6 w-full min-h-[calc(100vh-200px)] border-l-4 border-[#4ECDC4]">
               {/* Table Header and Top Controls */}
               {activeTab === 'tools' && (
                 <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
-                  <Icon path={mdiWrench} size={1.1} color="#4ECDC4" className="mr-2" />
-                  Tool Management
-                </h2>
+                  <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
+                    <Icon path={mdiWrench} size={1.1} color="#4ECDC4" className="mr-2" />
+                    Tool Management
+                  </h2>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="success" 
-                    className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    <Button
+                      variant="success"
+                      className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                       onClick={handleShowAddModal}
                     >
                       Add Item
                     </Button>
-                    <Button 
-                      variant="primary" 
+                    <Button
+                      variant="primary"
                       className="bg-[#4169E1] hover:bg-[#3154b3] border-[#4169E1] hover:border-[#3154b3] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                       onClick={handleShowTrackModal}
                     >
@@ -388,14 +318,14 @@ const Inventory: React.FC = () => {
               )}
               {activeTab === 'supplies' && (
                 <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
-                  <Icon path={mdiPackageVariant} size={1.1} color="#4ECDC4" className="mr-2" />
-                  Supplies Management
-                </h2>
+                  <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
+                    <Icon path={mdiPackageVariant} size={1.1} color="#4ECDC4" className="mr-2" />
+                    Supplies Management
+                  </h2>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="success" 
-                    className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    <Button
+                      variant="success"
+                      className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                       onClick={handleShowAddModal}
                     >
                       Add Item
@@ -405,14 +335,14 @@ const Inventory: React.FC = () => {
               )}
               {activeTab === 'equipment' && (
                 <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
-                  <Icon path={mdiPrinter3d} size={1.1} color="#4ECDC4" className="mr-2" />
-                  Equipment Management
-                </h2>
+                  <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
+                    <Icon path={mdiPrinter3d} size={1.1} color="#4ECDC4" className="mr-2" />
+                    Equipment Management
+                  </h2>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="success" 
-                    className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    <Button
+                      variant="success"
+                      className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                       onClick={handleShowAddModal}
                     >
                       Add Item
@@ -422,14 +352,14 @@ const Inventory: React.FC = () => {
               )}
               {activeTab === 'officeHardware' && (
                 <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
-                  <Icon path={mdiDesktopClassic} size={1.1} color="#4ECDC4" className="mr-2" />
-                  Office Hardware Management
-                </h2>
+                  <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
+                    <Icon path={mdiDesktopClassic} size={1.1} color="#4ECDC4" className="mr-2" />
+                    Office Hardware Management
+                  </h2>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="success" 
-                    className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    <Button
+                      variant="success"
+                      className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                       onClick={handleShowAddModal}
                     >
                       Add Item
@@ -449,7 +379,7 @@ const Inventory: React.FC = () => {
                   </Button>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button 
+                  <Button
                     variant="outline-secondary"
                     className="font-medium px-4 py-2 rounded-md border border-gray-300 shadow-sm flex items-center"
                     onClick={handleShowScanModal}
@@ -460,198 +390,252 @@ const Inventory: React.FC = () => {
                     type="text"
                     placeholder="Search inventory..."
                     className="form-control w-full md:w-72 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
                   />
                 </div>
               </div>
               {/* Expanded Filter Panel */}
               {showFilters && (
                 <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200 flex flex-wrap gap-4">
-                  {activeTab === 'tools' && <>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Item</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Scalpel">Scalpel</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Category</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Tools">Tools</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Tool ID</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="T-001">T-001</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Location</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="OR 1">OR 1</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">P2 Status</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                      </select>
-                    </div>
-                  </>}
-                  {activeTab === 'supplies' && <>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Item</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Gauze">Gauze</option>
-                        <option value="Syringe">Syringe</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Category</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Supplies">Supplies</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Supply ID</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="S-002">S-002</option>
-                        <option value="S-003">S-003</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Location</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Supply Room">Supply Room</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Quantity</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="200">200</option>
-                        <option value="150">150</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Expiration</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="2024-12-31">2024-12-31</option>
-                        <option value="2025-03-15">2025-03-15</option>
-                      </select>
-                    </div>
-                  </>}
-                  {activeTab === 'equipment' && <>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Item</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Monitor">Monitor</option>
-                        <option value="Defibrillator">Defibrillator</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Category</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Equipment">Equipment</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Equipment ID</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="E-003">E-003</option>
-                        <option value="E-004">E-004</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Location</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="ICU">ICU</option>
-                        <option value="ER">ER</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Status</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Operational">Operational</option>
-                        <option value="Maintenance">Maintenance</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Last Serviced</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="2024-01-10">2024-01-10</option>
-                        <option value="2023-11-05">2023-11-05</option>
-                      </select>
-                    </div>
-                  </>}
-                  {activeTab === 'officeHardware' && <>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Item</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Printer">Printer</option>
-                        <option value="Desktop Computer">Desktop Computer</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Category</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Office Hardware">Office Hardware</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Hardware ID</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="H-001">H-001</option>
-                        <option value="H-002">H-002</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Location</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Admin Office">Admin Office</option>
-                        <option value="Reception">Reception</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Status</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="Online">Online</option>
-                        <option value="Offline">Offline</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Warranty</label>
-                      <select className="form-select">
-                        <option value="">All</option>
-                        <option value="2025-06-30">2025-06-30</option>
-                        <option value="2024-09-15">2024-09-15</option>
-                      </select>
-                    </div>
-                  </>}
+                  {activeTab === 'tools' && (
+                    <>
+                      <div>
+                        <label htmlFor="item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Item
+                        </label>
+                        <select id="item-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Scalpel">Scalpel</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Category
+                        </label>
+                        <select id="category-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Tools">Tools</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="tool-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Tool ID
+                        </label>
+                        <select id="tool-id-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="T-001">T-001</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Location
+                        </label>
+                        <select id="location-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="OR 1">OR 1</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="p2-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          P2 Status
+                        </label>
+                        <select id="p2-status-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+                  {activeTab === 'supplies' && (
+                    <>
+                      <div>
+                        <label htmlFor="supply-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Item
+                        </label>
+                        <select id="supply-item-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Gauze">Gauze</option>
+                          <option value="Syringe">Syringe</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="supply-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Category
+                        </label>
+                        <select id="supply-category-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Supplies">Supplies</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="supply-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Supply ID
+                        </label>
+                        <select id="supply-id-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="S-002">S-002</option>
+                          <option value="S-003">S-003</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="supply-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Location
+                        </label>
+                        <select id="supply-location-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Supply Room">Supply Room</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="quantity-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Quantity
+                        </label>
+                        <select id="quantity-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="200">200</option>
+                          <option value="150">150</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="expiration-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Expiration
+                        </label>
+                        <select id="expiration-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="2024-12-31">2024-12-31</option>
+                          <option value="2025-03-15">2025-03-15</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+                  {activeTab === 'equipment' && (
+                    <>
+                      <div>
+                        <label htmlFor="equipment-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Item
+                        </label>
+                        <select id="equipment-item-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Monitor">Monitor</option>
+                          <option value="Defibrillator">Defibrillator</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="equipment-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Category
+                        </label>
+                        <select id="equipment-category-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Equipment">Equipment</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="equipment-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Equipment ID
+                        </label>
+                        <select id="equipment-id-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="E-003">E-003</option>
+                          <option value="E-004">E-004</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="equipment-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Location
+                        </label>
+                        <select id="equipment-location-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="ICU">ICU</option>
+                          <option value="ER">ER</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="equipment-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Status
+                        </label>
+                        <select id="equipment-status-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Operational">Operational</option>
+                          <option value="Maintenance">Maintenance</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="last-serviced-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Last Serviced
+                        </label>
+                        <select id="last-serviced-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="2024-01-10">2024-01-10</option>
+                          <option value="2023-11-05">2023-11-05</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+                  {activeTab === 'officeHardware' && (
+                    <>
+                      <div>
+                        <label htmlFor="hardware-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Item
+                        </label>
+                        <select id="hardware-item-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Printer">Printer</option>
+                          <option value="Desktop Computer">Desktop Computer</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="hardware-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Category
+                        </label>
+                        <select id="hardware-category-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Office Hardware">Office Hardware</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="hardware-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Hardware ID
+                        </label>
+                        <select id="hardware-id-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="H-005">H-005</option>
+                          <option value="H-006">H-006</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="hardware-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Location
+                        </label>
+                        <select id="hardware-location-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Admin Office">Admin Office</option>
+                          <option value="Reception">Reception</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="hardware-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Status
+                        </label>
+                        <select id="hardware-status-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="Online">Online</option>
+                          <option value="Offline">Offline</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="hardware-warranty-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                          Warranty
+                        </label>
+                        <select id="hardware-warranty-select" className="form-select">
+                          <option value="">All</option>
+                          <option value="2025-06-30">2025-06-30</option>
+                          <option value="2024-09-15">2024-09-15</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
               {/* Inventory Table */}
@@ -660,12 +644,24 @@ const Inventory: React.FC = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Item</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Category</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Tool ID</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Location</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">P2 STATUS</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">ACTIONS</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Item
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Tool ID
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          P2 STATUS
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          ACTIONS
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -676,33 +672,33 @@ const Inventory: React.FC = () => {
                           <td className="px-4 py-2 whitespace-nowrap">{row.toolId}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.location}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.p2Status}</td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                          <div className="flex gap-2">
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#4169E1] hover:text-[#3154b3] p-1"
-                              onClick={() => handleEditClick(row)}
-                            >
-                              <FaPencilAlt size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-red-600 hover:text-red-700 p-1"
-                              onClick={() => handleDeleteItem(row)}
-                            >
-                              <FaTrash size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#20B2AA] hover:text-[#1a8f89]"
-                            >
-                              Track
-                            </Button>
-                          </div>
-                        </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <div className="flex gap-2">
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#4169E1] hover:text-[#3154b3] p-1"
+                                onClick={() => handleEditClick(row)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-red-600 hover:text-red-700 p-1"
+                                onClick={() => handleDeleteItem()}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#20B2AA] hover:text-[#1a8f89]"
+                              >
+                                Track
+                              </Button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -714,13 +710,27 @@ const Inventory: React.FC = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Item</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Category</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Supply ID</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Location</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Quantity</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Expiration</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">ACTIONS</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Item
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Supply ID
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Quantity
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Expiration
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          ACTIONS
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -732,33 +742,33 @@ const Inventory: React.FC = () => {
                           <td className="px-4 py-2 whitespace-nowrap">{row.location}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.quantity}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.expiration}</td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                          <div className="flex gap-2">
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#4169E1] hover:text-[#3154b3] p-1"
-                              onClick={() => handleEditClick(row)}
-                            >
-                              <FaPencilAlt size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-red-600 hover:text-red-700 p-1"
-                              onClick={() => handleDeleteItem(row)}
-                            >
-                              <FaTrash size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#20B2AA] hover:text-[#1a8f89]"
-                            >
-                              Track
-                            </Button>
-                          </div>
-                        </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <div className="flex gap-2">
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#4169E1] hover:text-[#3154b3] p-1"
+                                onClick={() => handleEditClick(row)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-red-600 hover:text-red-700 p-1"
+                                onClick={() => handleDeleteItem()}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#20B2AA] hover:text-[#1a8f89]"
+                              >
+                                Track
+                              </Button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -770,13 +780,27 @@ const Inventory: React.FC = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Item</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Category</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Equipment ID</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Location</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Status</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Last Serviced</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">ACTIONS</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Item
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Equipment ID
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Last Serviced
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          ACTIONS
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -788,33 +812,33 @@ const Inventory: React.FC = () => {
                           <td className="px-4 py-2 whitespace-nowrap">{row.location}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.status}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.lastServiced}</td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                          <div className="flex gap-2">
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#4169E1] hover:text-[#3154b3] p-1"
-                              onClick={() => handleEditClick(row)}
-                            >
-                              <FaPencilAlt size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-red-600 hover:text-red-700 p-1"
-                              onClick={() => handleDeleteItem(row)}
-                            >
-                              <FaTrash size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#20B2AA] hover:text-[#1a8f89]"
-                            >
-                              Track
-                            </Button>
-                          </div>
-                        </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <div className="flex gap-2">
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#4169E1] hover:text-[#3154b3] p-1"
+                                onClick={() => handleEditClick(row)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-red-600 hover:text-red-700 p-1"
+                                onClick={() => handleDeleteItem()}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#20B2AA] hover:text-[#1a8f89]"
+                              >
+                                Track
+                              </Button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -826,13 +850,27 @@ const Inventory: React.FC = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Item</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Category</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Hardware ID</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Location</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Status</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">Warranty</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">ACTIONS</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Item
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Hardware ID
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          Warranty
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-[#5b5b5b] uppercase tracking-wider">
+                          ACTIONS
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -844,33 +882,33 @@ const Inventory: React.FC = () => {
                           <td className="px-4 py-2 whitespace-nowrap">{row.location}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.status}</td>
                           <td className="px-4 py-2 whitespace-nowrap">{row.warranty}</td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                          <div className="flex gap-2">
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#4169E1] hover:text-[#3154b3] p-1"
-                              onClick={() => handleEditClick(row)}
-                            >
-                              <FaPencilAlt size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-red-600 hover:text-red-700 p-1"
-                              onClick={() => handleDeleteItem(row)}
-                            >
-                              <FaTrash size={16} />
-                            </Button>
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-[#20B2AA] hover:text-[#1a8f89]"
-                            >
-                              Track
-                            </Button>
-                          </div>
-                        </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            <div className="flex gap-2">
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#4169E1] hover:text-[#3154b3] p-1"
+                                onClick={() => handleEditClick(row)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-red-600 hover:text-red-700 p-1"
+                                onClick={() => handleDeleteItem()}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="link"
+                                size="sm"
+                                className="text-[#20B2AA] hover:text-[#1a8f89]"
+                              >
+                                Track
+                              </Button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -879,7 +917,9 @@ const Inventory: React.FC = () => {
               )}
               {/* Items per page dropdown at the bottom */}
               <div className="flex justify-end mt-4">
-                <label htmlFor="itemsPerPage" className="mr-2 text-sm text-gray-600">Items per page:</label>
+                <label htmlFor="itemsPerPage" className="mr-2 text-sm text-gray-600">
+                  Items per page:
+                </label>
                 <select
                   id="itemsPerPage"
                   className="form-select w-auto"
@@ -887,7 +927,9 @@ const Inventory: React.FC = () => {
                   onChange={e => setItemsPerPage(Number(e.target.value))}
                 >
                   {[10, 25, 50, 100].map(num => (
-                    <option key={num} value={num}>{num}</option>
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -897,13 +939,7 @@ const Inventory: React.FC = () => {
       </div>
 
       {/* Add Item Modal */}
-      <Modal 
-        show={showAddModal} 
-        onHide={handleCloseAddModal}
-        centered
-        backdrop="static"
-        size="lg"
-      >
+      <Modal show={showAddModal} onHide={handleCloseAddModal} centered backdrop="static" size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add New Inventory Item</Modal.Title>
         </Modal.Header>
@@ -914,12 +950,12 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">General Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Item Name</label>
-                  <input type="text" className="form-control" placeholder="Enter item name" />
+                  <label htmlFor="add-item-name" className="block text-sm font-medium text-gray-700">Item Name</label>
+                  <input id="add-item-name" type="text" className="form-control" placeholder="Enter item name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Category</label>
-                  <select className="form-select">
+                  <label htmlFor="add-category" className="block text-sm font-medium text-gray-700">Category</label>
+                  <select id="add-category" className="form-select">
                     <option value="">Select category</option>
                     <option value="tools">Tools</option>
                     <option value="supplies">Supplies</option>
@@ -928,12 +964,12 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">ID / Serial #</label>
-                  <input type="text" className="form-control" placeholder="Enter ID or Serial #" />
+                  <label htmlFor="add-id" className="block text-sm font-medium text-gray-700">ID / Serial #</label>
+                  <input id="add-id" type="text" className="form-control" placeholder="Enter ID or Serial #" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Location</label>
-                  <input type="text" className="form-control" placeholder="Enter location" />
+                  <label htmlFor="add-location" className="block text-sm font-medium text-gray-700">Location</label>
+                  <input id="add-location" type="text" className="form-control" placeholder="Enter location" />
                 </div>
               </div>
             </div>
@@ -942,20 +978,20 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Purchase Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Purchase Date</label>
-                  <input type="date" className="form-control" />
+                  <label htmlFor="add-purchase-date" className="block text-sm font-medium text-gray-700">Purchase Date</label>
+                  <input id="add-purchase-date" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Vendor</label>
-                  <input type="text" className="form-control" placeholder="Enter vendor name" />
+                  <label htmlFor="add-vendor" className="block text-sm font-medium text-gray-700">Vendor</label>
+                  <input id="add-vendor" type="text" className="form-control" placeholder="Enter vendor name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Cost</label>
-                  <input type="number" className="form-control" placeholder="Enter cost" />
+                  <label htmlFor="add-cost" className="block text-sm font-medium text-gray-700">Cost</label>
+                  <input id="add-cost" type="number" className="form-control" placeholder="Enter cost" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Warranty Expiry</label>
-                  <input type="date" className="form-control" />
+                  <label htmlFor="add-warranty" className="block text-sm font-medium text-gray-700">Warranty Expiry</label>
+                  <input id="add-warranty" type="date" className="form-control" />
                 </div>
               </div>
             </div>
@@ -964,20 +1000,34 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Maintenance Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Maintenance Schedule</label>
-                  <input type="text" className="form-control" placeholder="e.g. Monthly, Quarterly" />
+                  <label htmlFor="add-maintenance-schedule" className="block text-sm font-medium text-gray-700">
+                    Maintenance Schedule
+                  </label>
+                  <input
+                    id="add-maintenance-schedule"
+                    type="text"
+                    className="form-control"
+                    placeholder="e.g. Monthly, Quarterly"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Last Serviced</label>
-                  <input type="date" className="form-control" />
+                  <label htmlFor="add-last-serviced" className="block text-sm font-medium text-gray-700">Last Serviced</label>
+                  <input id="add-last-serviced" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Next Due</label>
-                  <input type="date" className="form-control" />
+                  <label htmlFor="add-next-due" className="block text-sm font-medium text-gray-700">Next Due</label>
+                  <input id="add-next-due" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Service Provider</label>
-                  <input type="text" className="form-control" placeholder="Enter provider name" />
+                  <label htmlFor="add-service-provider" className="block text-sm font-medium text-gray-700">
+                    Service Provider
+                  </label>
+                  <input
+                    id="add-service-provider"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter provider name"
+                  />
                 </div>
               </div>
             </div>
@@ -986,12 +1036,12 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Usage Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Assigned To</label>
-                  <input type="text" className="form-control" placeholder="Enter assignee" />
+                  <label htmlFor="add-assigned-to" className="block text-sm font-medium text-gray-700">Assigned To</label>
+                  <input id="add-assigned-to" type="text" className="form-control" placeholder="Enter assignee" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Status</label>
-                  <select className="form-select">
+                  <label htmlFor="add-status" className="block text-sm font-medium text-gray-700">Status</label>
+                  <select id="add-status" className="form-select">
                     <option value="">Select status</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -999,26 +1049,26 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Quantity</label>
-                  <input type="number" className="form-control" placeholder="Enter quantity" />
+                  <label htmlFor="add-quantity" className="block text-sm font-medium text-gray-700">Quantity</label>
+                  <input id="add-quantity" type="number" className="form-control" placeholder="Enter quantity" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Notes</label>
-                  <textarea className="form-control" placeholder="Additional notes" />
+                  <label htmlFor="add-notes" className="block text-sm font-medium text-gray-700">Notes</label>
+                  <textarea id="add-notes" className="form-control" placeholder="Additional notes" />
                 </div>
               </div>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             onClick={handleCloseAddModal}
             className="bg-gray-500 hover:bg-gray-600 border-gray-500 hover:border-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             variant="success"
             className="bg-[#20B2AA] hover:bg-[#1a8f89] border-[#20B2AA] hover:border-[#1a8f89] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
           >
@@ -1028,8 +1078,8 @@ const Inventory: React.FC = () => {
       </Modal>
 
       {/* Track Tools Modal */}
-      <Modal 
-        show={showTrackModal} 
+      <Modal
+        show={showTrackModal}
         onHide={handleCloseTrackModal}
         centered
         backdrop="static"
@@ -1042,31 +1092,30 @@ const Inventory: React.FC = () => {
           <form>
             {/* Select Tool */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select Tool</label>
-              <select className="form-select">
+              <label htmlFor="tool-select" className="block text-sm font-medium text-gray-700 mb-1">Select Tool</label>
+              <select id="tool-select" className="form-select">
                 <option value="">Select Tool</option>
                 <option value="Scalpel">Scalpel</option>
                 <option value="Forceps">Forceps</option>
                 <option value="Retractor">Retractor</option>
               </select>
-              {/* Optionally, a barcode/QR scan button could go here */}
             </div>
             {/* Current Status */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Current Status</label>
-              <input type="text" className="form-control" value="Awaiting Sterilization" readOnly />
+              <label htmlFor="current-status" className="block text-sm font-medium text-gray-700 mb-1">Current Status</label>
+              <input id="current-status" type="text" className="form-control" value="Awaiting Sterilization" readOnly />
             </div>
             {/* Sterilization Details */}
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-2">Sterilization Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Date/Time</label>
-                  <input type="datetime-local" className="form-control" />
+                  <label htmlFor="sterilization-date" className="block text-sm font-medium text-gray-700">Date/Time</label>
+                  <input id="sterilization-date" type="datetime-local" className="form-control" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Sterilization Method</label>
-                  <select className="form-select">
+                  <label htmlFor="sterilization-method" className="block text-sm font-medium text-gray-700">Sterilization Method</label>
+                  <select id="sterilization-method" className="form-select">
                     <option value="">Select method</option>
                     <option value="Autoclave">Autoclave</option>
                     <option value="Chemical">Chemical</option>
@@ -1074,67 +1123,34 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Operator/Technician</label>
-                  <input type="text" className="form-control" placeholder="Enter operator name" />
+                  <label htmlFor="operator" className="block text-sm font-medium text-gray-700">Operator/Technician</label>
+                  <input id="operator" type="text" className="form-control" placeholder="Enter operator name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Batch/Lot Number</label>
-                  <input type="text" className="form-control" placeholder="Enter batch/lot number" />
+                  <label htmlFor="batch-number" className="block text-sm font-medium text-gray-700">Batch/Lot Number</label>
+                  <input id="batch-number" type="text" className="form-control" placeholder="Enter batch/lot number" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Location</label>
-                  <input type="text" className="form-control" placeholder="Enter location" />
+                  <label htmlFor="sterilization-location" className="block text-sm font-medium text-gray-700">Location</label>
+                  <input id="sterilization-location" type="text" className="form-control" placeholder="Enter location" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Notes/Comments</label>
-                  <textarea className="form-control" placeholder="Additional notes" />
+                  <label htmlFor="sterilization-notes" className="block text-sm font-medium text-gray-700">Notes/Comments</label>
+                  <textarea id="sterilization-notes" className="form-control" placeholder="Additional notes" />
                 </div>
-              </div>
-            </div>
-            {/* History/Log */}
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">Sterilization History</h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-xs">
-                  <thead>
-                    <tr>
-                      <th className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
-                      <th className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                      <th className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">Operator</th>
-                      <th className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">Result/Status</th>
-                      <th className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-2 py-1 whitespace-nowrap">2024-06-01 09:00</td>
-                      <td className="px-2 py-1 whitespace-nowrap">Autoclave</td>
-                      <td className="px-2 py-1 whitespace-nowrap">J. Smith</td>
-                      <td className="px-2 py-1 whitespace-nowrap">Sterilized</td>
-                      <td className="px-2 py-1 whitespace-nowrap">-</td>
-                    </tr>
-                    <tr>
-                      <td className="px-2 py-1 whitespace-nowrap">2024-05-15 14:30</td>
-                      <td className="px-2 py-1 whitespace-nowrap">Chemical</td>
-                      <td className="px-2 py-1 whitespace-nowrap">A. Lee</td>
-                      <td className="px-2 py-1 whitespace-nowrap">Sterilized</td>
-                      <td className="px-2 py-1 whitespace-nowrap">Routine cycle</td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             onClick={handleCloseTrackModal}
             className="bg-gray-500 hover:bg-gray-600 border-gray-500 hover:border-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             variant="primary"
             className="bg-[#4169E1] hover:bg-[#3154b3] border-[#4169E1] hover:border-[#3154b3] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
           >
@@ -1144,8 +1160,8 @@ const Inventory: React.FC = () => {
       </Modal>
 
       {/* Edit Item Modal */}
-      <Modal 
-        show={showEditModal} 
+      <Modal
+        show={showEditModal}
         onHide={handleCloseEditModal}
         centered
         backdrop="static"
@@ -1161,20 +1177,26 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">General Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Item Name</label>
-                  <input 
-                    type="text" 
+                  <label htmlFor="itemName" className="block text-sm font-medium text-gray-700">
+                    Item Name
+                  </label>
+                  <input
+                    id="itemName"
+                    type="text"
                     name="itemName"
-                    className="form-control" 
+                    className="form-control"
                     defaultValue={editingItem?.item}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Category</label>
-                  <select 
+                  <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                    Category
+                  </label>
+                  <select
+                    id="category"
                     name="category"
-                    className="form-select" 
+                    className="form-select"
                     defaultValue={editingItem?.category}
                     required
                   >
@@ -1185,21 +1207,27 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">ID / Serial #</label>
-                  <input 
-                    type="text" 
+                  <label htmlFor="itemId" className="block text-sm font-medium text-gray-700">
+                    ID / Serial #
+                  </label>
+                  <input
+                    id="itemId"
+                    type="text"
                     name="id"
-                    className="form-control" 
-                    defaultValue={editingItem?.toolId || editingItem?.supplyId || editingItem?.equipmentId || editingItem?.hardwareId}
+                    className="form-control"
+                    defaultValue={editingItem ? getItemId(editingItem) : ''}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Location</label>
-                  <input 
-                    type="text" 
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                    Location
+                  </label>
+                  <input
+                    id="location"
+                    type="text"
                     name="location"
-                    className="form-control" 
+                    className="form-control"
                     defaultValue={editingItem?.location}
                     required
                   />
@@ -1212,20 +1240,45 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Purchase Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Purchase Date</label>
-                  <input type="date" name="purchaseDate" className="form-control" />
+                  <label htmlFor="purchaseDate" className="block text-sm font-medium text-gray-700">
+                    Purchase Date
+                  </label>
+                  <input
+                    id="purchaseDate"
+                    type="date"
+                    name="purchaseDate"
+                    className="form-control"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Vendor</label>
-                  <input type="text" name="vendor" className="form-control" placeholder="Enter vendor name" />
+                  <label htmlFor="vendor" className="block text-sm font-medium text-gray-700">
+                    Vendor
+                  </label>
+                  <input
+                    id="vendor"
+                    type="text"
+                    name="vendor"
+                    className="form-control"
+                    placeholder="Enter vendor name"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Cost</label>
-                  <input type="number" name="cost" className="form-control" placeholder="Enter cost" />
+                  <label htmlFor="cost" className="block text-sm font-medium text-gray-700">
+                    Cost
+                  </label>
+                  <input
+                    id="cost"
+                    type="number"
+                    name="cost"
+                    className="form-control"
+                    placeholder="Enter cost"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Warranty Expiry</label>
-                  <input type="date" name="warranty" className="form-control" />
+                  <label htmlFor="warranty" className="block text-sm font-medium text-gray-700">
+                    Warranty Expiry
+                  </label>
+                  <input id="warranty" type="date" name="warranty" className="form-control" />
                 </div>
               </div>
             </div>
@@ -1235,20 +1288,51 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Maintenance Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Maintenance Schedule</label>
-                  <input type="text" name="maintenanceSchedule" className="form-control" placeholder="e.g. Monthly, Quarterly" />
+                  <label
+                    htmlFor="maintenanceSchedule"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Maintenance Schedule
+                  </label>
+                  <input
+                    id="maintenanceSchedule"
+                    type="text"
+                    name="maintenanceSchedule"
+                    className="form-control"
+                    placeholder="e.g. Monthly, Quarterly"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Last Serviced</label>
-                  <input type="date" name="lastServiced" className="form-control" />
+                  <label htmlFor="lastServiced" className="block text-sm font-medium text-gray-700">
+                    Last Serviced
+                  </label>
+                  <input
+                    id="lastServiced"
+                    type="date"
+                    name="lastServiced"
+                    className="form-control"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Next Due</label>
-                  <input type="date" name="nextDue" className="form-control" />
+                  <label htmlFor="nextDue" className="block text-sm font-medium text-gray-700">
+                    Next Due
+                  </label>
+                  <input id="nextDue" type="date" name="nextDue" className="form-control" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Service Provider</label>
-                  <input type="text" name="serviceProvider" className="form-control" placeholder="Enter provider name" />
+                  <label
+                    htmlFor="serviceProvider"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Service Provider
+                  </label>
+                  <input
+                    id="serviceProvider"
+                    type="text"
+                    name="serviceProvider"
+                    className="form-control"
+                    placeholder="Enter provider name"
+                  />
                 </div>
               </div>
             </div>
@@ -1258,12 +1342,22 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Usage Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Assigned To</label>
-                  <input type="text" name="assignedTo" className="form-control" placeholder="Enter assignee" />
+                  <label htmlFor="assignedTo" className="block text-sm font-medium text-gray-700">
+                    Assigned To
+                  </label>
+                  <input
+                    id="assignedTo"
+                    type="text"
+                    name="assignedTo"
+                    className="form-control"
+                    placeholder="Enter assignee"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Status</label>
-                  <select name="status" className="form-select" required>
+                  <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <select id="status" name="status" className="form-select" required>
                     <option value="">Select status</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -1271,25 +1365,40 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Quantity</label>
-                  <input type="number" name="quantity" className="form-control" placeholder="Enter quantity" />
+                  <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+                    Quantity
+                  </label>
+                  <input
+                    id="quantity"
+                    type="number"
+                    name="quantity"
+                    className="form-control"
+                    placeholder="Enter quantity"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Notes</label>
-                  <textarea name="notes" className="form-control" placeholder="Additional notes" />
+                  <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
+                    Notes
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    className="form-control"
+                    placeholder="Additional notes"
+                  />
                 </div>
               </div>
             </div>
 
             <Modal.Footer>
-              <Button 
-                variant="secondary" 
+              <Button
+                variant="secondary"
                 onClick={handleCloseEditModal}
                 className="bg-gray-500 hover:bg-gray-600 border-gray-500 hover:border-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
               >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 type="submit"
                 variant="success"
                 className="bg-[#20B2AA] hover:bg-[#1a8f89] border-[#20B2AA] hover:border-[#1a8f89] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
@@ -1302,8 +1411,8 @@ const Inventory: React.FC = () => {
       </Modal>
 
       {/* Scan Invoice Modal */}
-      <Modal 
-        show={showScanModal} 
+      <Modal
+        show={showScanModal}
         onHide={handleCloseScanModal}
         centered
         backdrop="static"
@@ -1325,11 +1434,7 @@ const Inventory: React.FC = () => {
                 <div className="absolute inset-0 border-2 border-[#4ECDC4] rounded-lg"></div>
               </div>
             </div>
-            <Button 
-              variant="outline-secondary"
-              className="mt-4"
-              onClick={handleCloseScanModal}
-            >
+            <Button variant="outline-secondary" className="mt-4" onClick={handleCloseScanModal}>
               Cancel
             </Button>
           </div>

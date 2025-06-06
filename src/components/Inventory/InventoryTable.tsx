@@ -2,6 +2,7 @@ import React from 'react';
 import { InventoryItem } from '../../pages/Inventory/models';
 import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
+import InventoryTableRow from './InventoryTableRow';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -59,36 +60,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {items.map(item => (
-              <tr key={item.id}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                  <div className="text-sm text-gray-500">{item.toolId}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{item.category}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{item.location}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${
-                      item.status === 'In Stock'
-                        ? 'bg-green-100 text-green-800'
-                        : item.status === 'Low Stock'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button className="text-blue-600 hover:text-blue-900 mr-4">Edit</button>
-                  <button className="text-red-600 hover:text-red-900">Delete</button>
-                </td>
-              </tr>
+              <InventoryTableRow key={item.id} item={item} />
             ))}
           </tbody>
         </table>

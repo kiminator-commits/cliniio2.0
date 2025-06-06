@@ -23,14 +23,14 @@ const EditItemModal: React.FC<EditItemModalProps> = ({ show, onHide, item, onSav
     category: '',
     toolId: '',
     location: '',
-    p2Status: ''
+    p2Status: '',
   });
 
   // Update form data when item changes
   useEffect(() => {
     if (item) {
-      const { id, ...itemData } = item;
-      setFormData(itemData);
+      const { name, category, toolId, location, p2Status } = item;
+      setFormData({ name, category, toolId, location, p2Status });
     }
   }, [item]);
 
@@ -38,7 +38,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({ show, onHide, item, onSav
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -47,7 +47,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({ show, onHide, item, onSav
     if (item) {
       onSave({
         ...item,
-        ...formData
+        ...formData,
       });
     }
   };

@@ -11,14 +11,17 @@ const NewAddItemModal: React.FC<NewAddItemModalProps> = ({ show, onHide }) => {
       <Modal.Header closeButton>
         <Modal.Title>Add Item</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        {/* Your form fields go here */}
-      </Modal.Body>
+      <Modal.Body>{/* Your form fields go here */}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => {/* handle save logic here */}}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            /* handle save logic here */
+          }}
+        >
           Save Item
         </Button>
       </Modal.Footer>
@@ -26,4 +29,4 @@ const NewAddItemModal: React.FC<NewAddItemModalProps> = ({ show, onHide }) => {
   );
 };
 
-export default NewAddItemModal; 
+export default NewAddItemModal;

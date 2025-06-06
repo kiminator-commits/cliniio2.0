@@ -18,7 +18,7 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({ onAdd }) => {
     category: '',
     location: '',
     quantity: 0,
-    p2Status: ''
+    p2Status: '',
   });
 
   const handleClose = () => setShow(false);
@@ -34,17 +34,13 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({ onAdd }) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   return (
     <>
-      <Button 
-        variant="success" 
-        onClick={handleShow}
-        className="px-4 py-2"
-      >
+      <Button variant="success" onClick={handleShow} className="px-4 py-2">
         Add Item
       </Button>
 
@@ -132,4 +128,4 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({ onAdd }) => {
   );
 };
 
-export default AddItemButton; 
+export default AddItemButton;
