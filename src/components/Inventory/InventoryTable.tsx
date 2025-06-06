@@ -3,6 +3,7 @@ import { InventoryItem } from '../../types/inventory';
 import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
 import InventoryTableRow from './InventoryTableRow';
+import { useInventoryStore } from '../../store/useInventoryStore';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -19,7 +20,15 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const pagination = useInventoryStore(state => state.pagination);
+  
   const memoizedItems = useMemo(() => items, [items]);
+  
+  const paginatedItems = useMemo(() => {
+    const startIndex = Math.max((pagination.currentPage - 1) * pagination.pageSize, 0);
+    const endIndex = startIndex + pagination.pageSize;
+    return memoizedItems.slice(startIndex, endIndex);
+  }, [memoizedItems, pagination]);
 
   const handleSearch = useMemo(
     () => (e: React.ChangeEvent<HTMLInputElement>) => onSearch(e.target.value),
@@ -76,7 +85,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {memoizedItems.map(item => (
+            {paginatedItems.map(item => (
               <InventoryTableRow key={item.id} item={item} />
             ))}
           </tbody>

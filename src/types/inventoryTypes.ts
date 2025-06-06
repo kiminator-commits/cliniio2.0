@@ -16,3 +16,8 @@ export interface InventoryFilter {
   location?: string;
   searchQuery?: string;
 }
+
+export interface InventoryPagination {
+  currentPage: number;
+  pageSize: number;
+}

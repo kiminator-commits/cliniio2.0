@@ -3,6 +3,8 @@ import { Table, Button } from 'react-bootstrap';
 import EditItemModal from './EditItemModal';
 import TrackItemModal from './TrackItemModal';
 import { InventoryItem } from '../../types/inventory';
+import { useInventoryStore } from '../../store/useInventoryStore';
+import Pagination from '../../common/Pagination';
 
 interface InventoryManagementTableProps {
   items: InventoryItem[];
@@ -19,6 +21,10 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
 }) => {
   const [editingItem, setEditingItem] = React.useState<InventoryItem | null>(null);
   const [trackingItem, setTrackingItem] = React.useState<InventoryItem | null>(null);
+  const pagination = useInventoryStore(state => state.pagination);
+  const setPagination = useInventoryStore(state => state.setPagination);
+  const inventoryItems = useInventoryStore(state => state.inventoryItems);
+  const totalPages = Math.ceil(inventoryItems.length / pagination.pageSize);
 
   const handleAddItem = useCallback(() => {
     onAddItem({
@@ -94,6 +100,12 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
           ))}
         </tbody>
       </Table>
+
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setPagination({ ...pagination, currentPage: page })}
+      />
 
       <EditItemModal
         show={!!editingItem}

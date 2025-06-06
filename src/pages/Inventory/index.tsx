@@ -13,11 +13,7 @@ import {
   mdiPrinter3d,
   mdiQrcodeScan,
 } from '@mdi/js';
-import EditItemModal from '../../components/Inventory/EditItemModal';
-import TrackItemModal from '../../components/Inventory/TrackItemModal';
-import InventoryManagementTable from '../../components/Inventory/InventoryManagementTable';
 import { useInventoryStore } from '../../store/inventoryStore';
-import { InventoryTable } from '../../components/Inventory/InventoryTable';
 
 const mockData = [
   {
@@ -142,7 +138,6 @@ interface OfficeHardwareItem extends BaseInventoryItem {
 type InventoryItem = ToolItem | SupplyItem | EquipmentItem | OfficeHardwareItem;
 
 const Inventory: React.FC = () => {
-  const { items } = useInventoryStore();
   const [activeTab, setActiveTab] = useState<TabType>('tools');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showTrackModal, setShowTrackModal] = useState(false);
@@ -153,8 +148,6 @@ const Inventory: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [showScanModal, setShowScanModal] = useState(false);
-  const [trackingItem, setTrackingItem] = useState<InventoryItem | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     // Simulate loading delay
