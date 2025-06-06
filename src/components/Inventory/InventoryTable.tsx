@@ -1,5 +1,5 @@
-import React from 'react';
-import { InventoryItem } from '../../pages/Inventory/models';
+import React, { useMemo } from 'react';
+import { InventoryItem } from '../../types/inventory';
 import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
 import InventoryTableRow from './InventoryTableRow';
@@ -19,6 +19,23 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const memoizedItems = useMemo(() => items, [items]);
+
+  const handleSearch = useMemo(
+    () => (e: React.ChangeEvent<HTMLInputElement>) => onSearch(e.target.value),
+    [onSearch]
+  );
+
+  const handlePreviousPage = useMemo(
+    () => () => onPageChange(currentPage - 1),
+    [currentPage, onPageChange]
+  );
+
+  const handleNextPage = useMemo(
+    () => () => onPageChange(currentPage + 1),
+    [currentPage, onPageChange]
+  );
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       {/* Search and Filter Section */}
@@ -31,7 +48,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
             type="text"
             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search inventory..."
-            onChange={e => onSearch(e.target.value)}
+            onChange={handleSearch}
           />
         </div>
       </div>
@@ -59,7 +76,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {items.map(item => (
+            {memoizedItems.map(item => (
               <InventoryTableRow key={item.id} item={item} />
             ))}
           </tbody>
@@ -73,14 +90,14 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
         </div>
         <div className="flex space-x-2">
           <button
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={handlePreviousPage}
             disabled={currentPage === 1}
             className="px-3 py-1 border rounded-md disabled:opacity-50"
           >
             Previous
           </button>
           <button
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={handleNextPage}
             disabled={currentPage === totalPages}
             className="px-3 py-1 border rounded-md disabled:opacity-50"
           >

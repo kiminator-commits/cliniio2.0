@@ -3,7 +3,7 @@ import { PageLayout } from '../../components/Layout/PageLayout';
 import ItemScannerCard from '../../components/Inventory/ItemScannerCard';
 import InventoryInsightsCard from '../../components/Inventory/InventoryInsightsCard';
 import CategoriesCard from '../../components/Inventory/CategoriesCard';
-import { TabType } from './models';
+import { TabType, InventoryItem } from './models';
 import { Button, Modal } from 'react-bootstrap';
 import Icon from '@mdi/react';
 import {
@@ -16,6 +16,8 @@ import {
 import EditItemModal from '../../components/Inventory/EditItemModal';
 import TrackItemModal from '../../components/Inventory/TrackItemModal';
 import InventoryManagementTable from '../../components/Inventory/InventoryManagementTable';
+import { useInventoryStore } from '../../store/inventoryStore';
+import { InventoryTable } from '../../components/Inventory/InventoryTable';
 
 const mockData = [
   {
@@ -140,6 +142,7 @@ interface OfficeHardwareItem extends BaseInventoryItem {
 type InventoryItem = ToolItem | SupplyItem | EquipmentItem | OfficeHardwareItem;
 
 const Inventory: React.FC = () => {
+  const { items } = useInventoryStore();
   const [activeTab, setActiveTab] = useState<TabType>('tools');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showTrackModal, setShowTrackModal] = useState(false);
@@ -151,6 +154,7 @@ const Inventory: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showScanModal, setShowScanModal] = useState(false);
   const [trackingItem, setTrackingItem] = useState<InventoryItem | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     // Simulate loading delay
@@ -459,7 +463,10 @@ const Inventory: React.FC = () => {
                   {activeTab === 'supplies' && (
                     <>
                       <div>
-                        <label htmlFor="supply-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="supply-item-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Item
                         </label>
                         <select id="supply-item-select" className="form-select">
@@ -469,7 +476,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="supply-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="supply-category-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Category
                         </label>
                         <select id="supply-category-select" className="form-select">
@@ -478,7 +488,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="supply-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="supply-id-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Supply ID
                         </label>
                         <select id="supply-id-select" className="form-select">
@@ -488,7 +501,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="supply-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="supply-location-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Location
                         </label>
                         <select id="supply-location-select" className="form-select">
@@ -497,7 +513,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="quantity-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="quantity-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Quantity
                         </label>
                         <select id="quantity-select" className="form-select">
@@ -507,7 +526,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="expiration-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="expiration-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Expiration
                         </label>
                         <select id="expiration-select" className="form-select">
@@ -521,7 +543,10 @@ const Inventory: React.FC = () => {
                   {activeTab === 'equipment' && (
                     <>
                       <div>
-                        <label htmlFor="equipment-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="equipment-item-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Item
                         </label>
                         <select id="equipment-item-select" className="form-select">
@@ -531,7 +556,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="equipment-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="equipment-category-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Category
                         </label>
                         <select id="equipment-category-select" className="form-select">
@@ -540,7 +568,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="equipment-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="equipment-id-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Equipment ID
                         </label>
                         <select id="equipment-id-select" className="form-select">
@@ -550,7 +581,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="equipment-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="equipment-location-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Location
                         </label>
                         <select id="equipment-location-select" className="form-select">
@@ -560,7 +594,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="equipment-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="equipment-status-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Status
                         </label>
                         <select id="equipment-status-select" className="form-select">
@@ -570,7 +607,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="last-serviced-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="last-serviced-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Last Serviced
                         </label>
                         <select id="last-serviced-select" className="form-select">
@@ -584,7 +624,10 @@ const Inventory: React.FC = () => {
                   {activeTab === 'officeHardware' && (
                     <>
                       <div>
-                        <label htmlFor="hardware-item-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-item-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Item
                         </label>
                         <select id="hardware-item-select" className="form-select">
@@ -594,7 +637,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="hardware-category-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-category-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Category
                         </label>
                         <select id="hardware-category-select" className="form-select">
@@ -603,7 +649,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="hardware-id-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-id-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Hardware ID
                         </label>
                         <select id="hardware-id-select" className="form-select">
@@ -613,7 +662,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="hardware-location-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-location-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Location
                         </label>
                         <select id="hardware-location-select" className="form-select">
@@ -623,7 +675,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="hardware-status-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-status-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Status
                         </label>
                         <select id="hardware-status-select" className="form-select">
@@ -633,7 +688,10 @@ const Inventory: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label htmlFor="hardware-warranty-select" className="block text-xs font-semibold text-gray-600 mb-1">
+                        <label
+                          htmlFor="hardware-warranty-select"
+                          className="block text-xs font-semibold text-gray-600 mb-1"
+                        >
                           Warranty
                         </label>
                         <select id="hardware-warranty-select" className="form-select">
@@ -972,10 +1030,7 @@ const Inventory: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="add-category"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="add-category" className="block text-sm font-medium text-gray-700">
                     Category
                   </label>
                   <select id="add-category" className="form-select">
@@ -987,10 +1042,7 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label
-                    htmlFor="add-id"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="add-id" className="block text-sm font-medium text-gray-700">
                     ID / Serial #
                   </label>
                   <input
@@ -1001,10 +1053,7 @@ const Inventory: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="add-location"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="add-location" className="block text-sm font-medium text-gray-700">
                     Location
                   </label>
                   <input
@@ -1021,19 +1070,40 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Purchase Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="add-purchase-date" className="block text-sm font-medium text-gray-700">Purchase Date</label>
+                  <label
+                    htmlFor="add-purchase-date"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Purchase Date
+                  </label>
                   <input id="add-purchase-date" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label htmlFor="add-vendor" className="block text-sm font-medium text-gray-700">Vendor</label>
-                  <input id="add-vendor" type="text" className="form-control" placeholder="Enter vendor name" />
+                  <label htmlFor="add-vendor" className="block text-sm font-medium text-gray-700">
+                    Vendor
+                  </label>
+                  <input
+                    id="add-vendor"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter vendor name"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-cost" className="block text-sm font-medium text-gray-700">Cost</label>
-                  <input id="add-cost" type="number" className="form-control" placeholder="Enter cost" />
+                  <label htmlFor="add-cost" className="block text-sm font-medium text-gray-700">
+                    Cost
+                  </label>
+                  <input
+                    id="add-cost"
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter cost"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-warranty" className="block text-sm font-medium text-gray-700">Warranty Expiry</label>
+                  <label htmlFor="add-warranty" className="block text-sm font-medium text-gray-700">
+                    Warranty Expiry
+                  </label>
                   <input id="add-warranty" type="date" className="form-control" />
                 </div>
               </div>
@@ -1043,7 +1113,10 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Maintenance Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="add-maintenance-schedule" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="add-maintenance-schedule"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Maintenance Schedule
                   </label>
                   <input
@@ -1054,15 +1127,25 @@ const Inventory: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="add-last-serviced" className="block text-sm font-medium text-gray-700">Last Serviced</label>
+                  <label
+                    htmlFor="add-last-serviced"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Last Serviced
+                  </label>
                   <input id="add-last-serviced" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label htmlFor="add-next-due" className="block text-sm font-medium text-gray-700">Next Due</label>
+                  <label htmlFor="add-next-due" className="block text-sm font-medium text-gray-700">
+                    Next Due
+                  </label>
                   <input id="add-next-due" type="date" className="form-control" />
                 </div>
                 <div>
-                  <label htmlFor="add-service-provider" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="add-service-provider"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Service Provider
                   </label>
                   <input
@@ -1079,11 +1162,23 @@ const Inventory: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Usage Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="add-assigned-to" className="block text-sm font-medium text-gray-700">Assigned To</label>
-                  <input id="add-assigned-to" type="text" className="form-control" placeholder="Enter assignee" />
+                  <label
+                    htmlFor="add-assigned-to"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Assigned To
+                  </label>
+                  <input
+                    id="add-assigned-to"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter assignee"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-status" className="block text-sm font-medium text-gray-700">Status</label>
+                  <label htmlFor="add-status" className="block text-sm font-medium text-gray-700">
+                    Status
+                  </label>
                   <select id="add-status" className="form-select">
                     <option value="">Select status</option>
                     <option value="active">Active</option>
@@ -1092,12 +1187,25 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="add-quantity" className="block text-sm font-medium text-gray-700">Quantity</label>
-                  <input id="add-quantity" type="number" className="form-control" placeholder="Enter quantity" />
+                  <label htmlFor="add-quantity" className="block text-sm font-medium text-gray-700">
+                    Quantity
+                  </label>
+                  <input
+                    id="add-quantity"
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter quantity"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="add-notes" className="block text-sm font-medium text-gray-700">Notes</label>
-                  <textarea id="add-notes" className="form-control" placeholder="Additional notes" />
+                  <label htmlFor="add-notes" className="block text-sm font-medium text-gray-700">
+                    Notes
+                  </label>
+                  <textarea
+                    id="add-notes"
+                    className="form-control"
+                    placeholder="Additional notes"
+                  />
                 </div>
               </div>
             </div>
@@ -1135,7 +1243,9 @@ const Inventory: React.FC = () => {
           <form>
             {/* Select Tool */}
             <div className="mb-4">
-              <label htmlFor="tool-select" className="block text-sm font-medium text-gray-700 mb-1">Select Tool</label>
+              <label htmlFor="tool-select" className="block text-sm font-medium text-gray-700 mb-1">
+                Select Tool
+              </label>
               <select id="tool-select" className="form-select">
                 <option value="">Select Tool</option>
                 <option value="Scalpel">Scalpel</option>
@@ -1145,19 +1255,40 @@ const Inventory: React.FC = () => {
             </div>
             {/* Current Status */}
             <div className="mb-4">
-              <label htmlFor="current-status" className="block text-sm font-medium text-gray-700 mb-1">Current Status</label>
-              <input id="current-status" type="text" className="form-control" value="Awaiting Sterilization" readOnly />
+              <label
+                htmlFor="current-status"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Current Status
+              </label>
+              <input
+                id="current-status"
+                type="text"
+                className="form-control"
+                value="Awaiting Sterilization"
+                readOnly
+              />
             </div>
             {/* Sterilization Details */}
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-2">Sterilization Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="sterilization-date" className="block text-sm font-medium text-gray-700">Date/Time</label>
+                  <label
+                    htmlFor="sterilization-date"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Date/Time
+                  </label>
                   <input id="sterilization-date" type="datetime-local" className="form-control" />
                 </div>
                 <div>
-                  <label htmlFor="sterilization-method" className="block text-sm font-medium text-gray-700">Sterilization Method</label>
+                  <label
+                    htmlFor="sterilization-method"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Sterilization Method
+                  </label>
                   <select id="sterilization-method" className="form-select">
                     <option value="">Select method</option>
                     <option value="Autoclave">Autoclave</option>
@@ -1166,20 +1297,53 @@ const Inventory: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="operator" className="block text-sm font-medium text-gray-700">Operator/Technician</label>
-                  <input id="operator" type="text" className="form-control" placeholder="Enter operator name" />
+                  <label htmlFor="operator" className="block text-sm font-medium text-gray-700">
+                    Operator/Technician
+                  </label>
+                  <input
+                    id="operator"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter operator name"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="batch-number" className="block text-sm font-medium text-gray-700">Batch/Lot Number</label>
-                  <input id="batch-number" type="text" className="form-control" placeholder="Enter batch/lot number" />
+                  <label htmlFor="batch-number" className="block text-sm font-medium text-gray-700">
+                    Batch/Lot Number
+                  </label>
+                  <input
+                    id="batch-number"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter batch/lot number"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="sterilization-location" className="block text-sm font-medium text-gray-700">Location</label>
-                  <input id="sterilization-location" type="text" className="form-control" placeholder="Enter location" />
+                  <label
+                    htmlFor="sterilization-location"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Location
+                  </label>
+                  <input
+                    id="sterilization-location"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter location"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="sterilization-notes" className="block text-sm font-medium text-gray-700">Notes/Comments</label>
-                  <textarea id="sterilization-notes" className="form-control" placeholder="Additional notes" />
+                  <label
+                    htmlFor="sterilization-notes"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Notes/Comments
+                  </label>
+                  <textarea
+                    id="sterilization-notes"
+                    className="form-control"
+                    placeholder="Additional notes"
+                  />
                 </div>
               </div>
             </div>

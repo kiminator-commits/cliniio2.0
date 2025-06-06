@@ -1,135 +1,144 @@
-import { Modal, Button } from 'react-bootstrap';
-import FormInput from '../../common/FormInput';
+import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { inventoryItemSchema } from '../../validation/inventoryValidation';
+import { InventoryItem } from '../../types/inventory';
+import { ValidationError } from 'yup';
 
 interface AddItemModalProps {
   show: boolean;
   onHide: () => void;
+  onAddItem: (item: InventoryItem) => void;
 }
 
-const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide }) => {
+interface AddItemFormState {
+  name: string;
+  category: string;
+  quantity: number;
+  location: string;
+}
+
+interface FormErrors {
+  name?: string;
+  category?: string;
+  quantity?: string;
+  location?: string;
+}
+
+const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) => {
+  const [formData, setFormData] = useState<AddItemFormState>({
+    name: '',
+    category: '',
+    quantity: 0,
+    location: '',
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'quantity' ? Number(value) : value,
+    }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await inventoryItemSchema.validate(formData, { abortEarly: false });
+      // If validation passes, proceed with form submission
+      onAddItem({
+        id: crypto.randomUUID(),
+        ...formData,
+      });
+      onHide();
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        const validationErrors: FormErrors = {};
+        err.inner.forEach(error => {
+          validationErrors[error.path as keyof FormErrors] = error.message;
+        });
+        setErrors(validationErrors);
+      }
+    }
+  };
+
   return (
-    <Modal show={show} onHide={onHide} backdrop="static" centered>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Item</Modal.Title>
+        <Modal.Title>Add New Item</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormInput
-            label="Item Name"
-            type="text"
-            value={formData.itemName}
-            onChange={e => handleInputChange('itemName', e.target.value)}
-            placeholder="Enter item name"
-          />
-          <FormInput
-            label="Category"
-            type="text"
-            value={formData.category}
-            onChange={e => handleInputChange('category', e.target.value)}
-            placeholder="Enter category"
-          />
-          <FormInput
-            label="ID / Serial #"
-            type="text"
-            value={formData.id}
-            onChange={e => handleInputChange('id', e.target.value)}
-            placeholder="Enter ID or Serial #"
-          />
-          <FormInput
-            label="Location"
-            type="text"
-            value={formData.location}
-            onChange={e => handleInputChange('location', e.target.value)}
-            placeholder="Enter location"
-          />
-          <FormInput
-            label="Purchase Date"
-            type="date"
-            value={formData.purchaseDate}
-            onChange={e => handleInputChange('purchaseDate', e.target.value)}
-          />
-          <FormInput
-            label="Vendor"
-            type="text"
-            value={formData.vendor}
-            onChange={e => handleInputChange('vendor', e.target.value)}
-            placeholder="Enter vendor name"
-          />
-          <FormInput
-            label="Cost"
-            type="number"
-            value={formData.cost}
-            onChange={e => handleInputChange('cost', e.target.value)}
-            placeholder="Enter cost"
-          />
-          <FormInput
-            label="Warranty Expiry"
-            type="date"
-            value={formData.warranty}
-            onChange={e => handleInputChange('warranty', e.target.value)}
-          />
-          <FormInput
-            label="Maintenance Schedule"
-            type="text"
-            value={formData.maintenanceSchedule}
-            onChange={e => handleInputChange('maintenanceSchedule', e.target.value)}
-            placeholder="e.g. Monthly, Quarterly"
-          />
-          <FormInput
-            label="Last Serviced"
-            type="date"
-            value={formData.lastServiced}
-            onChange={e => handleInputChange('lastServiced', e.target.value)}
-          />
-          <FormInput
-            label="Next Due"
-            type="date"
-            value={formData.nextDue}
-            onChange={e => handleInputChange('nextDue', e.target.value)}
-          />
-          <FormInput
-            label="Service Provider"
-            type="text"
-            value={formData.serviceProvider}
-            onChange={e => handleInputChange('serviceProvider', e.target.value)}
-            placeholder="Enter provider name"
-          />
-          <FormInput
-            label="Assigned To"
-            type="text"
-            value={formData.assignedTo}
-            onChange={e => handleInputChange('assignedTo', e.target.value)}
-            placeholder="Enter assignee"
-          />
-          <FormInput
-            label="Status"
-            type="text"
-            value={formData.status}
-            onChange={e => handleInputChange('status', e.target.value)}
-            placeholder="Enter status"
-          />
-          <FormInput
-            label="Quantity"
-            type="number"
-            value={formData.quantity}
-            onChange={e => handleInputChange('quantity', e.target.value)}
-            placeholder="Enter quantity"
-          />
-        </div>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              isInvalid={!!errors.name}
+            />
+            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Category</Form.Label>
+            <Form.Select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              isInvalid={!!errors.category}
+            >
+              <option value="">Select category</option>
+              <option value="tools">Tools</option>
+              <option value="supplies">Supplies</option>
+              <option value="equipment">Equipment</option>
+              <option value="officeHardware">Office Hardware</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Quantity</Form.Label>
+            <Form.Control
+              type="number"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              isInvalid={!!errors.quantity}
+            />
+            <Form.Control.Feedback type="invalid">{errors.quantity}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Location</Form.Label>
+            <Form.Control
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              isInvalid={!!errors.location}
+            />
+            <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
+          </Form.Group>
+
+          <div className="d-flex justify-content-end gap-2">
+            <Button variant="secondary" onClick={onHide}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit">
+              Add Item
+            </Button>
+          </div>
+        </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Close
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            /* handle save logic here */
-          }}
-        >
-          Save Item
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 };

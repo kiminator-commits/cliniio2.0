@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import EditItemModal from './EditItemModal';
 import TrackItemModal from './TrackItemModal';
@@ -6,96 +6,88 @@ import { InventoryItem } from '../../types/inventory';
 
 interface InventoryManagementTableProps {
   items: InventoryItem[];
-  onEdit: (item: InventoryItem) => void;
-  onTrack: (item: InventoryItem) => void;
+  onAddItem: (item: InventoryItem) => void;
+  onEditItem: (item: InventoryItem) => void;
+  onDeleteItem: (itemId: string) => void;
 }
 
 const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
   items,
-  onEdit,
-  onTrack,
+  onAddItem,
+  onEditItem,
+  onDeleteItem,
 }) => {
-  const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
-  const [trackingItem, setTrackingItem] = useState<InventoryItem | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [editingItem, setEditingItem] = React.useState<InventoryItem | null>(null);
+  const [trackingItem, setTrackingItem] = React.useState<InventoryItem | null>(null);
 
-  // Filter items based on search term
-  const filteredItems = items.filter(item =>
-    Object.values(item).some(value =>
-      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
+  const handleAddItem = useCallback(() => {
+    onAddItem({
+      id: '',
+      name: '',
+      category: '',
+      quantity: 0,
+      location: '',
+    } as InventoryItem);
+  }, [onAddItem]);
+
+  const handleEditItem = useCallback((item: InventoryItem) => {
+    setEditingItem(item);
+  }, []);
+
+  const handleDeleteItem = useCallback(
+    (itemId: string) => {
+      onDeleteItem(itemId);
+    },
+    [onDeleteItem]
   );
 
-  // Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-
-  const handlePageChange = pageNumber => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleEditClick = item => {
-    setEditingItem(item);
-  };
-
-  const handleTrackClick = item => {
-    setTrackingItem(item);
-  };
-
-  const handleCloseEditModal = () => {
+  const handleCloseEditModal = useCallback(() => {
     setEditingItem(null);
-  };
+  }, []);
 
-  const handleCloseTrackModal = () => {
+  const handleCloseTrackModal = useCallback(() => {
     setTrackingItem(null);
-  };
+  }, []);
 
   return (
     <div>
       <div className="mb-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search items..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-        />
+        <Button variant="primary" onClick={handleAddItem}>
+          Add Item
+        </Button>
       </div>
-
-      <Table striped bordered hover responsive>
+      <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Item Name</th>
+            <th>Name</th>
             <th>Category</th>
-            <th>ID</th>
+            <th>Quantity</th>
             <th>Location</th>
-            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {currentItems.map(item => (
+          {items.map(item => (
             <tr key={item.id}>
               <td>{item.name}</td>
               <td>{item.category}</td>
-              <td>{item.id}</td>
+              <td>{item.quantity}</td>
               <td>{item.location}</td>
-              <td>{item.status}</td>
               <td>
                 <Button
-                  variant="primary"
+                  variant="outline-primary"
                   size="sm"
                   className="me-2"
-                  onClick={() => handleEditClick(item)}
+                  onClick={() => handleEditItem(item)}
                 >
                   Edit
                 </Button>
-                <Button variant="info" size="sm" onClick={() => handleTrackClick(item)}>
-                  Track
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={() => handleDeleteItem(item.id)}
+                >
+                  Delete
                 </Button>
               </td>
             </tr>
@@ -103,46 +95,24 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
         </tbody>
       </Table>
 
-      {/* Pagination */}
-      <div className="d-flex justify-content-center mt-4">
-        <nav>
-          <ul className="pagination">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
-              <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                <button className="page-link" onClick={() => handlePageChange(number)}>
-                  {number}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-
-      {/* Edit Modal */}
-      {editingItem && (
-        <EditItemModal
-          show={!!editingItem}
-          onHide={handleCloseEditModal}
-          item={editingItem}
-          onSave={() => {
-            onEdit(editingItem);
+      <EditItemModal
+        show={!!editingItem}
+        onHide={handleCloseEditModal}
+        item={editingItem}
+        onSave={() => {
+          if (editingItem) {
+            onEditItem(editingItem);
             handleCloseEditModal();
-          }}
-        />
-      )}
+          }
+        }}
+      />
 
-      {/* Track Modal */}
-      {trackingItem && (
-        <TrackItemModal
-          show={!!trackingItem}
-          onHide={handleCloseTrackModal}
-          item={trackingItem}
-          onSave={() => {
-            onTrack(trackingItem);
-            handleCloseTrackModal();
-          }}
-        />
-      )}
+      <TrackItemModal
+        show={!!trackingItem}
+        onHide={handleCloseTrackModal}
+        item={trackingItem}
+        onSave={handleCloseTrackModal}
+      />
     </div>
   );
 };
