@@ -9,7 +9,7 @@ export const categoryService = {
     return category; // Temporary mock
   },
 
-  async deleteCategory(category: string): Promise<void> {
+  async deleteCategory(): Promise<void> {
     // TODO: Implement actual API call
     return; // Temporary mock
   },

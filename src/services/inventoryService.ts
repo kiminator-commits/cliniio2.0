@@ -11,7 +11,7 @@ export const inventoryService = {
     return item; // Temporary mock
   },
 
-  async deleteInventoryItem(id: string): Promise<void> {
+  async deleteInventoryItem(): Promise<void> {
     // TODO: Implement actual API call
     return; // Temporary mock
   },

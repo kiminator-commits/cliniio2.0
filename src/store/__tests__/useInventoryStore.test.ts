@@ -1,10 +1,12 @@
 import { act } from 'react-dom/test-utils';
-import { create } from 'zustand';
 import { useInventoryStore } from '../useInventoryStore';
+import { InventoryState } from '../types';
 
 describe('useInventoryStore', () => {
   beforeEach(() => {
-    const { setState } = useInventoryStore.getState() as any;
+    const { setState } = useInventoryStore.getState() as {
+      setState: (state: Partial<InventoryState>) => void;
+    };
     setState({
       inventoryItems: [],
       filters: {},
