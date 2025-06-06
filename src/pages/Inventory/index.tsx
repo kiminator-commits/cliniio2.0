@@ -13,7 +13,6 @@ import {
   mdiPrinter3d,
   mdiQrcodeScan,
 } from '@mdi/js';
-import { useInventoryStore } from '../../store/inventoryStore';
 
 const mockData = [
   {

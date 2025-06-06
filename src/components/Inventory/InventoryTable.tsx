@@ -4,6 +4,7 @@ import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
 import InventoryTableRow from './InventoryTableRow';
 import { useInventoryStore } from '../../store/useInventoryStore';
+import SortableTableHeader from '../../common/SortableTableHeader';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -21,14 +22,41 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
   onPageChange,
 }) => {
   const pagination = useInventoryStore(state => state.pagination);
-  
+  const sorting = useInventoryStore(state => state.sorting);
+  const setSorting = useInventoryStore(state => state.setSorting);
+
+  const handleSort = (field: keyof InventoryItem) => {
+    if (sorting.field === field) {
+      const newDirection = sorting.direction === 'asc' ? 'desc' : 'asc';
+      setSorting({ field, direction: newDirection });
+    } else {
+      setSorting({ field, direction: 'asc' });
+    }
+  };
+
   const memoizedItems = useMemo(() => items, [items]);
-  
+
+  const sortedItems = useMemo(() => {
+    if (!sorting.field) return memoizedItems;
+
+    return [...memoizedItems].sort((a, b) => {
+      const fieldA = a[sorting.field];
+      const fieldB = b[sorting.field];
+
+      if (fieldA === fieldB) return 0;
+      if (sorting.direction === 'asc') {
+        return fieldA > fieldB ? 1 : -1;
+      } else {
+        return fieldA < fieldB ? 1 : -1;
+      }
+    });
+  }, [memoizedItems, sorting]);
+
   const paginatedItems = useMemo(() => {
     const startIndex = Math.max((pagination.currentPage - 1) * pagination.pageSize, 0);
     const endIndex = startIndex + pagination.pageSize;
-    return memoizedItems.slice(startIndex, endIndex);
-  }, [memoizedItems, pagination]);
+    return sortedItems.slice(startIndex, endIndex);
+  }, [sortedItems, pagination]);
 
   const handleSearch = useMemo(
     () => (e: React.ChangeEvent<HTMLInputElement>) => onSearch(e.target.value),
@@ -67,18 +95,34 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Item
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Category
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Location
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
+              <SortableTableHeader
+                label="Item"
+                field="name"
+                activeField={sorting.field}
+                direction={sorting.direction}
+                onSort={handleSort}
+              />
+              <SortableTableHeader
+                label="Category"
+                field="category"
+                activeField={sorting.field}
+                direction={sorting.direction}
+                onSort={handleSort}
+              />
+              <SortableTableHeader
+                label="Location"
+                field="location"
+                activeField={sorting.field}
+                direction={sorting.direction}
+                onSort={handleSort}
+              />
+              <SortableTableHeader
+                label="Status"
+                field="status"
+                activeField={sorting.field}
+                direction={sorting.direction}
+                onSort={handleSort}
+              />
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>

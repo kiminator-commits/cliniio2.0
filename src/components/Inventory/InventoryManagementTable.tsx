@@ -104,7 +104,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
       <Pagination
         currentPage={pagination.currentPage}
         totalPages={totalPages}
-        onPageChange={(page) => setPagination({ ...pagination, currentPage: page })}
+        onPageChange={page => setPagination({ ...pagination, currentPage: page })}
       />
 
       <EditItemModal

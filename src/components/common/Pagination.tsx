@@ -17,15 +17,25 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 
   return (
     <div className="d-flex justify-content-center my-3">
-      <button className="btn btn-secondary mx-2" onClick={handlePrevious} disabled={currentPage === 1}>
+      <button
+        className="btn btn-secondary mx-2"
+        onClick={handlePrevious}
+        disabled={currentPage === 1}
+      >
         Previous
       </button>
-      <span className="align-self-center">{currentPage} / {totalPages}</span>
-      <button className="btn btn-secondary mx-2" onClick={handleNext} disabled={currentPage === totalPages}>
+      <span className="align-self-center">
+        {currentPage} / {totalPages}
+      </span>
+      <button
+        className="btn btn-secondary mx-2"
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+      >
         Next
       </button>
     </div>
   );
 };
 
-export default Pagination; 
+export default Pagination;
