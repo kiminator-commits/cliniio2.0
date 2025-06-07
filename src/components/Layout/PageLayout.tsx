@@ -7,9 +7,10 @@ interface PageLayoutProps {
   title: string;
   description: string;
   children?: React.ReactNode;
+  headerAction?: React.ReactNode;
 }
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ title, description, children }) => {
+export const PageLayout: React.FC<PageLayoutProps> = ({ title, description, children, headerAction }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(true);
 
   return (
@@ -39,9 +40,12 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, description, chil
                 <FaBars size={20} />
               </button>
             )}
-            <div className="mb-6" style={{ marginLeft: drawerOpen ? 24 : 64, marginTop: 24 }}>
-              <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">{title}</h1>
-              <p className="text-sm text-gray-500 mb-4">{description}</p>
+            <div className="mb-2 flex items-center justify-between" style={{ marginLeft: drawerOpen ? 24 : 64, marginTop: 0 }}>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-1">{title}</h1>
+                <p className="text-sm text-gray-500 mb-2">{description}</p>
+              </div>
+              {headerAction && <div className="ml-4">{headerAction}</div>}
             </div>
             {children}
           </div>

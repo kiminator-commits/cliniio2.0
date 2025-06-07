@@ -263,18 +263,18 @@ const Inventory: React.FC = () => {
       title="Inventory Management"
       description="Track and manage clinical tools and supplies"
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col -mt-8">
         {/* Header row with ItemScannerCard aligned right */}
         <div
-          className={`flex justify-end -mt-20 mr-4 mb-6 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+          className={`flex justify-end mr-4 mb-2 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
         >
           <ItemScannerCard />
         </div>
 
         {/* Main content area */}
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-4">
           <div
-            className={`flex flex-col gap-6 lg:w-1/4 pl-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+            className={`flex flex-col gap-4 lg:w-1/4 pl-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
           >
             <InventoryInsightsCard />
             <CategoriesCard onCategoryChange={handleCategoryChange} />
