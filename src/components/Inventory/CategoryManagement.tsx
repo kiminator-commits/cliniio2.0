@@ -42,8 +42,8 @@ const CategoryManagement: React.FC = () => {
             className="list-group-item d-flex justify-content-between align-items-center"
           >
             {category}
-            <button 
-              className="btn btn-sm btn-danger" 
+            <button
+              className="btn btn-sm btn-danger"
               onClick={() => removeCategory(category)}
               aria-label={`Remove ${category}`}
             >

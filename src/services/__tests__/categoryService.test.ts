@@ -15,4 +15,4 @@ describe('categoryService', () => {
   it('should resolve deleteCategory without throwing', async () => {
     await expect(categoryService.deleteCategory('Test Category')).resolves.toBeUndefined();
   });
-}); 
+});

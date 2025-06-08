@@ -3,9 +3,30 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import InventoryManagementTable from '../../components/Inventory/InventoryManagementTable';
 import { useInventoryStore } from '../../store/useInventoryStore';
 
+interface InventoryItem {
+  id: string;
+  name: string;
+  category: string;
+  quantity: number;
+  location: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface InventoryStoreState {
+  setState: (state: {
+    inventoryItems: InventoryItem[];
+    filters: Record<string, string>;
+    pagination: { currentPage: number; pageSize: number };
+    sorting: { field: string | null; direction: 'asc' | 'desc' };
+    selectedItems: string[];
+    categories: string[];
+  }) => void;
+}
+
 describe('Inventory Management Flow', () => {
   beforeEach(() => {
-    const { setState } = useInventoryStore.getState() as any;
+    const { setState } = useInventoryStore.getState() as InventoryStoreState;
     setState({
       inventoryItems: [],
       filters: {},
@@ -24,14 +45,16 @@ describe('Inventory Management Flow', () => {
 
   it('allows adding a category and reflects state', () => {
     render(<InventoryManagementTable />);
-    fireEvent.change(screen.getByPlaceholderText(/new category/i), { target: { value: 'Integration Category' } });
+    fireEvent.change(screen.getByPlaceholderText(/new category/i), {
+      target: { value: 'Integration Category' },
+    });
     fireEvent.click(screen.getByText(/Add/i));
     expect(useInventoryStore.getState().categories).toContain('Integration Category');
   });
 
   it('allows adding an inventory item via AddItemModal', () => {
     render(<InventoryManagementTable />);
-    
+
     // Open modal
     fireEvent.click(screen.getByText(/Add Item/i));
 
@@ -51,7 +74,7 @@ describe('Inventory Management Flow', () => {
 
   it('allows filtering inventory items by category', () => {
     render(<InventoryManagementTable />);
-    
+
     // Manually add items directly to store for filtering test
     useInventoryStore.getState().addInventoryItem({
       id: '1',
@@ -83,4 +106,4 @@ describe('Inventory Management Flow', () => {
     expect(filtered).toHaveLength(1);
     expect(filtered[0].name).toBe('Item One');
   });
-}); 
+});

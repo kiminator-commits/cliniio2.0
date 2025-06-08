@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
-import { RoomStatusType, RoomStatuses } from '../types';
-import { 
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { RoomStatuses, RoomStatusOption, Notification } from '../models';
+import {
   mdiCheckCircle,
   mdiAccountGroup,
   mdiBroom,
@@ -8,27 +8,19 @@ import {
   mdiPackageVariant,
   mdiShieldAlert,
   mdiWrench,
-  mdiOfficeBuilding
+  mdiOfficeBuilding,
 } from '@mdi/js';
 
 interface EnvironmentalCleanContextType {
-  scannedRoom: string | null;
-  showStatusModal: boolean;
-  setScannedRoom: (room: string | null) => void;
-  setShowStatusModal: (show: boolean) => void;
-  showNotification: (message: string) => void;
-  closeNotification: () => void;
-  notification: string | null;
   roomStatuses: RoomStatuses;
-  statusOptions: Array<{
-    id: RoomStatusType;
-    label: string;
-    color: string;
-    icon: string;
-  }>;
-  handleUpdateRoomStatus: (roomName: string) => void;
-  handleStartWorkflow: (roomName: string) => void;
-  updateRoomStatus: (roomName: string, newStatus: RoomStatusType) => void;
+  statusOptions: RoomStatusOption[];
+  handleUpdateRoomStatus: (roomId: string, status: string) => void;
+  handleStartWorkflow: () => void;
+  notification: Notification;
+  closeNotification: () => void;
+  showNotification: (message: string, type: string) => void;
+  setScannedRoom: (room: string) => void;
+  setShowStatusModal: (show: boolean) => void;
 }
 
 const defaultRoomStatuses: RoomStatuses = {
@@ -39,7 +31,7 @@ const defaultRoomStatuses: RoomStatuses = {
   lowInventory: ['501', '502'],
   theft: ['601'],
   outOfOrder: ['701', '702'],
-  publicAreas: ['Lobby', 'Cafeteria', 'Waiting Room']
+  publicAreas: ['Lobby', 'Cafeteria', 'Waiting Room'],
 };
 
 const defaultStatusOptions = [
@@ -47,128 +39,91 @@ const defaultStatusOptions = [
     id: 'available' as RoomStatusType,
     label: 'Available',
     color: '#4ECDC4',
-    icon: mdiCheckCircle
+    icon: mdiCheckCircle,
   },
   {
     id: 'occupied' as RoomStatusType,
     label: 'Occupied',
     color: '#FF6B6B',
-    icon: mdiAccountGroup
+    icon: mdiAccountGroup,
   },
   {
     id: 'dirty' as RoomStatusType,
     label: 'Dirty',
     color: '#FFD93D',
-    icon: mdiBroom
+    icon: mdiBroom,
   },
   {
     id: 'biohazard' as RoomStatusType,
     label: 'Biohazard',
     color: '#FF0000',
-    icon: mdiBiohazard
+    icon: mdiBiohazard,
   },
   {
     id: 'lowInventory' as RoomStatusType,
     label: 'Low Inventory',
     color: '#FFA500',
-    icon: mdiPackageVariant
+    icon: mdiPackageVariant,
   },
   {
     id: 'theft' as RoomStatusType,
     label: 'Theft',
     color: '#800000',
-    icon: mdiShieldAlert
+    icon: mdiShieldAlert,
   },
   {
     id: 'outOfOrder' as RoomStatusType,
     label: 'Out of Order',
     color: '#808080',
-    icon: mdiWrench
+    icon: mdiWrench,
   },
   {
     id: 'publicAreas' as RoomStatusType,
     label: 'Public Areas',
     color: '#4169E1',
-    icon: mdiOfficeBuilding
-  }
+    icon: mdiOfficeBuilding,
+  },
 ];
 
-const EnvironmentalCleanContext = createContext<EnvironmentalCleanContextType>({
-  scannedRoom: null,
-  showStatusModal: false,
-  setScannedRoom: () => {},
-  setShowStatusModal: () => {},
-  showNotification: () => {},
-  closeNotification: () => {},
-  notification: null,
-  roomStatuses: defaultRoomStatuses,
-  statusOptions: defaultStatusOptions,
-  handleUpdateRoomStatus: () => {},
-  handleStartWorkflow: () => {},
-  updateRoomStatus: () => {}
-});
+const EnvironmentalCleanContext = createContext<EnvironmentalCleanContextType | undefined>(
+  undefined
+);
 
-export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [scannedRoom, setScannedRoom] = useState<string | null>(null);
-  const [showStatusModal, setShowStatusModal] = useState(false);
-  const [notification, setNotification] = useState<string | null>(null);
+export const EnvironmentalCleanProvider = ({ children }: { children: ReactNode }) => {
   const [roomStatuses, setRoomStatuses] = useState<RoomStatuses>(defaultRoomStatuses);
+  const [statusOptions] = useState<RoomStatusOption[]>(defaultStatusOptions);
+  const [notification, setNotification] = useState<Notification>({
+    show: false,
+    message: '',
+    type: 'info',
+  });
 
-  const showNotification = (message: string) => {
-    setNotification(message);
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+  const handleUpdateRoomStatus = (roomId: string, status: string) => {
+    setRoomStatuses(prev => ({ ...prev, [roomId]: status }));
   };
+
+  const handleStartWorkflow = () => {};
 
   const closeNotification = () => {
-    setNotification(null);
+    setNotification({ ...notification, show: false });
   };
 
-  const handleUpdateRoomStatus = (roomName: string) => {
-    setScannedRoom(roomName);
-    setShowStatusModal(true);
-  };
-
-  const handleStartWorkflow = (roomName: string) => {
-    console.log('Starting workflow for room:', roomName);
-  };
-
-  const updateRoomStatus = (roomName: string, newStatus: RoomStatusType) => {
-    setRoomStatuses(prevStatuses => {
-      const newStatuses = { ...prevStatuses };
-      
-      // Remove room from all statuses
-      Object.keys(newStatuses).forEach(status => {
-        newStatuses[status as RoomStatusType] = newStatuses[status as RoomStatusType].filter(
-          room => room !== roomName
-        );
-      });
-      
-      // Add room to new status
-      newStatuses[newStatus] = [...newStatuses[newStatus], roomName];
-      
-      return newStatuses;
-    });
-    
-    showNotification(`Room ${roomName} status updated to ${newStatus}`);
+  const showNotification = (message: string, type: string) => {
+    setNotification({ show: true, message, type });
   };
 
   return (
     <EnvironmentalCleanContext.Provider
       value={{
-        scannedRoom,
-        showStatusModal,
-        setScannedRoom,
-        setShowStatusModal,
-        showNotification,
-        closeNotification,
-        notification,
         roomStatuses,
-        statusOptions: defaultStatusOptions,
+        statusOptions,
         handleUpdateRoomStatus,
         handleStartWorkflow,
-        updateRoomStatus
+        notification,
+        closeNotification,
+        showNotification,
+        setScannedRoom: () => {},
+        setShowStatusModal: () => {},
       }}
     >
       {children}
@@ -176,4 +131,10 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
   );
 };
 
-export const useEnvironmentalClean = () => useContext(EnvironmentalCleanContext); 
+export const useEnvironmentalClean = () => {
+  const context = useContext(EnvironmentalCleanContext);
+  if (context === undefined) {
+    throw new Error('useEnvironmentalClean must be used within an EnvironmentalCleanProvider');
+  }
+  return context;
+};

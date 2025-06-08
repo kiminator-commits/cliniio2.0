@@ -1,11 +1,13 @@
-import React from "react";
-import { HOME_UI_CONSTANTS } from "../../constants/homeUiConstants";
+import React from 'react';
+import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 
 type EnvironmentalCleaningHeaderProps = {
   isDrawerOpen: boolean;
 };
 
-const EnvironmentalCleaningHeader: React.FC<EnvironmentalCleaningHeaderProps> = ({ isDrawerOpen }) => {
+const EnvironmentalCleaningHeader: React.FC<EnvironmentalCleaningHeaderProps> = ({
+  isDrawerOpen,
+}) => {
   const marginLeft = isDrawerOpen
     ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN
     : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED;
@@ -22,4 +24,4 @@ const EnvironmentalCleaningHeader: React.FC<EnvironmentalCleaningHeaderProps> = 
   );
 };
 
-export default EnvironmentalCleaningHeader; 
+export default EnvironmentalCleaningHeader;

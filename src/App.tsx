@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Sterilization from './pages/Sterilization';
 import Inventory from './pages/Inventory';
-import EnvironmentalClean from './pages/EnvironmentalClean';
+import EnvironmentalClean from './pages/EnvironmentalClean/EnvironmentalCleanPage';
 import KnowledgeHub from './pages/KnowledgeHub';
 import Settings from './pages/Settings';
 import { UIProvider } from './contexts/UIContext';

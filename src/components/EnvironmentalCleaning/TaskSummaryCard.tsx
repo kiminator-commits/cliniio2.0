@@ -1,5 +1,5 @@
-import React from "react";
-import { TaskSummary } from "../../types/EnvironmentalCleaningTypes";
+import React from 'react';
+import { TaskSummary } from '../../types/EnvironmentalCleaningTypes';
 
 type TaskSummaryCardProps = {
   tasks: TaskSummary;
@@ -18,4 +18,4 @@ const TaskSummaryCard: React.FC<TaskSummaryCardProps> = ({ tasks }) => {
   );
 };
 
-export default TaskSummaryCard; 
+export default TaskSummaryCard;

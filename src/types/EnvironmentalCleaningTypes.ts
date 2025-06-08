@@ -14,4 +14,4 @@ export type TaskSummary = {
   totalTasks: number;
   completedTasks: number;
   pendingTasks: number;
-}; 
+};

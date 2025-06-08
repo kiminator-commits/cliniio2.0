@@ -3,9 +3,23 @@ import { render, screen } from '@testing-library/react';
 import AddItemModal from '../AddItemModal';
 import { useInventoryStore } from '../../../store/useInventoryStore';
 
+interface InventoryItem {
+  id: string;
+  name: string;
+  category: string;
+  quantity: number;
+  location: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface InventoryStoreState {
+  setState: (state: { inventoryItems: InventoryItem[]; categories: string[] }) => void;
+}
+
 describe('AddItemModal', () => {
   beforeEach(() => {
-    const { setState } = useInventoryStore.getState() as any;
+    const { setState } = useInventoryStore.getState() as InventoryStoreState;
     setState({
       inventoryItems: [],
       categories: ['Category A', 'Category B'],
@@ -22,4 +36,4 @@ describe('AddItemModal', () => {
     expect(screen.getByLabelText(/Quantity/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Location/i)).toBeInTheDocument();
   });
-}); 
+});

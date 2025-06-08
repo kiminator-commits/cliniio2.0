@@ -115,7 +115,10 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
         <table className="min-w-full divide-y divide-gray-200" role="table">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 <input
                   type="checkbox"
                   checked={
@@ -162,18 +165,16 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
                 onSort={handleSort}
                 scope="col"
               />
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 Actions
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            <List
-              height={400}
-              itemCount={paginatedItems.length}
-              itemSize={50}
-              width="100%"
-            >
+            <List height={400} itemCount={paginatedItems.length} itemSize={50} width="100%">
               {({ index, style }) => {
                 const item = paginatedItems[index];
                 return (

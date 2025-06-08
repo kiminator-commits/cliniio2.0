@@ -1,5 +1,5 @@
-import React from "react";
-import { ScheduleSummary } from "../../types/EnvironmentalCleaningTypes";
+import React from 'react';
+import { ScheduleSummary } from '../../types/EnvironmentalCleaningTypes';
 
 type ScheduleSummaryCardProps = {
   schedule: ScheduleSummary;
@@ -18,4 +18,4 @@ const ScheduleSummaryCard: React.FC<ScheduleSummaryCardProps> = ({ schedule }) =
   );
 };
 
-export default ScheduleSummaryCard; 
+export default ScheduleSummaryCard;

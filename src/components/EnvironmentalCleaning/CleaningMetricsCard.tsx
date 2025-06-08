@@ -1,5 +1,5 @@
-import React from "react";
-import { CleaningMetrics } from "../../types/EnvironmentalCleaningTypes";
+import React from 'react';
+import { CleaningMetrics } from '../../types/EnvironmentalCleaningTypes';
 
 type CleaningMetricsCardProps = {
   metrics: CleaningMetrics;
@@ -18,4 +18,4 @@ const CleaningMetricsCard: React.FC<CleaningMetricsCardProps> = ({ metrics }) =>
   );
 };
 
-export default CleaningMetricsCard; 
+export default CleaningMetricsCard;
