@@ -3,7 +3,7 @@ import { PageLayout } from '../../components/Layout/PageLayout';
 import ItemScannerCard from '../../components/Inventory/ItemScannerCard';
 import InventoryInsightsCard from '../../components/Inventory/InventoryInsightsCard';
 import CategoriesCard from '../../components/Inventory/CategoriesCard';
-import { TabType, InventoryItem } from './models';
+import { TabType } from './types';
 import { Button, Modal } from 'react-bootstrap';
 import Icon from '@mdi/react';
 import {
@@ -135,14 +135,14 @@ interface OfficeHardwareItem extends BaseInventoryItem {
   warranty: string;
 }
 
-type InventoryItem = ToolItem | SupplyItem | EquipmentItem | OfficeHardwareItem;
+type LocalInventoryItem = ToolItem | SupplyItem | EquipmentItem | OfficeHardwareItem;
 
 const Inventory: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tools');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showTrackModal, setShowTrackModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
+  const [editingItem, setEditingItem] = useState<LocalInventoryItem | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
@@ -170,7 +170,7 @@ const Inventory: React.FC = () => {
   const handleCloseTrackModal = () => setShowTrackModal(false);
   const handleShowTrackModal = () => setShowTrackModal(true);
 
-  const handleEditClick = (item: InventoryItem) => {
+  const handleEditClick = (item: LocalInventoryItem) => {
     setEditingItem(item);
     setShowEditModal(true);
   };
@@ -250,7 +250,7 @@ const Inventory: React.FC = () => {
   const handleCloseScanModal = () => setShowScanModal(false);
   const handleShowScanModal = () => setShowScanModal(true);
 
-  const getItemId = (item: InventoryItem): string => {
+  const getItemId = (item: LocalInventoryItem): string => {
     if ('toolId' in item) return item.toolId;
     if ('supplyId' in item) return item.supplyId;
     if ('equipmentId' in item) return item.equipmentId;

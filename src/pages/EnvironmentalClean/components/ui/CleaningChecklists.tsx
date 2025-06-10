@@ -1,10 +1,13 @@
 import React from 'react';
+import Icon from '@mdi/react';
+import { mdiClipboardList } from '@mdi/js';
 
 const CleaningChecklists: React.FC = () => {
   return (
     <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg border-l-4 border-[#4ECDC4] mb-4">
       <div className="flex space-x-4 mb-6 border-b">
-        <button className="pb-2 px-1 font-medium text-[#4ECDC4] border-b-2 border-[#4ECDC4]">
+        <button className="pb-2 px-1 font-medium text-[#4ECDC4] border-b-2 border-[#4ECDC4] flex items-center">
+          <Icon path={mdiClipboardList} size={1.1} color="#4ECDC4" className="mr-2" />
           Cleaning Checklists
         </button>
         <button className="pb-2 px-1 font-medium text-gray-500 hover:text-gray-700">

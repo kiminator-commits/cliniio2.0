@@ -21,14 +21,19 @@ const RecentlyCleaned: React.FC = () => {
         Recently Cleaned Rooms
       </h2>
       <ul>
-        {displayData.map((item, index) => (
-          <li key={index} className="flex justify-between mb-2">
-            <span>{item.room}</span>
-            <span className="text-sm text-gray-500">
-              {new Date(item.cleanedAt).toLocaleString()} by {item.cleanedBy}
-            </span>
-          </li>
-        ))}
+        {displayData.map((item, index) => {
+          console.log('Item data:', item);
+          return (
+            <li key={index} className="flex justify-between mb-2">
+              <span
+                className="cursor-pointer"
+                title={`Cleaned: ${new Date(item.cleanedAt).toLocaleString()} by ${item.cleanedBy}`}
+              >
+                {item.room}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
