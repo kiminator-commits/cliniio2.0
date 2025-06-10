@@ -372,14 +372,30 @@ const RoomStatusSummary: React.FC = () => {
           <div className="p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-[#5b5b5b] flex items-center">
-                {activeDrawer === 'Dirty' && <Icon path={mdiBroom} size={1.1} color="#dc2626" className="mr-2" />}
-                {activeDrawer === 'InProgress' && <Icon path={mdiProgressClock} size={1.1} color="#ca8a04" className="mr-2" />}
-                {activeDrawer === 'Available' && <Icon path={mdiCheckCircle} size={1.1} color="#16a34a" className="mr-2" />}
-                {activeDrawer === 'PublicAreas' && <Icon path={mdiOfficeBuilding} size={1.1} color="#047857" className="mr-2" />}
-                {activeDrawer === 'LowInventory' && <Icon path={mdiPackageVariant} size={1.1} color="#9333ea" className="mr-2" />}
-                {activeDrawer === 'Theft' && <Icon path={mdiShieldAlert} size={1.1} color="#4b5563" className="mr-2" />}
-                {activeDrawer === 'OutOfService' && <Icon path={mdiWrench} size={1.1} color="#b45309" className="mr-2" />}
-                {activeDrawer === 'Biohazard' && <Icon path={mdiBiohazard} size={1.1} color="#dc2626" className="mr-2" />}
+                {activeDrawer === 'Dirty' && (
+                  <Icon path={mdiBroom} size={1.1} color="#dc2626" className="mr-2" />
+                )}
+                {activeDrawer === 'InProgress' && (
+                  <Icon path={mdiProgressClock} size={1.1} color="#ca8a04" className="mr-2" />
+                )}
+                {activeDrawer === 'Available' && (
+                  <Icon path={mdiCheckCircle} size={1.1} color="#16a34a" className="mr-2" />
+                )}
+                {activeDrawer === 'PublicAreas' && (
+                  <Icon path={mdiOfficeBuilding} size={1.1} color="#047857" className="mr-2" />
+                )}
+                {activeDrawer === 'LowInventory' && (
+                  <Icon path={mdiPackageVariant} size={1.1} color="#9333ea" className="mr-2" />
+                )}
+                {activeDrawer === 'Theft' && (
+                  <Icon path={mdiShieldAlert} size={1.1} color="#4b5563" className="mr-2" />
+                )}
+                {activeDrawer === 'OutOfService' && (
+                  <Icon path={mdiWrench} size={1.1} color="#b45309" className="mr-2" />
+                )}
+                {activeDrawer === 'Biohazard' && (
+                  <Icon path={mdiBiohazard} size={1.1} color="#dc2626" className="mr-2" />
+                )}
                 {activeDrawer} Rooms
               </h3>
               <button

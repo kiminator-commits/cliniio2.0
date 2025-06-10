@@ -48,9 +48,11 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
             )}
             <div
               className="mb-2 flex items-center justify-between"
-              style={{ 
-                marginLeft: drawerOpen ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED, 
-                marginTop: HOME_UI_CONSTANTS.NAV_BAR_MARGIN_TOP 
+              style={{
+                marginLeft: drawerOpen
+                  ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN
+                  : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED,
+                marginTop: HOME_UI_CONSTANTS.NAV_BAR_MARGIN_TOP,
               }}
             >
               <div>
@@ -59,9 +61,13 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
               </div>
               {headerAction && <div className="ml-4">{headerAction}</div>}
             </div>
-            <div style={{ 
-              marginLeft: drawerOpen ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED 
-            }}>
+            <div
+              style={{
+                marginLeft: drawerOpen
+                  ? HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_OPEN
+                  : HOME_UI_CONSTANTS.NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED,
+              }}
+            >
               {children}
             </div>
           </div>

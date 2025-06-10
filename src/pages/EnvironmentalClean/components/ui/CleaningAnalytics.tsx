@@ -4,7 +4,8 @@ import { mdiChartBar } from '@mdi/js';
 import { useEnvironmentalCleanContext } from '../../../../contexts/EnvironmentalCleanContext';
 
 const CleaningAnalytics: React.FC = () => {
-  const { getDailyCleanedRoomsCount, getDailyDirtyRoomsCount, getEfficiencyMetrics } = useEnvironmentalCleanContext();
+  const { getDailyCleanedRoomsCount, getDailyDirtyRoomsCount, getEfficiencyMetrics } =
+    useEnvironmentalCleanContext();
   const dailyCleanedCount = getDailyCleanedRoomsCount();
   const dailyDirtyCount = getDailyDirtyRoomsCount();
   const { qualityScore } = getEfficiencyMetrics();

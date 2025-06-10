@@ -27,7 +27,7 @@ const EnvironmentalCleanPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4">
+              <div>
                 <CleaningChecklists />
               </div>
             </div>

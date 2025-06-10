@@ -1,12 +1,12 @@
 export const HOME_UI_CONSTANTS = {
   // Layout
-  NAV_BAR_MARGIN_TOP: 24,
+  NAV_BAR_MARGIN_TOP: 4,
   NAV_BAR_MARGIN_LEFT_DRAWER_OPEN: 24,
   NAV_BAR_MARGIN_LEFT_DRAWER_CLOSED: 72,
 
   // Menu Button
   MENU_BUTTON: {
-    TOP: 24,
+    TOP: 4,
     LEFT: 12,
     Z_INDEX: 50,
     BACKGROUND: '#4ECDC4',

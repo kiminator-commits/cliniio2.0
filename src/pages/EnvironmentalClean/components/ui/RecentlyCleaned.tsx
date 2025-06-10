@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Icon from '@mdi/react';
-import { mdiClockOutline, mdiAccount, mdiCheckCircle } from '@mdi/js';
+import { mdiClockOutline, mdiAccount, mdiCheckCircle, mdiArrowUp } from '@mdi/js';
 import { useEnvironmentalCleanContext } from '../../../../contexts/EnvironmentalCleanContext';
 
 const RecentlyCleaned: React.FC = () => {
   const { cleanedRooms } = useEnvironmentalCleanContext();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToTop = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  };
 
   const sampleData = [
     { room: 'Room 101', cleanedAt: '2025-06-07T10:30:00Z', cleanedBy: 'Alice' },
@@ -19,18 +26,22 @@ const RecentlyCleaned: React.FC = () => {
   const displayData = cleanedRooms.length > 0 ? cleanedRooms : sampleData;
 
   return (
-    <div className="bg-white p-3 md:p-4 rounded-xl shadow-lg border-l-4 border-[#4ECDC4] mb-6">
-      <div className="sticky top-0 bg-white pb-2">
-        <h2 className="text-lg font-semibold mb-2 text-[#5b5b5b] flex items-center">
+    <div className="bg-white p-3 md:p-4 rounded-xl shadow-lg border-l-4 border-[#4ECDC4] mb-6 relative">
+      <div className="sticky top-0 bg-white pb-1">
+        <h2 className="text-lg font-semibold mb-1 text-[#5b5b5b] flex items-center">
           <Icon path={mdiClockOutline} size={1.1} color="#4ECDC4" className="mr-2" />
           Recently Cleaned Rooms
         </h2>
       </div>
-      <div className="h-[144px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div
+        className="overflow-y-auto scrollbar-hide"
+        style={{ maxHeight: '120px' }}
+        ref={scrollContainerRef}
+      >
         {displayData.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No rooms cleaned recently</p>
+          <p className="text-gray-500 text-sm py-1">No rooms cleaned recently</p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1">
             {displayData.map((item, index) => (
               <div
                 key={index}
@@ -38,9 +49,7 @@ const RecentlyCleaned: React.FC = () => {
               >
                 <div className="flex items-center space-x-2">
                   <div className="relative">
-                    <span 
-                      className="font-medium text-gray-700 cursor-help hover:text-[#4ECDC4] transition-colors group"
-                    >
+                    <span className="font-medium text-gray-700 cursor-help hover:text-[#4ECDC4] transition-colors group">
                       {item.room}
                       <div className="hidden group-hover:block absolute left-0 top-full mt-1 bg-white rounded-lg shadow-xl border border-gray-200 p-3 w-64 z-50">
                         <div className="flex items-center space-x-2 mb-2">
@@ -63,6 +72,13 @@ const RecentlyCleaned: React.FC = () => {
           </div>
         )}
       </div>
+      <button
+        onClick={scrollToTop}
+        className="absolute bottom-2 right-2 p-1.5 bg-[#4ECDC4] text-white rounded-full shadow-md hover:bg-[#3dbdb5] transition-colors"
+        title="Scroll to most recent"
+      >
+        <Icon path={mdiArrowUp} size={0.8} className="opacity-70" />
+      </button>
     </div>
   );
 };

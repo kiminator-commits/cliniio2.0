@@ -41,14 +41,14 @@ interface EfficiencyMetrics {
     [staffId: string]: {
       roomsCleaned: number;
       averageTime: number;
-    }
+    };
   };
   roomUtilization: {
     [roomId: string]: {
       availableTime: number;
       cleaningTime: number;
       downTime: number;
-    }
+    };
   };
   qualityScore: number;
 }
@@ -82,7 +82,7 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
   const getDailyCleanedRoomsCount = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     return cleanedRooms.filter(entry => {
       const cleanedDate = new Date(entry.cleanedAt);
       cleanedDate.setHours(0, 0, 0, 0);
@@ -93,13 +93,17 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
   const getDailyDirtyRoomsCount = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     return roomTransitions.filter(transition => {
       const transitionDate = new Date(transition.timestamp);
       transitionDate.setHours(0, 0, 0, 0);
-      return transitionDate.getTime() === today.getTime() &&
-             transition.fromStatus === 'Available' &&
-             ['Dirty', 'Low Inventory', 'Theft', 'Biohazard', 'Out of Service'].includes(transition.toStatus);
+      return (
+        transitionDate.getTime() === today.getTime() &&
+        transition.fromStatus === 'Available' &&
+        ['Dirty', 'Low Inventory', 'Theft', 'Biohazard', 'Out of Service'].includes(
+          transition.toStatus
+        )
+      );
     }).length;
   };
 
@@ -112,9 +116,8 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
       t => t.fromStatus === 'In Progress' && t.toStatus === 'Available'
     );
     const totalCleaningTime = cleaningTransitions.reduce((sum, t) => sum + (t.duration || 0), 0);
-    const averageCleaningTime = cleaningTransitions.length > 0 
-      ? totalCleaningTime / cleaningTransitions.length 
-      : 0;
+    const averageCleaningTime =
+      cleaningTransitions.length > 0 ? totalCleaningTime / cleaningTransitions.length : 0;
 
     // Calculate staff efficiency
     const staffEfficiency: { [key: string]: { roomsCleaned: number; averageTime: number } } = {};
@@ -129,19 +132,22 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
     });
 
     // Calculate room utilization
-    const roomUtilization: { [key: string]: { availableTime: number; cleaningTime: number; downTime: number } } = {};
+    const roomUtilization: {
+      [key: string]: { availableTime: number; cleaningTime: number; downTime: number };
+    } = {};
     rooms.forEach(room => {
       const roomTransitionsForRoom = roomTransitions.filter(t => t.roomId === room.id);
       roomUtilization[room.id] = {
         availableTime: 0,
         cleaningTime: 0,
-        downTime: 0
+        downTime: 0,
       };
       // Basic calculation - can be enhanced with more sophisticated logic
       roomTransitionsForRoom.forEach(t => {
         if (t.duration) {
           if (t.toStatus === 'Available') roomUtilization[room.id].availableTime += t.duration;
-          else if (t.toStatus === 'In Progress') roomUtilization[room.id].cleaningTime += t.duration;
+          else if (t.toStatus === 'In Progress')
+            roomUtilization[room.id].cleaningTime += t.duration;
           else roomUtilization[room.id].downTime += t.duration;
         }
       });
@@ -154,7 +160,7 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
       averageCleaningTime,
       staffEfficiency,
       roomUtilization,
-      qualityScore
+      qualityScore,
     };
   };
 
@@ -165,14 +171,15 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
       return transitionDate > new Date(Date.now() - 24 * 60 * 60 * 1000); // Last 24 hours
     });
 
-    const issues = recentTransitions.filter(t => 
-      t.fromStatus === 'Available' && 
-      ['Dirty', 'Low Inventory', 'Theft', 'Biohazard', 'Out of Service'].includes(t.toStatus)
+    const issues = recentTransitions.filter(
+      t =>
+        t.fromStatus === 'Available' &&
+        ['Dirty', 'Low Inventory', 'Theft', 'Biohazard', 'Out of Service'].includes(t.toStatus)
     ).length;
 
     const totalTransitions = recentTransitions.length;
     if (totalTransitions === 0) return 100;
-    
+
     return Math.max(0, Math.min(100, 100 - (issues / totalTransitions) * 100));
   };
 
@@ -194,10 +201,10 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
           fromStatus: room.status,
           toStatus: newStatus,
           timestamp: new Date(),
-          duration: 0 // Will be calculated when status changes again
+          duration: 0, // Will be calculated when status changes again
         };
         setRoomTransitions(prev => [...prev, transition]);
-        return prevRooms.map(r => r.id === roomId ? { ...r, status: newStatus } : r);
+        return prevRooms.map(r => (r.id === roomId ? { ...r, status: newStatus } : r));
       }
       return prevRooms;
     });
@@ -212,14 +219,14 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
 
   return (
     <EnvironmentalCleanContext.Provider
-      value={{ 
-        cleanedRooms, 
-        logRoomCleaned, 
-        rooms, 
-        updateRoomStatus, 
+      value={{
+        cleanedRooms,
+        logRoomCleaned,
+        rooms,
+        updateRoomStatus,
         getDailyCleanedRoomsCount,
         getDailyDirtyRoomsCount,
-        getEfficiencyMetrics
+        getEfficiencyMetrics,
       }}
     >
       {children}
