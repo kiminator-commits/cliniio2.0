@@ -371,7 +371,17 @@ const RoomStatusSummary: React.FC = () => {
         <div className="mt-6 bg-white shadow-lg border-t border-gray-200 rounded-b-lg">
           <div className="p-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">{activeDrawer} Rooms</h3>
+              <h3 className="text-lg font-semibold text-[#5b5b5b] flex items-center">
+                {activeDrawer === 'Dirty' && <Icon path={mdiBroom} size={1.1} color="#dc2626" className="mr-2" />}
+                {activeDrawer === 'InProgress' && <Icon path={mdiProgressClock} size={1.1} color="#ca8a04" className="mr-2" />}
+                {activeDrawer === 'Available' && <Icon path={mdiCheckCircle} size={1.1} color="#16a34a" className="mr-2" />}
+                {activeDrawer === 'PublicAreas' && <Icon path={mdiOfficeBuilding} size={1.1} color="#047857" className="mr-2" />}
+                {activeDrawer === 'LowInventory' && <Icon path={mdiPackageVariant} size={1.1} color="#9333ea" className="mr-2" />}
+                {activeDrawer === 'Theft' && <Icon path={mdiShieldAlert} size={1.1} color="#4b5563" className="mr-2" />}
+                {activeDrawer === 'OutOfService' && <Icon path={mdiWrench} size={1.1} color="#b45309" className="mr-2" />}
+                {activeDrawer === 'Biohazard' && <Icon path={mdiBiohazard} size={1.1} color="#dc2626" className="mr-2" />}
+                {activeDrawer} Rooms
+              </h3>
               <button
                 onClick={() => setActiveDrawer(null)}
                 className="text-gray-500 hover:text-gray-700"
@@ -393,7 +403,7 @@ const RoomStatusSummary: React.FC = () => {
                         setSelectedRoom(room.id);
                         setIsStatusModalOpen(true);
                       }}
-                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      className="px-3 py-1 bg-[#4ECDC4] text-white rounded hover:bg-[#3db8b0]"
                     >
                       Update Status
                     </button>
