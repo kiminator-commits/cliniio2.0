@@ -15,6 +15,7 @@ import {
   mdiArrowLeft,
 } from '@mdi/js';
 import { Modal, Button } from 'react-bootstrap';
+import { BaseModal } from '@/components/BaseModal';
 
 interface Category {
   id: string;
@@ -743,178 +744,16 @@ const CleaningChecklists: React.FC = () => {
       )}
 
       {/* Modal */}
-      <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
-        <Modal.Header closeButton className="bg-gray-50 border-b border-gray-200">
-          <Modal.Title className="text-xl font-semibold text-gray-800">
-            {selectedCategory?.title || 'Select Checklist'}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="p-4">
-          {!selectedChecklist ? (
-            <div className="space-y-3">
-              {selectedCategory &&
-                getChecklistsForCategory(selectedCategory.id).map(checklist => (
-                  <button
-                    key={checklist.id}
-                    onClick={() => handleChecklistSelect(checklist)}
-                    className="w-full p-3 text-left bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
-                  >
-                    <h3 className="text-lg font-medium text-gray-800 mb-1">{checklist.title}</h3>
-                    <p className="text-sm text-gray-600">{checklist.description}</p>
-                  </button>
-                ))}
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xl font-semibold text-gray-800">{selectedChecklist.title}</h2>
-                <button
-                  onClick={() => setSelectedChecklist(null)}
-                  className="text-sm text-gray-600 hover:text-gray-800 flex items-center"
-                >
-                  <Icon path={mdiArrowLeft} size={1} className="mr-1" />
-                  Back to Lists
-                </button>
-              </div>
-              <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
-                {selectedChecklist.items.map(item => renderChecklistItem(item))}
-              </div>
-
-              {/* Stolen Items Section */}
-              <div className="mt-4 border-t border-gray-200 pt-3">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-medium text-gray-800">Reported Stolen Items</h3>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setStolenItems([])}
-                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
-                    >
-                      Clear All
-                    </button>
-                    <button
-                      onClick={handleAddStolenItem}
-                      className="px-3 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 text-sm"
-                    >
-                      + Add Stolen Item
-                    </button>
-                  </div>
-                </div>
-                {stolenItems.map((item, index) => (
-                  <div key={index} className="flex gap-3 mb-2">
-                    <input
-                      type="text"
-                      placeholder="Item name"
-                      value={item.item}
-                      onChange={e => handleUpdateStolenItem(index, 'item', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Qty"
-                      value={item.quantity}
-                      onChange={e =>
-                        handleUpdateStolenItem(index, 'quantity', parseInt(e.target.value))
-                      }
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Notes"
-                      value={item.notes}
-                      onChange={e => handleUpdateStolenItem(index, 'notes', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* PRN Items Section */}
-              <div className="mt-4 border-t border-gray-200 pt-3">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-medium text-gray-800">PRN Cleaning Items</h3>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setPrnItems([])}
-                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
-                    >
-                      Clear All
-                    </button>
-                    <button
-                      onClick={handleAddPrnItem}
-                      className="px-3 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 text-sm"
-                    >
-                      + Add PRN Item
-                    </button>
-                  </div>
-                </div>
-                {prnItems.map((item, index) => (
-                  <div key={index} className="flex gap-3 mb-2">
-                    <input
-                      type="text"
-                      placeholder="Item name"
-                      value={item.item}
-                      onChange={e => handleUpdatePrnItem(index, 'item', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Qty"
-                      value={item.quantity}
-                      onChange={e =>
-                        handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))
-                      }
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Reason"
-                      value={item.reason}
-                      onChange={e => handleUpdatePrnItem(index, 'reason', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Notes Section */}
-              <div className="mt-4 border-t border-gray-200 pt-3">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-medium text-gray-800">Notes</h3>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setNotes('')}
-                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
-                    >
-                      Clear Notes
-                    </button>
-                    <button
-                      onClick={isRecording ? handleStopRecording : handleStartRecording}
-                      className={`px-3 py-1 rounded-md text-sm ${
-                        isRecording
-                          ? 'bg-red-50 text-red-600 hover:bg-red-100'
-                          : 'bg-green-50 text-green-600 hover:bg-green-100'
-                      }`}
-                    >
-                      {isRecording ? 'Stop Recording' : 'Start Recording'}
-                    </button>
-                  </div>
-                </div>
-                <textarea
-                  value={notes}
-                  onChange={e => setNotes(e.target.value)}
-                  placeholder="Add any additional notes here..."
-                  className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer className="bg-gray-50 border-t border-gray-200 px-4 py-3">
+      <BaseModal
+        show={showModal}
+        onClose={handleCloseModal}
+        title={selectedCategory?.title || 'Select Checklist'}
+        footer={
           <div className="flex justify-between w-full">
             <Button
               variant="success"
               onClick={handleMarkComplete}
-              className="bg-[#4ECDC4] hover:bg-[#3db8b0] text-white font-medium py-2 px-4 rounded-md"
+              className="bg-brand-primary hover:bg-brand-primary text-white font-medium py-2 px-4 rounded-md"
             >
               Mark Complete
             </Button>
@@ -926,46 +765,193 @@ const CleaningChecklists: React.FC = () => {
               Close
             </Button>
           </div>
-        </Modal.Footer>
-      </Modal>
+        }
+      >
+        {!selectedChecklist ? (
+          <div className="space-y-3">
+            {selectedCategory &&
+              getChecklistsForCategory(selectedCategory.id).map(checklist => (
+                <button
+                  key={checklist.id}
+                  onClick={() => handleChecklistSelect(checklist)}
+                  className="w-full p-3 text-left bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  <h3 className="text-lg font-medium text-gray-800 mb-1">{checklist.title}</h3>
+                  <p className="text-sm text-gray-600">{checklist.description}</p>
+                </button>
+              ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-xl font-semibold text-gray-800">{selectedChecklist.title}</h2>
+              <button
+                onClick={() => setSelectedChecklist(null)}
+                className="text-sm text-gray-600 hover:text-gray-800 flex items-center"
+              >
+                <Icon path={mdiArrowLeft} size={1} className="mr-1" />
+                Back to Lists
+              </button>
+            </div>
+            <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+              {selectedChecklist.items.map(item => renderChecklistItem(item))}
+            </div>
 
-      {/* SDS Modal */}
-      <Modal show={!!selectedSDS} onHide={() => setSelectedSDS(null)} centered size="lg">
-        <Modal.Header closeButton className="bg-gray-50 border-b border-gray-200">
-          <Modal.Title className="text-xl font-semibold text-gray-800">
-            Safety Data Sheet
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="p-6">
-          {selectedSDS && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-lg border border-gray-200 p-4">
-                <h3 className="text-lg font-medium text-gray-800 mb-2">{selectedSDS.name}</h3>
-                <p className="text-sm text-gray-600 mb-4">{selectedSDS.name}</p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedSDS.sections.map(section => (
-                    <span
-                      key={section}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
-                      {section}
-                    </span>
-                  ))}
+            {/* Stolen Items Section */}
+            <div className="mt-4 border-t border-gray-200 pt-3">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-medium text-gray-800">Reported Stolen Items</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setStolenItems([])}
+                    className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
+                  >
+                    Clear All
+                  </button>
+                  <button
+                    onClick={handleAddStolenItem}
+                    className="px-3 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 text-sm"
+                  >
+                    + Add Stolen Item
+                  </button>
                 </div>
               </div>
+              {stolenItems.map((item, index) => (
+                <div key={index} className="flex gap-3 mb-2">
+                  <input
+                    type="text"
+                    placeholder="Item name"
+                    value={item.item}
+                    onChange={e => handleUpdateStolenItem(index, 'item', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Qty"
+                    value={item.quantity}
+                    onChange={e =>
+                      handleUpdateStolenItem(index, 'quantity', parseInt(e.target.value))
+                    }
+                    className="w-20 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Notes"
+                    value={item.notes}
+                    onChange={e => handleUpdateStolenItem(index, 'notes', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              ))}
             </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer className="bg-gray-50 border-t border-gray-200 px-6 py-4">
-          <Button
-            variant="secondary"
-            onClick={() => setSelectedSDS(null)}
-            className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
-          >
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+
+            {/* PRN Items Section */}
+            <div className="mt-4 border-t border-gray-200 pt-3">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-medium text-gray-800">PRN Cleaning Items</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setPrnItems([])}
+                    className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
+                  >
+                    Clear All
+                  </button>
+                  <button
+                    onClick={handleAddPrnItem}
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 text-sm"
+                  >
+                    + Add PRN Item
+                  </button>
+                </div>
+              </div>
+              {prnItems.map((item, index) => (
+                <div key={index} className="flex gap-3 mb-2">
+                  <input
+                    type="text"
+                    placeholder="Item name"
+                    value={item.item}
+                    onChange={e => handleUpdatePrnItem(index, 'item', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Qty"
+                    value={item.quantity}
+                    onChange={e =>
+                      handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))
+                    }
+                    className="w-20 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Reason"
+                    value={item.reason}
+                    onChange={e => handleUpdatePrnItem(index, 'reason', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Notes Section */}
+            <div className="mt-4 border-t border-gray-200 pt-3">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-medium text-gray-800">Notes</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setNotes('')}
+                    className="px-3 py-1 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 text-sm"
+                  >
+                    Clear Notes
+                  </button>
+                  <button
+                    onClick={isRecording ? handleStopRecording : handleStartRecording}
+                    className={`px-3 py-1 rounded-md text-sm ${
+                      isRecording
+                        ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                        : 'bg-green-50 text-green-600 hover:bg-green-100'
+                    }`}
+                  >
+                    {isRecording ? 'Stop Recording' : 'Start Recording'}
+                  </button>
+                </div>
+              </div>
+              <textarea
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                placeholder="Add any additional notes here..."
+                className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+        )}
+      </BaseModal>
+
+      {/* SDS Modal */}
+      <BaseModal
+        show={!!selectedSDS}
+        onClose={() => setSelectedSDS(null)}
+        title="Safety Data Sheet"
+      >
+        {selectedSDS && (
+          <div className="space-y-4">
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="text-lg font-medium text-gray-800 mb-2">{selectedSDS.name}</h3>
+              <p className="text-sm text-gray-600 mb-4">{selectedSDS.name}</p>
+              <div className="flex flex-wrap gap-2">
+                {selectedSDS.sections.map(section => (
+                  <span
+                    key={section}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                  >
+                    {section}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </BaseModal>
     </div>
   );
 };
