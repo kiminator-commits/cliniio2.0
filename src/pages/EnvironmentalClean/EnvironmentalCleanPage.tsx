@@ -9,32 +9,34 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 
 const EnvironmentalCleanPage: React.FC = () => {
   return (
-    <PageLayout>
-      <EnvironmentalCleanProvider>
-        <div className="p-6 space-y-6">
-          <EnvironmentalCleanHeader />
+    <div className="!min-h-screen !overflow-y-auto">
+      <PageLayout>
+        <EnvironmentalCleanProvider>
+          <div className="p-6 space-y-6">
+            <EnvironmentalCleanHeader />
 
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1">
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex-1">
-                  <RoomStatusSummary />
-                </div>
-                <div className="flex-1">
-                  <CleaningAnalytics />
-                  <div className="mt-4">
-                    <RecentlyCleaned />
+            <div className="flex flex-col lg:flex-row gap-4">
+              <div className="flex-1">
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="flex-1">
+                    <RoomStatusSummary />
+                  </div>
+                  <div className="flex-1">
+                    <CleaningAnalytics />
+                    <div className="mt-4">
+                      <RecentlyCleaned />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <CleaningChecklists />
+                <div>
+                  <CleaningChecklists />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </EnvironmentalCleanProvider>
-    </PageLayout>
+        </EnvironmentalCleanProvider>
+      </PageLayout>
+    </div>
   );
 };
 
