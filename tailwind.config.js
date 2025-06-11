@@ -16,6 +16,9 @@ export default {
         disabled: '#94a3b8',
         teal: '#2dd4bf',
         'teal-hover': '#14b8a6',
+        brand: {
+          primary: '#4ECDC4',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

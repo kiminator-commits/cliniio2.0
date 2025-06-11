@@ -331,7 +331,7 @@ const TasksList: React.FC<TasksListProps> = ({
                 {editingTaskId !== task.id && (
                   <button
                     onClick={() => handleTaskComplete(task.id, task.points || 0)}
-                    className="px-3 py-1 bg-white text-[#4ECDC4] border border-[#4ECDC4] hover:bg-[#4ECDC4] hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
+                    className="px-3 py-1 bg-white text-brand-primary border border-brand-primary hover:bg-brand-primary hover:bg-opacity-10 rounded-lg text-xs font-medium whitespace-nowrap"
                   >
                     Complete
                   </button>
@@ -370,7 +370,7 @@ const TasksList: React.FC<TasksListProps> = ({
                   <div className="mt-3 flex gap-2">
                     <button
                       onClick={() => handleSave(task.id)}
-                      className="px-3 py-1 bg-[#4ECDC4] text-white border border-[#4ECDC4] hover:bg-opacity-90 rounded-lg text-xs font-medium"
+                      className="px-3 py-1 bg-brand-primary text-white border border-brand-primary hover:bg-opacity-90 rounded-lg text-xs font-medium"
                     >
                       Save
                     </button>
