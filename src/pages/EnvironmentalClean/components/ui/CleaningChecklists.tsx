@@ -53,6 +53,7 @@ interface SDSSheet {
   category: string;
   lastUpdated: string;
   url: string;
+  sections: string[];
 }
 
 const categories: Category[] = [
@@ -87,6 +88,7 @@ const setupChecklists: Checklist[] = [
           category: 'Cleaning',
           lastUpdated: '2024-03-19',
           url: '/sds/caviwipes.pdf',
+          sections: [],
         },
         instructions: 'Use 2 wipes per surface. Allow to air dry for 3 minutes.',
         completed: false,
@@ -205,6 +207,7 @@ const setupChecklists: Checklist[] = [
           category: 'Cleaning',
           lastUpdated: '2024-03-19',
           url: '/sds/caviwipes.pdf',
+          sections: [],
         },
         instructions:
           'Clean all surfaces including chairs, tables, and reception desk. Allow surfaces to air dry for 3 minutes.',
@@ -320,6 +323,7 @@ const sampleSDSSheets: SDSSheet[] = [
     category: 'Cleaning',
     lastUpdated: '2024-03-20',
     url: '/sds/bleach.pdf',
+    sections: [],
   },
   {
     id: '2',
@@ -327,6 +331,7 @@ const sampleSDSSheets: SDSSheet[] = [
     category: 'Cleaning',
     lastUpdated: '2024-03-19',
     url: '/sds/disinfectant.pdf',
+    sections: [],
   },
   {
     id: '3',
@@ -334,6 +339,7 @@ const sampleSDSSheets: SDSSheet[] = [
     category: 'Sanitization',
     lastUpdated: '2024-03-18',
     url: '/sds/hand-sanitizer.pdf',
+    sections: [],
   },
 ];
 
@@ -573,48 +579,51 @@ const CleaningChecklists: React.FC = () => {
       {activeTab === 'checklists' && (
         <>
           <div className="p-6">
-            <div className="flex gap-4">
-              {categories.map(category => (
+            <div role="tablist" aria-label="Cleaning Category Tabs" className="grid grid-cols-5 gap-4">
+              {categories.map((category, idx) => (
                 <button
                   key={category.id}
-                  onClick={() => handleCategoryClick(category)}
-                  className="flex items-center justify-center p-3 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all flex-1 min-h-[64px]"
+                  role="tab"
+                  aria-selected={selectedCategory?.id === category.id}
+                  aria-controls={`panel-${category.id}`}
+                  id={`tab-${category.id}`}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors w-full ${
+                    selectedCategory?.id === category.id
+                      ? 'bg-brand-primary text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
                 >
                   <Icon path={category.icon} size={1.2} color={category.iconColor} />
-                  <span className="ml-2 text-sm font-medium text-[#5b5b5b]">{category.title}</span>
+                  <span>{category.title}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {selectedCategory && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center">
-                    <div
-                      className="p-2 rounded-full bg-opacity-10 flex-shrink-0 mr-3"
-                      style={{ backgroundColor: `${selectedCategory.iconColor}20` }}
-                    >
-                      <Icon
-                        path={selectedCategory.icon}
-                        size={1.2}
-                        color={selectedCategory.iconColor}
-                      />
-                    </div>
-                    <h2 className="text-xl font-semibold text-[#5b5b5b]">
-                      {selectedCategory.title}
-                    </h2>
-                  </div>
-                  <button
-                    onClick={handleCloseModal}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                    type="button"
-                  >
-                    <Icon path={mdiClose} size={1.2} color="#5b5b5b" />
-                  </button>
+            <div
+              role="tabpanel"
+              id={`panel-${selectedCategory.id}`}
+              aria-labelledby={`tab-${selectedCategory.id}`}
+              className="p-6 bg-white rounded-lg shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div
+                  className="p-3 rounded-lg"
+                  style={{ backgroundColor: `${selectedCategory.iconColor}20` }}
+                >
+                  <Icon
+                    path={selectedCategory.icon}
+                    size={1.5}
+                    color={selectedCategory.iconColor}
+                  />
                 </div>
-
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {selectedCategory.title}
+                </h3>
+              </div>
+              <div className="space-y-4">
                 {selectedCategory.id === 'setup' && !selectedChecklist && (
                   <div className="space-y-4">
                     {setupChecklists.map(checklist => (
