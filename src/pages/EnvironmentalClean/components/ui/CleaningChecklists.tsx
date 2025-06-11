@@ -78,18 +78,18 @@ const setupChecklists: Checklist[] = [
             name: 'CaviWipes',
             currentStock: 100,
             requiredQuantity: 2,
-            category: 'Cleaning Supplies'
-          }
+            category: 'Cleaning Supplies',
+          },
         ],
         sds: {
           id: '2',
           name: 'CaviWipes SDS',
           category: 'Cleaning',
           lastUpdated: '2024-03-19',
-          url: '/sds/caviwipes.pdf'
+          url: '/sds/caviwipes.pdf',
         },
         instructions: 'Use 2 wipes per surface. Allow to air dry for 3 minutes.',
-        completed: false
+        completed: false,
       },
       {
         id: 'restock-supplies',
@@ -100,25 +100,25 @@ const setupChecklists: Checklist[] = [
             name: 'Nitrile Gloves',
             currentStock: 500,
             requiredQuantity: 10,
-            category: 'Medical Supplies'
+            category: 'Medical Supplies',
           },
           {
             id: 'gauze-001',
             name: 'Sterile Gauze',
             currentStock: 200,
             requiredQuantity: 5,
-            category: 'Medical Supplies'
+            category: 'Medical Supplies',
           },
           {
             id: 'alcohol-001',
             name: 'Alcohol Swabs',
             currentStock: 300,
             requiredQuantity: 10,
-            category: 'Medical Supplies'
-          }
+            category: 'Medical Supplies',
+          },
         ],
         instructions: 'Verify all supplies are present and in date',
-        completed: false
+        completed: false,
       },
       {
         id: 'prepare-bed',
@@ -129,18 +129,18 @@ const setupChecklists: Checklist[] = [
             name: 'Disposable Bed Linens',
             currentStock: 50,
             requiredQuantity: 1,
-            category: 'Bedding'
+            category: 'Bedding',
           },
           {
             id: 'pillow-001',
             name: 'Disposable Pillow Covers',
             currentStock: 75,
             requiredQuantity: 1,
-            category: 'Bedding'
-          }
+            category: 'Bedding',
+          },
         ],
         instructions: 'Clean and prepare bed with fresh linens',
-        completed: false
+        completed: false,
       },
       {
         id: 'setup-equipment',
@@ -152,7 +152,7 @@ const setupChecklists: Checklist[] = [
             currentStock: 1,
             requiredQuantity: 1,
             category: 'Equipment',
-            status: 'Operational'
+            status: 'Operational',
           },
           {
             id: 'suction-001',
@@ -160,11 +160,11 @@ const setupChecklists: Checklist[] = [
             currentStock: 1,
             requiredQuantity: 1,
             category: 'Equipment',
-            status: 'Operational'
-          }
+            status: 'Operational',
+          },
         ],
         instructions: 'Verify all equipment is operational and properly connected',
-        completed: false
+        completed: false,
       },
       {
         id: 'check-temperature',
@@ -175,13 +175,13 @@ const setupChecklists: Checklist[] = [
             name: 'Room Thermometer',
             currentStock: 1,
             requiredQuantity: 1,
-            category: 'Equipment'
-          }
+            category: 'Equipment',
+          },
         ],
         instructions: 'Ensure room temperature is between 68-72°F and humidity is between 30-60%',
-        completed: false
-      }
-    ]
+        completed: false,
+      },
+    ],
   },
   {
     id: 'waiting-room',
@@ -196,18 +196,19 @@ const setupChecklists: Checklist[] = [
             name: 'CaviWipes',
             currentStock: 100,
             requiredQuantity: 3,
-            category: 'Cleaning Supplies'
-          }
+            category: 'Cleaning Supplies',
+          },
         ],
         sds: {
           id: '2',
           name: 'CaviWipes SDS',
           category: 'Cleaning',
           lastUpdated: '2024-03-19',
-          url: '/sds/caviwipes.pdf'
+          url: '/sds/caviwipes.pdf',
         },
-        instructions: 'Clean all surfaces including chairs, tables, and reception desk. Allow surfaces to air dry for 3 minutes.',
-        completed: false
+        instructions:
+          'Clean all surfaces including chairs, tables, and reception desk. Allow surfaces to air dry for 3 minutes.',
+        completed: false,
       },
       {
         id: 'restock-materials',
@@ -218,18 +219,18 @@ const setupChecklists: Checklist[] = [
             name: 'Current Magazines',
             currentStock: 20,
             requiredQuantity: 5,
-            category: 'Reading Materials'
+            category: 'Reading Materials',
           },
           {
             id: 'brochures-001',
             name: 'Patient Brochures',
             currentStock: 50,
             requiredQuantity: 10,
-            category: 'Reading Materials'
-          }
+            category: 'Reading Materials',
+          },
         ],
         instructions: 'Ensure all magazines are current and brochures are up to date',
-        completed: false
+        completed: false,
       },
       {
         id: 'water-dispenser',
@@ -240,11 +241,11 @@ const setupChecklists: Checklist[] = [
             name: 'Disposable Water Cups',
             currentStock: 200,
             requiredQuantity: 20,
-            category: 'Supplies'
-          }
+            category: 'Supplies',
+          },
         ],
         instructions: 'Clean water dispenser, refill if needed, and restock cups',
-        completed: false
+        completed: false,
       },
       {
         id: 'arrange-seating',
@@ -255,11 +256,11 @@ const setupChecklists: Checklist[] = [
             name: 'Waiting Room Chairs',
             currentStock: 12,
             requiredQuantity: 8,
-            category: 'Furniture'
-          }
+            category: 'Furniture',
+          },
         ],
         instructions: 'Arrange chairs in a socially distanced manner, clean all surfaces',
-        completed: false
+        completed: false,
       },
       {
         id: 'check-environment',
@@ -270,13 +271,13 @@ const setupChecklists: Checklist[] = [
             name: 'Room Thermometer',
             currentStock: 1,
             requiredQuantity: 1,
-            category: 'Equipment'
-          }
+            category: 'Equipment',
+          },
         ],
         instructions: 'Ensure room temperature is between 68-72°F and humidity is between 30-60%',
-        completed: false
-      }
-    ]
+        completed: false,
+      },
+    ],
   },
 ];
 
@@ -284,32 +285,32 @@ const perPatientChecklists: Checklist[] = [
   {
     id: 'patient-room',
     title: 'Patient Room Cleaning',
-    items: []
-  }
+    items: [],
+  },
 ];
 
 const weeklyChecklists: Checklist[] = [
   {
     id: 'weekly-clean',
     title: 'Weekly Deep Clean',
-    items: []
-  }
+    items: [],
+  },
 ];
 
 const publicSpacesChecklists: Checklist[] = [
   {
     id: 'public-spaces',
     title: 'Public Spaces Cleaning',
-    items: []
-  }
+    items: [],
+  },
 ];
 
 const deepCleanChecklists: Checklist[] = [
   {
     id: 'deep-clean',
     title: 'Deep Clean Protocol',
-    items: []
-  }
+    items: [],
+  },
 ];
 
 const sampleSDSSheets: SDSSheet[] = [
@@ -347,8 +348,12 @@ const CleaningChecklists: React.FC = () => {
   const [adjustedQuantities, setAdjustedQuantities] = useState<Record<string, number>>({});
   const [showModal, setShowModal] = useState(false);
   const [notes, setNotes] = useState<string>('');
-  const [stolenItems, setStolenItems] = useState<Array<{item: string, quantity: number, notes: string}>>([]);
-  const [prnItems, setPrnItems] = useState<Array<{item: string, quantity: number, reason: string}>>([]);
+  const [stolenItems, setStolenItems] = useState<
+    Array<{ item: string; quantity: number; notes: string }>
+  >([]);
+  const [prnItems, setPrnItems] = useState<
+    Array<{ item: string; quantity: number; reason: string }>
+  >([]);
   const [isRecording, setIsRecording] = useState(false);
 
   const handleCategoryClick = category => {
@@ -404,7 +409,7 @@ const CleaningChecklists: React.FC = () => {
   const handleAdjustQuantity = (itemId: string, inventoryItemId: string, adjustment: number) => {
     setAdjustedQuantities(prev => ({
       ...prev,
-      [`${itemId}-${inventoryItemId}`]: (prev[`${itemId}-${inventoryItemId}`] || 0) + adjustment
+      [`${itemId}-${inventoryItemId}`]: (prev[`${itemId}-${inventoryItemId}`] || 0) + adjustment,
     }));
   };
 
@@ -474,7 +479,7 @@ const CleaningChecklists: React.FC = () => {
             </button>
           </div>
           <p className="mt-1 text-sm text-gray-500">{item.instructions}</p>
-          
+
           {item.inventoryItems && (
             <div className="mt-2">
               <h4 className="text-sm font-medium text-gray-700">Required Items:</h4>
@@ -482,7 +487,7 @@ const CleaningChecklists: React.FC = () => {
                 {item.inventoryItems.map(invItem => {
                   const adjustedQty = adjustedQuantities[`${item.id}-${invItem.id}`] || 0;
                   const finalRequiredQty = invItem.requiredQuantity + adjustedQty;
-                  
+
                   return (
                     <li key={invItem.id} className="flex items-center text-sm text-gray-600">
                       <span className="w-32">{invItem.name}</span>
@@ -518,7 +523,7 @@ const CleaningChecklists: React.FC = () => {
               </ul>
             </div>
           )}
-          
+
           {item.sds && (
             <div className="mt-2">
               <button
@@ -591,9 +596,15 @@ const CleaningChecklists: React.FC = () => {
                       className="p-2 rounded-full bg-opacity-10 flex-shrink-0 mr-3"
                       style={{ backgroundColor: `${selectedCategory.iconColor}20` }}
                     >
-                      <Icon path={selectedCategory.icon} size={1.2} color={selectedCategory.iconColor} />
+                      <Icon
+                        path={selectedCategory.icon}
+                        size={1.2}
+                        color={selectedCategory.iconColor}
+                      />
                     </div>
-                    <h2 className="text-xl font-semibold text-[#5b5b5b]">{selectedCategory.title}</h2>
+                    <h2 className="text-xl font-semibold text-[#5b5b5b]">
+                      {selectedCategory.title}
+                    </h2>
                   </div>
                   <button
                     onClick={handleCloseModal}
@@ -621,7 +632,9 @@ const CleaningChecklists: React.FC = () => {
 
                 {selectedChecklist && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-medium text-[#5b5b5b]">{selectedChecklist.title}</h3>
+                    <h3 className="text-lg font-medium text-[#5b5b5b]">
+                      {selectedChecklist.title}
+                    </h3>
                     <div className="space-y-2">
                       {selectedChecklist.items.map(item => renderChecklistItem(item))}
                     </div>
@@ -730,16 +743,17 @@ const CleaningChecklists: React.FC = () => {
         <Modal.Body className="p-4">
           {!selectedChecklist ? (
             <div className="space-y-3">
-              {selectedCategory && getChecklistsForCategory(selectedCategory.id).map(checklist => (
-                <button
-                  key={checklist.id}
-                  onClick={() => handleChecklistSelect(checklist)}
-                  className="w-full p-3 text-left bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  <h3 className="text-lg font-medium text-gray-800 mb-1">{checklist.title}</h3>
-                  <p className="text-sm text-gray-600">{checklist.description}</p>
-                </button>
-              ))}
+              {selectedCategory &&
+                getChecklistsForCategory(selectedCategory.id).map(checklist => (
+                  <button
+                    key={checklist.id}
+                    onClick={() => handleChecklistSelect(checklist)}
+                    className="w-full p-3 text-left bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                  >
+                    <h3 className="text-lg font-medium text-gray-800 mb-1">{checklist.title}</h3>
+                    <p className="text-sm text-gray-600">{checklist.description}</p>
+                  </button>
+                ))}
             </div>
           ) : (
             <div className="space-y-4">
@@ -782,21 +796,23 @@ const CleaningChecklists: React.FC = () => {
                       type="text"
                       placeholder="Item name"
                       value={item.item}
-                      onChange={(e) => handleUpdateStolenItem(index, 'item', e.target.value)}
+                      onChange={e => handleUpdateStolenItem(index, 'item', e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
                     />
                     <input
                       type="number"
                       placeholder="Qty"
                       value={item.quantity}
-                      onChange={(e) => handleUpdateStolenItem(index, 'quantity', parseInt(e.target.value))}
+                      onChange={e =>
+                        handleUpdateStolenItem(index, 'quantity', parseInt(e.target.value))
+                      }
                       className="w-20 px-3 py-2 border border-gray-300 rounded-md"
                     />
                     <input
                       type="text"
                       placeholder="Notes"
                       value={item.notes}
-                      onChange={(e) => handleUpdateStolenItem(index, 'notes', e.target.value)}
+                      onChange={e => handleUpdateStolenItem(index, 'notes', e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
                     />
                   </div>
@@ -828,21 +844,23 @@ const CleaningChecklists: React.FC = () => {
                       type="text"
                       placeholder="Item name"
                       value={item.item}
-                      onChange={(e) => handleUpdatePrnItem(index, 'item', e.target.value)}
+                      onChange={e => handleUpdatePrnItem(index, 'item', e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
                     />
                     <input
                       type="number"
                       placeholder="Qty"
                       value={item.quantity}
-                      onChange={(e) => handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))}
+                      onChange={e =>
+                        handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))
+                      }
                       className="w-20 px-3 py-2 border border-gray-300 rounded-md"
                     />
                     <input
                       type="text"
                       placeholder="Reason"
                       value={item.reason}
-                      onChange={(e) => handleUpdatePrnItem(index, 'reason', e.target.value)}
+                      onChange={e => handleUpdatePrnItem(index, 'reason', e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
                     />
                   </div>
@@ -863,8 +881,8 @@ const CleaningChecklists: React.FC = () => {
                     <button
                       onClick={isRecording ? handleStopRecording : handleStartRecording}
                       className={`px-3 py-1 rounded-md text-sm ${
-                        isRecording 
-                          ? 'bg-red-50 text-red-600 hover:bg-red-100' 
+                        isRecording
+                          ? 'bg-red-50 text-red-600 hover:bg-red-100'
                           : 'bg-green-50 text-green-600 hover:bg-green-100'
                       }`}
                     >
@@ -874,7 +892,7 @@ const CleaningChecklists: React.FC = () => {
                 </div>
                 <textarea
                   value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  onChange={e => setNotes(e.target.value)}
                   placeholder="Add any additional notes here..."
                   className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md"
                 />
