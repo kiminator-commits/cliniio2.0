@@ -53,14 +53,17 @@ interface EfficiencyMetrics {
   qualityScore: number;
 }
 
-interface EnvironmentalCleanContextType {
-  cleanedRooms: CleanedRoomEntry[];
-  logRoomCleaned: (room: string, cleanedBy: string) => void;
-  rooms: Room[];
-  updateRoomStatus: (roomId: string, newStatus: RoomStatusType) => void;
-  getDailyCleanedRoomsCount: () => number;
-  getDailyDirtyRoomsCount: () => number;
-  getEfficiencyMetrics: () => EfficiencyMetrics;
+interface AnalyticsData {
+  cleanRooms: number;
+  dirtyRooms: number;
+  efficiency: number;
+}
+
+export interface EnvironmentalCleanContextType {
+  cleanedRooms: Room[];
+  analytics: AnalyticsData | null;
+  isLoading: boolean;
+  error: Error | null;
 }
 
 const EnvironmentalCleanContext = createContext<EnvironmentalCleanContextType | undefined>(
@@ -227,6 +230,13 @@ export const EnvironmentalCleanProvider: React.FC<{ children: React.ReactNode }>
         getDailyCleanedRoomsCount,
         getDailyDirtyRoomsCount,
         getEfficiencyMetrics,
+        isLoading: false,
+        error: null,
+        analytics: {
+          cleanRooms: 0,
+          dirtyRooms: 0,
+          efficiency: 0,
+        },
       }}
     >
       {children}

@@ -3,7 +3,6 @@ import Icon from '@mdi/react';
 import { mdiClockOutline, mdiAccount, mdiCheckCircle, mdiArrowUp } from '@mdi/js';
 import { useEnvironmentalCleanContext } from '../../../../contexts/EnvironmentalCleanContext';
 import { Button } from 'react-bootstrap';
-import { BaseModal } from '@/components/common/BaseModal';
 
 const RecentlyCleaned: React.FC = () => {
   const { cleanedRooms, isLoading, error } = useEnvironmentalCleanContext();
@@ -44,7 +43,7 @@ const RecentlyCleaned: React.FC = () => {
   const displayData = cleanedRooms.length > 0 ? cleanedRooms : sampleData;
 
   return (
-    <div className="bg-white p-3 md:p-4 rounded-xl shadow-lg border-l-4 border-[#4ECDC4] mb-6 relative">
+    <div className="bg-white p-3 md:p-4 rounded-xl shadow-lg border-l-4 border-brand-primary mb-6 relative">
       <div className="sticky top-0 bg-white pb-1">
         <h2 className="text-lg font-semibold mb-1 text-[#5b5b5b] flex items-center">
           <Icon path={mdiClockOutline} size={1.1} color="#4ECDC4" className="mr-2" />
@@ -67,7 +66,7 @@ const RecentlyCleaned: React.FC = () => {
               >
                 <div className="flex items-center space-x-2">
                   <div className="relative">
-                    <span className="font-medium text-gray-700 cursor-help hover:text-[#4ECDC4] transition-colors group">
+                    <span className="font-medium text-gray-700 cursor-help hover:text-brand-primary transition-colors group">
                       {item.room}
                       <div className="hidden group-hover:block absolute left-0 top-full mt-1 bg-white rounded-lg shadow-xl border border-gray-200 p-3 w-64 z-50">
                         <div className="flex items-center space-x-2 mb-2">
@@ -92,7 +91,7 @@ const RecentlyCleaned: React.FC = () => {
       </div>
       <button
         onClick={scrollToTop}
-        className="absolute bottom-2 right-2 p-1.5 bg-[#4ECDC4] text-white rounded-full shadow-md hover:bg-[#3dbdb5] transition-colors"
+        className="absolute bottom-2 right-2 p-1.5 bg-brand-primary text-white rounded-full shadow-md hover:bg-brand-primary transition-colors"
         title="Scroll to most recent"
       >
         <Icon path={mdiArrowUp} size={0.8} className="opacity-70" />
