@@ -19,4 +19,4 @@ export const useErrorRecovery = () => {
   };
 
   return { error, reportError, resetError, retryCount, triggerRetry };
-}; 
+};

@@ -1,1 +1,1 @@
-export type TabType = 'tools' | 'supplies' | 'equipment' | 'officeHardware'; 
+export type TabType = 'tools' | 'supplies' | 'equipment' | 'officeHardware';

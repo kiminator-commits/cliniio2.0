@@ -7,4 +7,4 @@ export const useFormProtection = () => {
   const endSubmission = () => setIsSubmitting(false);
 
   return { isSubmitting, startSubmission, endSubmission };
-}; 
+};

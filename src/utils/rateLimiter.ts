@@ -22,5 +22,5 @@ export const rateLimiter = {
     record.timestamps.push(now);
     requests.set(userId, record);
     return true; // within limit
-  }
-}; 
+  },
+};
