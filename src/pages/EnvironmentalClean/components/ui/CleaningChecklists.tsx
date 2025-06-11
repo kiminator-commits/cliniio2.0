@@ -362,7 +362,7 @@ const CleaningChecklists: React.FC = () => {
   >([]);
   const [isRecording, setIsRecording] = useState(false);
 
-  const handleCategoryClick = category => {
+  const handleCategoryClick = (category: Category) => {
     setSelectedCategory(category);
     setSelectedChecklist(null);
     setShowModal(true);
@@ -587,7 +587,7 @@ const CleaningChecklists: React.FC = () => {
                   aria-selected={selectedCategory?.id === category.id}
                   aria-controls={`panel-${category.id}`}
                   id={`tab-${category.id}`}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategoryClick(category)}
                   className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors w-full ${
                     selectedCategory?.id === category.id
                       ? 'bg-brand-primary text-white'
