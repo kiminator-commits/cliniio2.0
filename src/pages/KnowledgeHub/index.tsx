@@ -1,10 +1,15 @@
 import React from 'react';
+import { PageLayout } from '../../components/Layout/PageLayout';
 
-export default function KnowledgeHub() {
+const KnowledgeHub: React.FC = () => {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Knowledge Hub</h1>
-      <p>Knowledge Hub module scaffolded.</p>
-    </div>
+    <PageLayout
+      title="Knowledge Hub"
+      description="Access training materials and educational resources"
+    >
+      {/* Add your knowledge hub-specific content here */}
+    </PageLayout>
   );
-} 
+};
+
+export default KnowledgeHub;

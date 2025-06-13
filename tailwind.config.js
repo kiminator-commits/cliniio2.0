@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -18,7 +15,10 @@ export default {
         'hover-secondary': '#475569',
         disabled: '#94a3b8',
         teal: '#2dd4bf',
-        'teal-hover': '#14b8a6'
+        'teal-hover': '#14b8a6',
+        brand: {
+          primary: '#4ECDC4',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
@@ -27,47 +27,59 @@ export default {
         base: '16px',
         small: '14px',
         large: '18px',
-        heading: '24px'
+        heading: '24px',
       },
       fontWeight: {
         normal: 400,
         medium: 500,
         semibold: 600,
-        bold: 700
+        bold: 700,
       },
       spacing: {
         xs: '0.25rem',
         sm: '0.5rem',
         md: '1rem',
         lg: '1.5rem',
-        xl: '2rem'
+        xl: '2rem',
       },
       borderRadius: {
         'form-input': '0.375rem',
-        'login-container': '0.5rem'
+        'login-container': '0.5rem',
       },
       boxShadow: {
-        'login-container': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+        'login-container': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
       },
       height: {
-        'form-input': '40px'
+        'form-input': '40px',
       },
       maxWidth: {
-        'login-container': '400px'
+        'login-container': '400px',
       },
       padding: {
-        'login-container': '2rem'
+        'login-container': '2rem',
       },
       keyframes: {
         pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' }
-        }
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.5 },
+        },
       },
       animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-      }
+        pulse: 'pulse 2s ease-in-out infinite',
+      },
     },
   },
-  plugins: [],
-} 
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.hide-scrollbar': {
+          'scrollbar-width': 'none',
+          '-ms-overflow-style': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      });
+    },
+  ],
+};

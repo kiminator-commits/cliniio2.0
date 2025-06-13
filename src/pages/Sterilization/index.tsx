@@ -1,10 +1,15 @@
 import React from 'react';
-import SterilizationDashboard from '@/components/Sterilization/SterilizationDashboard';
+import { PageLayout } from '../../components/Layout/PageLayout';
 
-export default function Sterilization() {
+const Sterilization: React.FC = () => {
   return (
-    <div className="p-4">
-      <SterilizationDashboard />
-    </div>
+    <PageLayout
+      title="Sterilization Management"
+      description="Manage your sterilization processes and equipment"
+    >
+      {/* Add your sterilization-specific content here */}
+    </PageLayout>
   );
-} 
+};
+
+export default Sterilization;

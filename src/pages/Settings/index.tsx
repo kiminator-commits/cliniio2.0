@@ -1,10 +1,15 @@
 import React from 'react';
+import { PageLayout } from '../../components/Layout/PageLayout';
 
-export default function Settings() {
+const Settings: React.FC = () => {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Settings</h1>
-      <p>Settings module scaffolded.</p>
-    </div>
+    <PageLayout
+      title="Settings"
+      description="Configure your application preferences and account settings"
+    >
+      {/* Add your settings-specific content here */}
+    </PageLayout>
   );
-} 
+};
+
+export default Settings;

@@ -14,8 +14,8 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .loginContainer {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   padding: 1rem;
 }
 
@@ -26,8 +26,8 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .scrollbarHide {
-  -ms-overflow-style: none !important;  /* IE and Edge */
-  scrollbar-width: none !important;  /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
 }
 
 /* Ensure the class works on all scrollable elements */
@@ -38,4 +38,4 @@
 
 .scrollbarHide *::-webkit-scrollbar {
   display: none !important;
-} 
+}

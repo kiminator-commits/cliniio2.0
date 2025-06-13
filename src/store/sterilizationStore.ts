@@ -1,7 +1,9 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-interface SterilizationState {
-  // State shape will be added later
+export interface SterilizationState {
+  // Add your state properties here
 }
 
-export const useSterilizationStore = create<SterilizationState>(() => ({})); 
+export const useSterilizationStore = create<SterilizationState>(() => ({
+  // Add your initial state here
+}));
