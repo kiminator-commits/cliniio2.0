@@ -27,4 +27,4 @@ export const fetchWithProtection = async (
   }
 
   throw new Error('Failed to fetch');
-}; 
+};

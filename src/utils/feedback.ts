@@ -8,4 +8,4 @@ export const dispatchFeedback = (
   const formatted = `[${type.toUpperCase()}] ${context ? `[${context}] ` : ''}${message}`;
   console.log(formatted);
   // Extend with a toast/snackbar dispatch if integrated
-}; 
+};

@@ -5,5 +5,5 @@ export const useCleanup = (cleanupFn: () => void) => {
     return () => {
       cleanupFn();
     };
-  }, []);
+  }, [cleanupFn]);
 };

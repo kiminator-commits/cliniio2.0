@@ -10,4 +10,4 @@ export const validateState = <T>(
     console.warn(`[State Validation] Invalid state in ${context}. Reverting to fallback.`);
     return fallback;
   }
-}; 
+};

@@ -8,4 +8,4 @@ export const logError = (error: unknown, context?: string) => {
   console.error(entry);
 };
 
-export const getErrorLog = () => [...errorLog]; 
+export const getErrorLog = () => [...errorLog];

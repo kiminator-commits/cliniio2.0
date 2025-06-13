@@ -8,10 +8,10 @@ export const securityChecklist = [
   '✅ Resource cleanup verified',
   '✅ API access permissions scoped',
   '✅ Performance monitoring enabled',
-  '✅ Session and auth flow validated'
+  '✅ Session and auth flow validated',
 ];
 
 export const printSecurityChecklist = () => {
   console.log('[Security Audit Checklist]');
   securityChecklist.forEach(item => console.log(item));
-}; 
+};
