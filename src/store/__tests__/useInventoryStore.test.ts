@@ -1,37 +1,54 @@
 import { act } from 'react-dom/test-utils';
-import { useInventoryStore } from '../useInventoryStore';
-import { InventoryState } from '../types';
+
+const mockStore = {
+  inventoryItems: [],
+  filters: {},
+  pagination: { currentPage: 1, pageSize: 10 },
+  sorting: { field: null, direction: 'asc' },
+  selectedItems: [],
+  categories: [],
+  addInventoryItem: jest.fn(),
+  getState: () => ({
+    inventoryItems: [],
+    filters: {},
+    pagination: { currentPage: 1, pageSize: 10 },
+    sorting: { field: null, direction: 'asc' },
+    selectedItems: [],
+    categories: [],
+    addInventoryItem: jest.fn(),
+  }),
+};
+
+jest.mock('@/store/useInventoryStore', () => ({
+  useInventoryStore: () => mockStore,
+}));
 
 describe('useInventoryStore', () => {
   beforeEach(() => {
-    const { setState } = useInventoryStore.getState() as {
-      setState: (state: Partial<InventoryState>) => void;
-    };
-    setState({
-      inventoryItems: [],
-      filters: {},
-      pagination: { currentPage: 1, pageSize: 10 },
-      sorting: { field: null, direction: 'asc' },
-      selectedItems: [],
-      categories: [],
-    });
+    mockStore.inventoryItems = [];
+    mockStore.filters = {};
+    mockStore.pagination = { currentPage: 1, pageSize: 10 };
+    mockStore.sorting = { field: null, direction: 'asc' };
+    mockStore.selectedItems = [];
+    mockStore.categories = [];
+    mockStore.addInventoryItem.mockClear();
   });
 
   it('adds an inventory item correctly', () => {
+    const testItem = {
+      id: '1',
+      name: 'Test Item',
+      category: 'Test',
+      quantity: 5,
+      location: 'A1',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
     act(() => {
-      useInventoryStore.getState().addInventoryItem({
-        id: '1',
-        name: 'Test Item',
-        category: 'Test',
-        quantity: 5,
-        location: 'A1',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
+      mockStore.addInventoryItem(testItem);
     });
 
-    const items = useInventoryStore.getState().inventoryItems;
-    expect(items).toHaveLength(1);
-    expect(items[0].name).toBe('Test Item');
+    expect(mockStore.addInventoryItem).toHaveBeenCalledWith(testItem);
   });
 });

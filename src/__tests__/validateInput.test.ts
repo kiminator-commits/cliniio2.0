@@ -1,4 +1,4 @@
-import { validateInput, isNotEmpty, isSafeText } from '@/utils/validateInput';
+import { validateInput, isNotEmpty, isSafeText } from '@/utils/validation';
 
 describe('validateInput', () => {
   it('returns error for empty input', () => {

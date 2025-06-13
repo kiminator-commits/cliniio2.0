@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { DrawerMenu } from '../../components/Navigation/DrawerMenu';
-import NavBar from '../../components/NavBar';
+import NavBar from '@/components/NavBar';
 import { FaBars } from 'react-icons/fa';
 import { mdiClipboardText, mdiFilter } from '@mdi/js';
 import Icon from '@mdi/react';
-import StatsModal from '../../components/StatsModal';
-import LeaderboardModal from '../../components/LeaderboardModal';
-import ChallengeModal from '../../components/ChallengeModal';
+import StatsModal from '@/components/StatsModal';
+import LeaderboardModal from '@/components/LeaderboardModal';
+import ChallengeModal from '@/components/ChallengeModal';
 import { GamificationStats } from '../../components/Dashboard/GamificationStats';
 import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
-import TasksList from '../../components/TasksList';
+import TasksList from '@/components/TasksList';
 import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 import { useHomeState } from '../../hooks/useHomeState';
 import { calculateNavBarMargins } from '../../utils/homeUtils';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
 
 export default function HomePage() {

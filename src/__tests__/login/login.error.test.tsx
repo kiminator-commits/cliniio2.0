@@ -1,23 +1,19 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { render, screen } from '@testing-library/react';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 describe('ErrorBoundary', () => {
-  it('displays fallback UI when error occurs', async () => {
+  it('displays fallback UI when error occurs', () => {
     const ThrowError = () => {
       throw new Error('Test error');
     };
 
-    await act(async () => {
-      render(
-        <ErrorBoundary>
-          <ThrowError />
-        </ErrorBoundary>
-      );
-    });
+    render(
+      <ErrorBoundary>
+        <ThrowError />
+      </ErrorBoundary>
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
   });
 });

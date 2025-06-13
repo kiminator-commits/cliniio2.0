@@ -1,10 +1,10 @@
 import { fetchWithProtection } from '@/utils/fetchWithProtection';
 
-global.fetch = vi.fn();
+global.fetch = jest.fn();
 
 describe('fetchWithProtection', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   it('resolves on first success', async () => {

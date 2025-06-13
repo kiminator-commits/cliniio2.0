@@ -5,13 +5,14 @@ import TrackItemModal from './TrackItemModal';
 import CategoryManagement from './CategoryManagement';
 import { InventoryItem } from '../../types/inventory';
 import { useInventoryStore } from '../../store/useInventoryStore';
-import Pagination from '../../common/Pagination';
+import Pagination from '@/components/common/Pagination';
 
 interface InventoryManagementTableProps {
   items: InventoryItem[];
   onAddItem: (item: InventoryItem) => void;
   onEditItem: (item: InventoryItem) => void;
   onDeleteItem: (itemId: string) => void;
+  container?: HTMLElement;
 }
 
 const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
@@ -19,6 +20,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
   onAddItem,
   onEditItem,
   onDeleteItem,
+  container,
 }) => {
   const [editingItem, setEditingItem] = React.useState<InventoryItem | null>(null);
   const [trackingItem, setTrackingItem] = React.useState<InventoryItem | null>(null);
@@ -119,6 +121,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
             handleCloseEditModal();
           }
         }}
+        container={container}
       />
 
       <TrackItemModal
@@ -126,6 +129,7 @@ const InventoryManagementTable: React.FC<InventoryManagementTableProps> = ({
         onHide={handleCloseTrackModal}
         item={trackingItem}
         onSave={handleCloseTrackModal}
+        container={container}
       />
     </div>
   );

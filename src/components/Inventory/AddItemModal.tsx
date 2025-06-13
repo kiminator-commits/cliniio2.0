@@ -9,6 +9,7 @@ interface AddItemModalProps {
   show: boolean;
   onHide: () => void;
   onAddItem: (item: InventoryItem) => void;
+  container?: HTMLElement;
 }
 
 interface AddItemFormState {
@@ -25,7 +26,7 @@ interface FormErrors {
   location?: string;
 }
 
-const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) => {
+const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem, container }) => {
   const addInventoryItem = useInventoryStore(state => state.addInventoryItem);
   const inventoryItems = useInventoryStore(state => state.inventoryItems);
   const categories = useInventoryStore(state => state.categories);
@@ -97,7 +98,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ show, onHide, onAddItem }) 
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal show={show} onHide={onHide} centered container={container}>
       <Modal.Header closeButton>
         <Modal.Title>Add New Item</Modal.Title>
       </Modal.Header>

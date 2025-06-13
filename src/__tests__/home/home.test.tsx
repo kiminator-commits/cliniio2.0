@@ -1,75 +1,91 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import HomePage from '../../pages/Home';
-import { vi } from 'vitest';
 
 // Mock hooks and stores used in HomePage
-vi.mock('../../hooks/useHomeState', () => ({
+jest.mock('../../hooks/useHomeState', () => ({
   useHomeState: () => ({
     drawerOpen: false,
-    setDrawerOpen: vi.fn(),
+    setDrawerOpen: jest.fn(),
     tasks: [],
     gamificationData: { totalScore: 0, streak: 0, level: 1, rank: 1 },
-    setGamificationData: vi.fn(),
+    setGamificationData: jest.fn(),
     mockMetricsData: [],
-    handleTaskComplete: vi.fn(),
-    handleRefresh: vi.fn(),
+    handleTaskComplete: jest.fn(),
+    handleRefresh: jest.fn(),
   }),
 }));
-vi.mock('../../store/homeStore', () => ({
+jest.mock('../../store/homeStore', () => ({
   useHomeStore: () => ({
     totalScore: 0,
-    setTotalScore: vi.fn(),
+    setTotalScore: jest.fn(),
     availablePoints: 10,
     showFilters: false,
-    setShowFilters: vi.fn(),
+    setShowFilters: jest.fn(),
     showStatsModal: false,
-    setShowStatsModal: vi.fn(),
+    setShowStatsModal: jest.fn(),
     showLeaderboardModal: false,
-    setShowLeaderboardModal: vi.fn(),
+    setShowLeaderboardModal: jest.fn(),
     showChallengeModal: false,
-    setShowChallengeModal: vi.fn(),
+    setShowChallengeModal: jest.fn(),
     leaderboardUsers: [],
   }),
 }));
 
 // Mock child components to focus on HomePage logic
-vi.mock('../../components/Navigation/DrawerMenu', () => ({
+jest.mock('../../components/Navigation/DrawerMenu', () => ({
   DrawerMenu: () => <div>DrawerMenu</div>,
 }));
-vi.mock('../../components/NavBar', () => ({ default: () => <div>NavBar</div> }));
-vi.mock('../../components/Dashboard/GamificationStats', () => ({
+jest.mock('@/components/NavBar', () => ({
+  __esModule: true,
+  default: () => <div>MockNavBar</div>,
+}));
+jest.mock('../../components/Dashboard/GamificationStats', () => ({
   GamificationStats: () => <div>GamificationStats</div>,
 }));
-vi.mock('../../components/PerformanceMetrics/PerformanceMetrics', () => ({
+jest.mock('../../components/PerformanceMetrics/PerformanceMetrics', () => ({
   PerformanceMetrics: () => <div>PerformanceMetrics</div>,
 }));
-vi.mock('../../components/TasksList', () => ({ default: () => <div>TasksList</div> }));
-vi.mock('../../components/StatsModal', () => ({ default: () => <div>StatsModal</div> }));
-vi.mock('../../components/LeaderboardModal', () => ({
-  default: () => <div>LeaderboardModal</div>,
+jest.mock('@/components/TasksList', () => ({
+  __esModule: true,
+  default: () => <div>MockTasksList</div>,
 }));
-vi.mock('../../components/ChallengeModal', () => ({ default: () => <div>ChallengeModal</div> }));
-vi.mock('../../components/ErrorBoundary', () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+jest.mock('@/components/StatsModal', () => ({
+  __esModule: true,
+  default: () => <div>MockStatsModal</div>,
+}));
+jest.mock('@/components/LeaderboardModal', () => ({
+  __esModule: true,
+  default: () => <div>MockLeaderboardModal</div>,
+}));
+jest.mock('@/components/ChallengeModal', () => ({
+  __esModule: true,
+  default: () => <div>MockChallengeModal</div>,
+}));
+jest.mock('@/components/ErrorBoundary', () => ({
+  ErrorBoundary: class MockErrorBoundary extends React.Component {
+    render() {
+      return <div>{this.props.children}</div>;
+    }
+  },
 }));
 
 describe('HomePage', () => {
   it('renders the main sections', () => {
     render(<HomePage />);
-    expect(screen.getByText('NavBar')).toBeInTheDocument();
+    expect(screen.getByText('MockNavBar')).toBeInTheDocument();
     expect(screen.getByText('GamificationStats')).toBeInTheDocument();
     expect(screen.getByText('PerformanceMetrics')).toBeInTheDocument();
-    expect(screen.getByText('TasksList')).toBeInTheDocument();
+    expect(screen.getByText('MockTasksList')).toBeInTheDocument();
   });
 
   it('renders modals when their state is true', () => {
     // This test would require more advanced mocking or integration
     // For now, we check that the modal components are present in the tree
     render(<HomePage />);
-    expect(screen.getByText('StatsModal')).toBeInTheDocument();
-    expect(screen.getByText('LeaderboardModal')).toBeInTheDocument();
-    expect(screen.getByText('ChallengeModal')).toBeInTheDocument();
+    expect(screen.getByText('MockStatsModal')).toBeInTheDocument();
+    expect(screen.getByText('MockLeaderboardModal')).toBeInTheDocument();
+    expect(screen.getByText('MockChallengeModal')).toBeInTheDocument();
   });
 
   it('renders the menu button with correct aria-label', () => {

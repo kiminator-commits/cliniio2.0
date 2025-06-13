@@ -3,7 +3,7 @@ import { useCleanup } from '@/hooks/useCleanup';
 
 describe('useCleanup', () => {
   it('calls cleanup function on unmount', () => {
-    const cleanupMock = vi.fn();
+    const cleanupMock = jest.fn();
 
     const TestComponent = () => {
       useCleanup(cleanupMock);
