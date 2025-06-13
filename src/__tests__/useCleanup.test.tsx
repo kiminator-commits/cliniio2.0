@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import { useCleanup } from '@/hooks/useCleanup';
-import { useEffect, useState } from 'react';
 
 describe('useCleanup', () => {
   it('calls cleanup function on unmount', () => {
@@ -16,4 +15,4 @@ describe('useCleanup', () => {
     unmount();
     expect(cleanupMock).toHaveBeenCalledTimes(1);
   });
-}); 
+});

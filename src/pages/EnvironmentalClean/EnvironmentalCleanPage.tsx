@@ -6,7 +6,7 @@ import CleaningAnalytics from './components/ui/CleaningAnalytics';
 import RecentlyCleaned from './components/ui/RecentlyCleaned';
 import CleaningChecklists from './components/ui/CleaningChecklists';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Modal, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Icon from '@mdi/react';
 import {
   mdiBroom,

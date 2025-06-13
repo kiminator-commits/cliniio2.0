@@ -7,11 +7,7 @@ export const CleaningAnalytics: React.FC = () => {
   const { analytics, isLoading, error } = useEnvironmentalCleanContext();
 
   if (isLoading) {
-    return (
-      <div className="p-4 text-sm text-gray-500 animate-pulse">
-        Loading analytics...
-      </div>
-    );
+    return <div className="p-4 text-sm text-gray-500 animate-pulse">Loading analytics...</div>;
   }
 
   if (error) {

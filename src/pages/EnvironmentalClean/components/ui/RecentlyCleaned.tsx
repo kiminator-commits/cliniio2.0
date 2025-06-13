@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import Icon from '@mdi/react';
 import { mdiClockOutline, mdiAccount, mdiCheckCircle, mdiArrowUp } from '@mdi/js';
 import { useEnvironmentalCleanContext } from '../../../../contexts/EnvironmentalCleanContext';
-import { Button } from 'react-bootstrap';
 
 const RecentlyCleaned: React.FC = () => {
   const { cleanedRooms, isLoading, error } = useEnvironmentalCleanContext();

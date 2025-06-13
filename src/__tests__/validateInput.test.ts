@@ -15,4 +15,4 @@ describe('validateInput', () => {
     const errors = validateInput('Clean text', [isNotEmpty, isSafeText]);
     expect(errors.length).toBe(0);
   });
-}); 
+});

@@ -9,12 +9,10 @@ import {
   mdiCalendarWeek,
   mdiOfficeBuilding,
   mdiBroom,
-  mdiCheck,
   mdiMagnify,
-  mdiDownload,
   mdiArrowLeft,
 } from '@mdi/js';
-import { Modal, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { BaseModal } from '@/components/BaseModal';
 
 interface Category {
@@ -384,23 +382,6 @@ const CleaningChecklists: React.FC = () => {
     handleCloseModal();
   };
 
-  const handleItemComplete = (checklistId: string, itemId: string) => {
-    const checklist = setupChecklists.find(c => c.id === checklistId);
-    if (checklist) {
-      const item = checklist.items.find(i => i.id === itemId);
-      if (item) {
-        item.completed = !item.completed;
-        // Here you would typically update inventory levels
-        if (item.completed && item.inventoryItems) {
-          item.inventoryItems.forEach(invItem => {
-            // Update inventory logic would go here
-            console.log(`Updating inventory for ${invItem.name}`);
-          });
-        }
-      }
-    }
-  };
-
   const handleBypassItem = (itemId: string) => {
     setBypassedItems(prev => {
       const newSet = new Set(prev);
@@ -580,8 +561,12 @@ const CleaningChecklists: React.FC = () => {
       {activeTab === 'checklists' && (
         <>
           <div className="p-6">
-            <div role="tablist" aria-label="Cleaning Category Tabs" className="grid grid-cols-5 gap-4">
-              {categories.map((category, idx) => (
+            <div
+              role="tablist"
+              aria-label="Cleaning Category Tabs"
+              className="grid grid-cols-5 gap-4"
+            >
+              {categories.map(category => (
                 <button
                   key={category.id}
                   role="tab"
@@ -620,9 +605,7 @@ const CleaningChecklists: React.FC = () => {
                     color={selectedCategory.iconColor}
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {selectedCategory.title}
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900">{selectedCategory.title}</h3>
               </div>
               <div className="space-y-4">
                 {selectedCategory.id === 'setup' && !selectedChecklist && (
@@ -877,9 +860,7 @@ const CleaningChecklists: React.FC = () => {
                     type="number"
                     placeholder="Qty"
                     value={item.quantity}
-                    onChange={e =>
-                      handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))
-                    }
+                    onChange={e => handleUpdatePrnItem(index, 'quantity', parseInt(e.target.value))}
                     className="w-20 px-3 py-2 border border-gray-300 rounded-md"
                   />
                   <input

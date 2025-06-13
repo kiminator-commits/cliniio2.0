@@ -35,4 +35,4 @@ test('Hardening utilities load and basic calls do not crash', () => {
   expect(typeof dispatchFeedback).toBe('function');
   expect(typeof runStressTest).toBe('function');
   expect(typeof printSecurityChecklist).toBe('function');
-}); 
+});

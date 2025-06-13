@@ -5,4 +5,4 @@ export const ErrorFallback = () => {
       <p className="text-sm">Please refresh the page or contact support if the issue persists.</p>
     </div>
   );
-}; 
+};

@@ -19,14 +19,7 @@ export const BaseModal = ({
   size = 'lg',
 }: BaseModalProps) => {
   return (
-    <Modal
-      show={show}
-      onHide={onClose}
-      centered
-      size={size}
-      aria-modal="true"
-      role="dialog"
-    >
+    <Modal show={show} onHide={onClose} centered size={size} aria-modal="true" role="dialog">
       {title && (
         <Modal.Header closeButton className="bg-gray-50 border-b border-gray-200">
           <Modal.Title className="text-xl font-semibold text-gray-800">{title}</Modal.Title>
@@ -40,4 +33,4 @@ export const BaseModal = ({
       )}
     </Modal>
   );
-}; 
+};
