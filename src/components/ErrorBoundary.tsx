@@ -25,6 +25,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: unknown) {
+    // Only log in non-test environments
     if (process.env.NODE_ENV !== 'test') {
       console.error('[ErrorBoundary]', { error, info });
     }
@@ -35,6 +36,11 @@ export class ErrorBoundary extends Component<Props, State> {
       return this.props.fallback || <div>Something went wrong.</div>;
     }
 
-    return this.props.children;
+    try {
+      return this.props.children;
+    } catch (error) {
+      this.setState({ hasError: true, error: error as Error });
+      return this.props.fallback || <div>Something went wrong.</div>;
+    }
   }
 }
