@@ -21,18 +21,18 @@ jest.mock('../../hooks/useHomeState', () => ({
         totalTasks: 100,
         completedTasks: 80,
         currentStreak: 5,
-        bestStreak: 7
-      }
+        bestStreak: 7,
+      },
     },
     mockMetricsData: {
       timeSaved: { value: 2.5, unit: 'minutes' },
       costSavings: { value: 1250, unit: 'USD' },
       aiEfficiency: { value: 85, unit: '%' },
-      teamPerformance: { value: 90, unit: '%' }
+      teamPerformance: { value: 90, unit: '%' },
     },
     handleTaskComplete: jest.fn(),
-    handleRefresh: jest.fn()
-  })
+    handleRefresh: jest.fn(),
+  }),
 }));
 
 // Mock the home store
@@ -50,26 +50,26 @@ jest.mock('../../store/homeStore', () => ({
     setShowChallengeModal: jest.fn(),
     leaderboardUsers: [
       { name: 'User 1', score: 1200, avatar: 'U1' },
-      { name: 'User 2', score: 1100, avatar: 'U2' }
-    ]
-  })
+      { name: 'User 2', score: 1100, avatar: 'U2' },
+    ],
+  }),
 }));
 
 // Mock NavBar component
 jest.mock('@/components/NavBar', () => ({
   __esModule: true,
-  default: () => <div data-testid="nav-bar">MockNavBar</div>
+  default: () => <div data-testid="nav-bar">MockNavBar</div>,
 }));
 
 // Mock TasksList component
 jest.mock('@/components/TasksList', () => ({
   __esModule: true,
-  default: () => <div data-testid="tasks-list">MockTasksList</div>
+  default: () => <div data-testid="tasks-list">MockTasksList</div>,
 }));
 
 // Mock PerformanceMetrics component
 jest.mock('@/components/PerformanceMetrics/PerformanceMetrics', () => ({
-  PerformanceMetrics: () => <div data-testid="performance-metrics">MockPerformanceMetrics</div>
+  PerformanceMetrics: () => <div data-testid="performance-metrics">MockPerformanceMetrics</div>,
 }));
 
 describe('HomePage', () => {
@@ -78,7 +78,7 @@ describe('HomePage', () => {
       render(
         <MemoryRouter>
           <HomePage />
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 

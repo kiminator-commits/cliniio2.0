@@ -8,12 +8,10 @@ interface CostSavingsData {
 
 interface CostSavingsCardProps {
   data: CostSavingsData;
-  timeframe: string;
 }
 
-export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ 
+export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({
   data = { monthly: 0, annual: 0 },
-  timeframe = 'monthly'
 }) => {
   return (
     <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
