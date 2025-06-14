@@ -1,4 +1,11 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Run prettier to format files
+npx prettier --write "src/**/*.{ts,tsx}"
+
+# Run linting
 npm run lint
+
+# Add the formatted files back to staging
+git add .
