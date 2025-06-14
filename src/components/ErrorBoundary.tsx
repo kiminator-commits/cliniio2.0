@@ -11,6 +11,10 @@ interface State {
 }
 
 export class ErrorBoundary extends Component<Props, State> {
+  static defaultProps = {
+    fallback: <div>Something went wrong.</div>,
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -21,7 +25,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: unknown) {
-    console.error('[ErrorBoundary]', error, info);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('[ErrorBoundary]', { error, info });
+    }
   }
 
   render() {

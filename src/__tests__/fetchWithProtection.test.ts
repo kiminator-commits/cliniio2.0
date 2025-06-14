@@ -4,7 +4,12 @@ global.fetch = jest.fn();
 
 describe('fetchWithProtection', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    global.fetch = jest.fn(() => Promise.reject(new Error('fail'))) as jest.Mock;
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('resolves on first success', async () => {

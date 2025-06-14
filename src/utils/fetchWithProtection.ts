@@ -20,7 +20,9 @@ export const fetchWithProtection = async (
       }
       return response;
     } catch (err) {
-      logError(err, 'fetchWithProtection');
+      if (process.env.NODE_ENV !== 'test') {
+        logError(err, 'fetchWithProtection');
+      }
       if (attempt === retries) throw err;
       if (retryDelay) await new Promise(res => setTimeout(res, retryDelay));
     }
