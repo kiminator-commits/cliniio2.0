@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Run prettier to format files
-npx prettier --write "src/**/*.{ts,tsx}"
+# Run prettier to format files and fail if there are any formatting issues
+npx prettier --write --check "src/**/*.{ts,tsx}" "*.{ts,tsx}"
 
 # Run linting
 npm run lint

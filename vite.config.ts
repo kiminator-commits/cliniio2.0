@@ -23,3 +23,4 @@ export default defineConfig({
 });
 
 // This is a test comment with bad formatting    and extra spaces
+// Another test comment with    more    spaces

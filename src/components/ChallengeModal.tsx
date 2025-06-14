@@ -10,7 +10,6 @@ import {
   mdiShieldCheckOutline,
   mdiAccountGroupOutline,
   mdiCheckCircleOutline,
-  mdiStarOutline,
 } from '@mdi/js';
 
 export type ChallengeCategory = 'knowledge' | 'process' | 'quality' | 'collaboration' | 'daily';
@@ -45,15 +44,6 @@ export interface ChallengeModalProps {
   onClose: () => void;
   onChallengeComplete: (points: number) => void;
 }
-
-const categoryIcons: Record<ChallengeCategory, string> = {
-  knowledge: mdiLightbulbOutline,
-  process: mdiCogOutline,
-  quality: mdiShieldCheckOutline,
-  collaboration: mdiAccountGroupOutline,
-  daily: mdiClockOutline,
-  team: mdiAccountGroupOutline,
-};
 
 const categoryColors: Record<ChallengeCategory, string> = {
   knowledge: 'bg-blue-100 text-blue-800',
@@ -223,30 +213,30 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
-            className="bg-white p-6 rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto scrollbar-hide"
+            className="bg-white p-4 rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto scrollbar-hide"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <div className="flex items-center">
-                <div className="p-3 bg-[#4ECDC4] rounded-xl">
-                  <Icon path={mdiTarget} size={1} className="text-white" />
+                <div className="p-2 bg-[#4ECDC4] rounded-xl">
+                  <Icon path={mdiTarget} size={0.9} className="text-white" />
                 </div>
-                <h2 className="ml-3 text-xl font-bold text-[#5b5b5b]">Challenges</h2>
+                <h2 className="ml-2 text-lg font-bold text-[#5b5b5b]">Challenges</h2>
               </div>
               <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-                <Icon path={mdiClose} size={1} />
+                <Icon path={mdiClose} size={0.9} />
               </button>
             </div>
 
             {/* Filters Row */}
-            <div className="mb-6 flex gap-4">
+            <div className="mb-4 flex gap-3">
               {/* Categories */}
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-500 mb-3">Category</h3>
+                <h3 className="text-xs font-semibold text-gray-500 mb-2">Category</h3>
                 <select
                   value={selectedCategory}
                   onChange={e => setSelectedCategory(e.target.value as ChallengeCategory | 'all')}
-                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
+                  className="w-full px-2 py-1.5 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent text-sm"
                 >
                   <option value="all">All Categories</option>
                   {categories.map(category => (
@@ -259,13 +249,13 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
 
               {/* Difficulty Filter */}
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-500 mb-3">Difficulty</h3>
+                <h3 className="text-xs font-semibold text-gray-500 mb-2">Difficulty</h3>
                 <select
                   value={selectedDifficulty}
                   onChange={e =>
                     setSelectedDifficulty(e.target.value as ChallengeDifficulty | 'all')
                   }
-                  className="w-full p-2 border rounded-lg bg-white"
+                  className="w-full px-2 py-1.5 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent text-sm"
                 >
                   <option value="all">All Difficulties</option>
                   {difficulties.map(difficulty => (
@@ -278,11 +268,11 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
 
               {/* Status Filter */}
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-500 mb-3">Status</h3>
+                <h3 className="text-xs font-semibold text-gray-500 mb-2">Status</h3>
                 <select
                   value={selectedStatus}
                   onChange={e => setSelectedStatus(e.target.value as ChallengeStatus)}
-                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
+                  className="w-full px-2 py-1.5 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent text-sm"
                 >
                   <option value="all">All Challenges</option>
                   <option value="pending">Pending</option>
@@ -291,85 +281,62 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
               </div>
             </div>
 
-            {/* Challenges List */}
-            <div className="space-y-4">
+            {/* Challenge Cards */}
+            <div className="space-y-3">
               {filteredChallenges.map(challenge => (
-                <motion.div
+                <div
                   key={challenge.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`relative p-6 rounded-lg shadow-md transition-all duration-300 ${
-                    challenge.completed ? 'bg-gray-50 opacity-75' : 'bg-white hover:shadow-lg'
+                  className={`p-3 rounded-lg border ${
+                    challenge.completed
+                      ? 'bg-gray-50 border-gray-200'
+                      : 'bg-white border-gray-200 hover:border-[#4ECDC4]'
                   }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className={`p-2 rounded-full ${categoryColors[challenge.category]}`}>
-                        <Icon path={categoryIcons[challenge.category]} size={1} />
-                      </div>
-                      <div>
-                        <h3
-                          className={`text-lg font-semibold ${
-                            challenge.completed ? 'text-gray-500' : 'text-gray-900'
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-medium ${
+                            categoryColors[challenge.category]
                           }`}
                         >
-                          {challenge.title}
-                        </h3>
-                        <p
-                          className={`text-sm ${
-                            challenge.completed ? 'text-gray-400' : 'text-gray-600'
-                          } mt-1`}
+                          {challenge.category}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-medium ${
+                            difficultyColors[challenge.difficulty]
+                          }`}
                         >
-                          {challenge.description}
-                        </p>
+                          {challenge.difficulty}
+                        </span>
+                        <span className="text-xs text-gray-500">{challenge.timeEstimate}</span>
+                      </div>
+                      <h3 className="text-sm font-semibold text-gray-800 mb-0.5">
+                        {challenge.title}
+                      </h3>
+                      <p className="text-xs text-gray-600 mb-2">{challenge.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-[#4ECDC4]">
+                          {challenge.points} points
+                        </span>
+                        {!challenge.completed && (
+                          <button
+                            onClick={() => handleCompleteChallenge(challenge)}
+                            className="px-3 py-1 bg-[#4ECDC4] text-white text-xs rounded-lg hover:bg-[#38b2ac] transition-colors"
+                          >
+                            Complete
+                          </button>
+                        )}
+                        {challenge.completed && (
+                          <span className="flex items-center text-xs text-green-600">
+                            <Icon path={mdiCheckCircleOutline} size={0.8} className="mr-1" />
+                            Completed
+                          </span>
+                        )}
                       </div>
                     </div>
-                    {challenge.completed && (
-                      <div className="text-green-500">
-                        <Icon path={mdiCheckCircleOutline} size={1.5} />
-                      </div>
-                    )}
                   </div>
-
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          challenge.completed
-                            ? 'bg-gray-100 text-gray-500'
-                            : difficultyColors[challenge.difficulty]
-                        }`}
-                      >
-                        {challenge.difficulty.charAt(0).toUpperCase() +
-                          challenge.difficulty.slice(1)}
-                      </div>
-                      <div
-                        className={`flex items-center ${
-                          challenge.completed ? 'text-gray-400' : 'text-gray-600'
-                        }`}
-                      >
-                        <Icon path={mdiClockOutline} size={0.8} className="mr-1" />
-                        <span className="text-sm">{challenge.timeEstimate}</span>
-                      </div>
-                      <div
-                        className={`flex items-center ${
-                          challenge.completed ? 'text-gray-400' : 'text-yellow-600'
-                        }`}
-                      >
-                        <Icon path={mdiStarOutline} size={0.8} className="mr-1" />
-                        <span className="text-sm font-medium">{challenge.points} points</span>
-                      </div>
-                    </div>
-                    {!challenge.completed && (
-                      <button
-                        onClick={() => handleCompleteChallenge(challenge)}
-                        className="px-4 py-2 bg-[#4ECDC4] text-white rounded-md hover:bg-[#3dbdb4] transition-colors"
-                      >
-                        Complete Challenge
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>

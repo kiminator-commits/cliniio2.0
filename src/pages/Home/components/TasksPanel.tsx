@@ -50,9 +50,7 @@ export function TasksPanel({
           <span className={`bg-${HOME_UI_CONSTANTS.COLORS.PRIMARY_BG} rounded-md p-1`}>
             <Icon path={mdiClipboardText} size={1} color={HOME_UI_CONSTANTS.COLORS.PRIMARY} />
           </span>
-          <h2 className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}>
-            Daily Operations Tasks
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-600">Daily Operations Tasks</h2>
         </div>
         <div className="flex items-center gap-2">
           <span

@@ -4,8 +4,8 @@ import {
   mockGamificationData,
   mockLeaderboardData,
   mockMetricsData,
-  mockTasks,
 } from '../services/mockDataService';
+import { taskData } from '@/mocks/taskData';
 
 export const useHomeState = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -13,7 +13,7 @@ export const useHomeState = () => {
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [tasks, setTasks] = useState(mockTasks);
+  const [tasks, setTasks] = useState(taskData);
   const [availablePoints, setAvailablePoints] = useState(250);
   const [lastResetDate, setLastResetDate] = useState<string | null>(null);
   const [gamificationData, setGamificationData] = useState(mockGamificationData);

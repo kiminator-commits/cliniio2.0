@@ -39,7 +39,7 @@ const Greeting: React.FC = () => {
     setGreeting(funGreetings[randomIndex]);
   }, []);
 
-  return <h1 className="text-2xl md:text-3xl font-bold text-[#5b5b5b] mb-2">{greeting}</h1>;
+  return <h1 className="text-xl md:text-2xl font-bold text-[#5b5b5b] mb-2">{greeting}</h1>;
 };
 
 export default Greeting;

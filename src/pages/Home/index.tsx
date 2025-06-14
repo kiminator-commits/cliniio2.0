@@ -70,7 +70,7 @@ export default function HomePage() {
       >
         {drawerOpen && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
         <div
-          className={`flex-1 border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-${HOME_UI_CONSTANTS.COLORS.BORDER}`}
+          className={`flex-1 border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH} border-${HOME_UI_CONSTANTS.COLORS.BORDER} pt-6`}
         >
           {!drawerOpen && (
             <button
@@ -121,7 +121,7 @@ export default function HomePage() {
                 >
                   <div
                     className="flex items-center justify-between mb-6"
-                    style={{ marginTop: '12px' }}
+                    style={{ marginTop: '-8px' }}
                   >
                     <div className="flex items-center gap-2">
                       <span className={`bg-${HOME_UI_CONSTANTS.COLORS.PRIMARY_BG} rounded-md p-1`}>
@@ -131,9 +131,7 @@ export default function HomePage() {
                           color={HOME_UI_CONSTANTS.COLORS.PRIMARY}
                         />
                       </span>
-                      <h2
-                        className={`text-lg font-semibold text-[${HOME_UI_CONSTANTS.COLORS.TEXT_PRIMARY}]`}
-                      >
+                      <h2 className="text-lg font-semibold text-gray-600">
                         Daily Operations Tasks
                       </h2>
                     </div>

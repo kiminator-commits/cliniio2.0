@@ -17,7 +17,7 @@ const features = [
 
 const NavBar: React.FC<NavBarProps> = ({ onStatsClick, onLeaderboardClick, onChallengeClick }) => {
   return (
-    <div className="mb-6">
+    <div className="mb-6 pl-8">
       <div className="flex items-center justify-between">
         <Greeting />
         <div className="flex gap-4 pr-8">

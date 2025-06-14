@@ -286,11 +286,11 @@ const Inventory: React.FC = () => {
             <CategoriesCard onCategoryChange={handleCategoryChange} />
           </div>
           <div className="flex-1 pr-4">
-            <div className="bg-white rounded-lg shadow p-6 w-full min-h-[calc(100vh-200px)] border-l-4 border-[#4ECDC4]">
+            <div className="bg-white rounded-lg shadow p-6 w-full min-h-[calc(100vh-200px)] border-l-4 border-[#4ECDC4] overflow-x-auto">
               {/* Table Header and Top Controls */}
               {activeTab === 'tools' && (
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-700 tracking-tight flex items-center">
+                  <h2 className="text-2xl font-bold text-[#5b5b5b] tracking-tight flex items-center">
                     <Icon path={mdiWrench} size={1.1} color="#4ECDC4" className="mr-2" />
                     Tool Management
                   </h2>

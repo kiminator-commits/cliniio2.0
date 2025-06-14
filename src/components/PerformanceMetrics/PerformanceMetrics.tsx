@@ -27,7 +27,7 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
           <span className="bg-teal-100 rounded-md p-1">
             <MdInsertChart size={24} color="#4ECDC4" />
           </span>
-          <h2 className="text-lg font-semibold text-[#38b2ac]">Performance Metrics</h2>
+          <h2 className="text-lg font-semibold text-gray-600">Performance Metrics</h2>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

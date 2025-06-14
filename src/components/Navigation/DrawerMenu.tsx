@@ -44,8 +44,8 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
     <div
       className={`bg-white shadow-lg transition-all duration-300 flex flex-col h-screen ${isOpen ? 'w-64' : 'w-16'}`}
     >
-      <div className="flex-1">
-        <div className="p-6 flex justify-between items-center">
+      <div className="flex-1 pt-4">
+        <div className="px-6 pb-6 flex justify-between items-center">
           <div className="relative">
             <h1 className="text-3xl font-bold text-[#4ECDC4]">Cliniio</h1>
           </div>
