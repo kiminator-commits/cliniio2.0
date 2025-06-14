@@ -5,13 +5,36 @@ interface GamificationData {
   level: number;
   rank: number;
   totalScore: number;
+  stats: {
+    toolsSterilized: number;
+    inventoryChecks: number;
+    perfectDays: number;
+    totalTasks: number;
+    completedTasks: number;
+    currentStreak: number;
+    bestStreak: number;
+  };
 }
 
 interface GamificationStatsProps {
   gamificationData: GamificationData;
 }
 
-export const GamificationStats = ({ gamificationData }: GamificationStatsProps) => {
+export const GamificationStats = ({ gamificationData = {
+  streak: 0,
+  level: 1,
+  rank: 100,
+  totalScore: 0,
+  stats: {
+    toolsSterilized: 0,
+    inventoryChecks: 0,
+    perfectDays: 0,
+    totalTasks: 0,
+    completedTasks: 0,
+    currentStreak: 0,
+    bestStreak: 0
+  }
+} }: GamificationStatsProps) => {
   return (
     <div
       className="bg-white rounded-xl shadow-lg p-4 mb-6 border-l-4 border-[#4ECDC4] border-opacity-50"

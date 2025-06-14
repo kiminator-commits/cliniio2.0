@@ -1,38 +1,89 @@
 import React, { act } from 'react';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import HomePage from '../../pages/Home';
 
 // Mock hooks and stores used in HomePage
 jest.mock('../../hooks/useHomeState', () => ({
   useHomeState: () => ({
-    storeAvailablePoints: 20,
-    storeShowFilters: true,
-    storeTasks: [{ id: 1, name: 'Sample Task', completed: false }],
-    storeMetrics: [{ metric: 'SampleMetric', value: 85 }],
-  }),
+    drawerOpen: true,
+    setDrawerOpen: jest.fn(),
+    tasks: [{ id: 1, name: 'Sample Task', completed: false }],
+    gamificationData: {
+      streak: 5,
+      level: 3,
+      rank: 10,
+      totalScore: 1000,
+      stats: {
+        toolsSterilized: 50,
+        inventoryChecks: 20,
+        perfectDays: 5,
+        totalTasks: 100,
+        completedTasks: 80,
+        currentStreak: 5,
+        bestStreak: 7
+      }
+    },
+    mockMetricsData: {
+      timeSaved: { value: 2.5, unit: 'minutes' },
+      costSavings: { value: 1250, unit: 'USD' },
+      aiEfficiency: { value: 85, unit: '%' },
+      teamPerformance: { value: 90, unit: '%' }
+    },
+    handleTaskComplete: jest.fn(),
+    handleRefresh: jest.fn()
+  })
 }));
 
-// Mock child components to focus on HomePage logic
-jest.mock('../../pages/Home/components/DashboardHeader', () => ({
-  DashboardHeader: () => <div data-testid="dashboard-header">MockDashboardHeader</div>,
+// Mock the home store
+jest.mock('../../store/homeStore', () => ({
+  useHomeStore: () => ({
+    totalScore: 1000,
+    availablePoints: 250,
+    showFilters: false,
+    setShowFilters: jest.fn(),
+    showStatsModal: false,
+    setShowStatsModal: jest.fn(),
+    showLeaderboardModal: false,
+    setShowLeaderboardModal: jest.fn(),
+    showChallengeModal: false,
+    setShowChallengeModal: jest.fn(),
+    leaderboardUsers: [
+      { name: 'User 1', score: 1200, avatar: 'U1' },
+      { name: 'User 2', score: 1100, avatar: 'U2' }
+    ]
+  })
 }));
 
-jest.mock('../../pages/Home/components/TasksPanel', () => ({
-  TasksPanel: () => <div data-testid="tasks-panel">MockTasksPanel</div>,
+// Mock NavBar component
+jest.mock('@/components/NavBar', () => ({
+  __esModule: true,
+  default: () => <div data-testid="nav-bar">MockNavBar</div>
 }));
 
-jest.mock('../../pages/Home/components/MetricsPanel', () => ({
-  MetricsPanel: () => <div data-testid="metrics-panel">MockMetricsPanel</div>,
+// Mock TasksList component
+jest.mock('@/components/TasksList', () => ({
+  __esModule: true,
+  default: () => <div data-testid="tasks-list">MockTasksList</div>
+}));
+
+// Mock PerformanceMetrics component
+jest.mock('@/components/PerformanceMetrics/PerformanceMetrics', () => ({
+  PerformanceMetrics: () => <div data-testid="performance-metrics">MockPerformanceMetrics</div>
 }));
 
 describe('HomePage', () => {
   it('renders the main sections', async () => {
     await act(async () => {
-      render(<HomePage />);
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
     });
 
-    expect(screen.getByTestId('dashboard-header')).toBeInTheDocument();
-    expect(screen.getByTestId('tasks-panel')).toBeInTheDocument();
-    expect(screen.getByTestId('metrics-panel')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('tasks-list')).toBeInTheDocument();
+    expect(screen.getByTestId('performance-metrics')).toBeInTheDocument();
   });
 });

@@ -10,7 +10,14 @@ export interface PerformanceMetricsProps {
   metrics: MetricsData;
 }
 
-export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({ metrics }) => {
+export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({ 
+  metrics = {
+    timeSaved: { value: 0, unit: 'minutes' },
+    costSavings: { value: 0, unit: 'USD' },
+    aiEfficiency: { value: 0, unit: '%' },
+    teamPerformance: { value: 0, unit: '%' }
+  }
+}) => {
   const [selectedTimeframe] = useState('daily');
 
   return (

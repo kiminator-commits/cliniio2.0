@@ -11,7 +11,10 @@ interface CostSavingsCardProps {
   timeframe: string;
 }
 
-export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data }) => {
+export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ 
+  data = { monthly: 0, annual: 0 },
+  timeframe = 'monthly'
+}) => {
   return (
     <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
       <div className="flex items-center mb-4">
@@ -24,13 +27,13 @@ export const CostSavingsCard: React.FC<CostSavingsCardProps> = ({ data }) => {
         <div className="flex justify-between items-center">
           <span className="text-gray-500 text-xs text-left">Monthly Savings</span>
           <span className="text-base text-blue-900 text-right">
-            ${data.monthly.toLocaleString()}
+            ${(data.monthly || 0).toLocaleString()}
           </span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-500 text-xs text-left">Annual Savings</span>
           <span className="text-base text-blue-900 text-right">
-            ${data.annual.toLocaleString()}
+            ${(data.annual || 0).toLocaleString()}
           </span>
         </div>
       </div>
