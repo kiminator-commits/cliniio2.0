@@ -78,7 +78,7 @@ describe('HomePage', () => {
       render(
         <MemoryRouter>
           <HomePage />
-        </MemoryRouter>,
+        </MemoryRouter>
       );
     });
 
