@@ -1,5 +1,6 @@
 import { FaFire, FaChartLine, FaTrophy } from 'react-icons/fa';
 import { HOME_SECTION_TITLES } from '@/pages/Home/constants/homeConstants';
+import { PointsDisplay } from '@/pages/Home/components/Gamification/PointsDisplay';
 
 interface GamificationData {
   streak: number;
@@ -85,9 +86,7 @@ export const GamificationStats = ({
           <div className="ml-2">
             <h2 className="text-sm font-semibold text-[#1e293b]">Points</h2>
             <div className="flex items-baseline">
-              <span className="text-xl font-bold text-[#4ECDC4]">
-                {gamificationData.totalScore}
-              </span>
+              <PointsDisplay points={gamificationData.totalScore} />
             </div>
           </div>
         </div>
