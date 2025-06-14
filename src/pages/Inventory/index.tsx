@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../components/Layout/PageLayout';
-import ItemScannerCard from '../../components/Inventory/ItemScannerCard';
 import InventoryInsightsCard from '../../components/Inventory/InventoryInsightsCard';
 import CategoriesCard from '../../components/Inventory/CategoriesCard';
 import { TabType } from './types';
@@ -145,7 +144,7 @@ const Inventory: React.FC = () => {
   const [editingItem, setEditingItem] = useState<LocalInventoryItem | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showScanModal, setShowScanModal] = useState(false);
 
   const setCategoryFilter = useInventoryStore(state => state.setCategoryFilter);
@@ -259,19 +258,26 @@ const Inventory: React.FC = () => {
   };
 
   return (
-    <PageLayout
-      title="Inventory Management"
-      description="Track and manage clinical tools and supplies"
-    >
-      <div className="flex flex-col -mt-8">
-        {/* Header row with ItemScannerCard aligned right */}
-        <div
-          className={`flex justify-end mr-4 mb-2 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
-        >
-          <ItemScannerCard />
+    <PageLayout>
+      <div className="p-6 space-y-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-[#5b5b5b] mb-1">Inventory Management</h1>
+            <p className="text-gray-500 text-sm">
+              Track and manage your inventory items and equipment
+            </p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4 border-l-4 border-[#4ECDC4] flex items-center gap-4">
+            <span className="text-gray-600">Item Scanner</span>
+            <Button
+              variant="success"
+              onClick={handleShowScanModal}
+              className="bg-[#4ECDC4] hover:bg-[#3db8b0] border-[#4ECDC4] hover:border-[#3db8b0] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+            >
+              Scan Item
+            </Button>
+          </div>
         </div>
-
-        {/* Main content area */}
         <div className="flex flex-col lg:flex-row gap-4">
           <div
             className={`flex flex-col gap-4 lg:w-1/4 pl-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
@@ -280,7 +286,7 @@ const Inventory: React.FC = () => {
             <CategoriesCard onCategoryChange={handleCategoryChange} />
           </div>
           <div
-            className={`flex-1 pr-4 transition-all duration-500 ${isLoading ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+            className="flex-1 pr-4"
           >
             <div className="bg-white rounded-lg shadow p-6 w-full min-h-[calc(100vh-200px)] border-l-4 border-[#4ECDC4]">
               {/* Table Header and Top Controls */}

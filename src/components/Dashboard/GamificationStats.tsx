@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { FaFire, FaChartLine, FaTrophy } from 'react-icons/fa';
 
 interface GamificationData {
@@ -14,10 +13,7 @@ interface GamificationStatsProps {
 
 export const GamificationStats = ({ gamificationData }: GamificationStatsProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+    <div
       className="bg-white rounded-xl shadow-lg p-4 mb-6 border-l-4 border-[#4ECDC4] border-opacity-50"
       aria-label="Clinic Efficiency Summary"
       aria-live="polite"
@@ -46,7 +42,7 @@ export const GamificationStats = ({ gamificationData }: GamificationStatsProps) 
             <h2 className="text-sm font-semibold text-[#1e293b]">Level</h2>
             <div className="flex items-baseline">
               <span className="text-2xl font-bold text-[#4ECDC4]">{gamificationData.level}</span>
-              <div className="ml-2 px-2 py-1 bg-blue-100 rounded-full animate-[pulse_2s_ease-in-out_infinite]">
+              <div className="ml-2 px-2 py-1 bg-blue-100 rounded-full">
                 <span className="text-xs font-semibold text-blue-600">
                   Top {gamificationData.rank}%
                 </span>
@@ -70,6 +66,6 @@ export const GamificationStats = ({ gamificationData }: GamificationStatsProps) 
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
