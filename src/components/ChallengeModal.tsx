@@ -11,6 +11,7 @@ import {
   mdiAccountGroupOutline,
   mdiCheckCircleOutline,
 } from '@mdi/js';
+import { HOME_SECTION_TITLES } from '@/pages/Home/constants/homeConstants';
 
 export type ChallengeCategory = 'knowledge' | 'process' | 'quality' | 'collaboration' | 'daily';
 export type ChallengeDifficulty = 'easy' | 'medium' | 'hard';
@@ -221,7 +222,9 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({
                 <div className="p-2 bg-[#4ECDC4] rounded-xl">
                   <Icon path={mdiTarget} size={0.9} className="text-white" />
                 </div>
-                <h2 className="ml-2 text-lg font-bold text-[#5b5b5b]">Challenges</h2>
+                <h2 className="ml-2 text-lg font-bold text-[#5b5b5b]">
+                  {HOME_SECTION_TITLES.CHALLENGES}
+                </h2>
               </div>
               <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
                 <Icon path={mdiClose} size={0.9} />

@@ -16,6 +16,7 @@ import { useHomeState } from '../../hooks/useHomeState';
 import { calculateNavBarMargins } from '../../utils/homeUtils';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
+import { HOME_SECTION_TITLES } from './constants/homeConstants';
 
 export default function HomePage() {
   const {
@@ -132,7 +133,7 @@ export default function HomePage() {
                         />
                       </span>
                       <h2 className="text-lg font-semibold text-gray-600">
-                        Daily Operations Tasks
+                        {HOME_SECTION_TITLES.TASKS}
                       </h2>
                     </div>
                     <div className="flex items-center gap-2">

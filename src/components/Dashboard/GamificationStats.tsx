@@ -1,4 +1,5 @@
 import { FaFire, FaChartLine, FaTrophy } from 'react-icons/fa';
+import { HOME_SECTION_TITLES } from '@/pages/Home/constants/homeConstants';
 
 interface GamificationData {
   streak: number;
@@ -40,7 +41,7 @@ export const GamificationStats = ({
   return (
     <div
       className="bg-white rounded-xl shadow-lg p-2 mb-4 border-l-4 border-[#4ECDC4] border-opacity-50"
-      aria-label="Clinic Efficiency Summary"
+      aria-label={HOME_SECTION_TITLES.STATS}
       aria-live="polite"
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
