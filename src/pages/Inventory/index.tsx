@@ -285,9 +285,7 @@ const Inventory: React.FC = () => {
             <InventoryInsightsCard />
             <CategoriesCard onCategoryChange={handleCategoryChange} />
           </div>
-          <div
-            className="flex-1 pr-4"
-          >
+          <div className="flex-1 pr-4">
             <div className="bg-white rounded-lg shadow p-6 w-full min-h-[calc(100vh-200px)] border-l-4 border-[#4ECDC4]">
               {/* Table Header and Top Controls */}
               {activeTab === 'tools' && (
