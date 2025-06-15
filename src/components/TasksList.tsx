@@ -1,31 +1,17 @@
 import React, { useState } from 'react';
 import { FaEdit, FaChevronRight } from 'react-icons/fa';
-
-type Task = {
-  id: string;
-  title: string;
-  subtitle?: string;
-  instructions?: string;
-  estimatedTime?: string;
-  points: number;
-  completed: boolean;
-  status?: string;
-  assignedTo?: string;
-  type?: string;
-  dueDate?: string;
-  category?: string;
-  description?: string;
-};
+import { HomeTask } from '@/types/home';
+import { TASK_STATUSES } from '@/constants/homeTaskConstants';
 
 type TasksListProps = {
-  tasks: Task[];
+  tasks: HomeTask[];
   onTaskComplete?: (id: string) => void;
 };
 
 export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
   const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
   const [editingTask, setEditingTask] = useState<string | null>(null);
-  const [editedTask, setEditedTask] = useState<Partial<Task>>({});
+  const [editedTask, setEditedTask] = useState<Partial<HomeTask>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -45,7 +31,7 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
     setExpandedTasks(newExpanded);
   };
 
-  const handleEdit = (task: Task) => {
+  const handleEdit = (task: HomeTask) => {
     setEditingTask(task.id);
     setEditedTask(task);
   };
@@ -93,7 +79,7 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
                 className="rounded-full border border-green-500 text-green-500 text-sm px-3 py-1 hover:bg-green-50"
                 aria-label={`Complete task: ${task.title}`}
               >
-                Complete
+                {TASK_STATUSES.COMPLETE}
               </button>
             </div>
           </div>

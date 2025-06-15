@@ -1,3 +1,5 @@
+import { TASK_POINT_TIERS } from '@/constants/homeTaskConstants';
+
 export const taskData = [
   {
     id: 'task-001',
@@ -20,7 +22,7 @@ export const taskData = [
     category: 'Sterilization',
     priority: 'high',
     dueDate: '06/14/2025',
-    points: 75,
+    points: TASK_POINT_TIERS.HIGH,
     assignedTo: 'James',
   },
   {
