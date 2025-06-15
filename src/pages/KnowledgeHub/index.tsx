@@ -1,7 +1,20 @@
 import React from 'react';
 import { PageLayout } from '../../components/Layout/PageLayout';
+import { useKnowledgeHubState } from '@/hooks/useKnowledgeHubState';
+import KnowledgeHubContent from './components/KnowledgeHubContent';
 
 const KnowledgeHub: React.FC = () => {
+  const {
+    activeTab,
+    setActiveTab,
+    searchQuery,
+    setSearchQuery,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    showAchievementsModal: showAchievements,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setShowAchievementsModal: setShowAchievements,
+  } = useKnowledgeHubState();
+
   return (
     <PageLayout>
       <div className="p-6 space-y-6">
@@ -13,7 +26,12 @@ const KnowledgeHub: React.FC = () => {
             </p>
           </div>
         </div>
-        {/* Add your knowledge hub-specific content here */}
+        <KnowledgeHubContent
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
       </div>
     </PageLayout>
   );
