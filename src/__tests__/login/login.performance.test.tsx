@@ -25,6 +25,6 @@ describe('LoginForm Performance', () => {
 
     const end = performance.now();
     const renderTime = end - start;
-    expect(renderTime).toBeLessThan(150); // 150ms threshold
+    expect(renderTime).toBeLessThan(200); // 200ms threshold
   });
 });

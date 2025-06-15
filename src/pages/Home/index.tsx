@@ -20,7 +20,7 @@ import {
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
 import { HOME_SECTION_TITLES } from './constants/homeConstants';
-import { TasksList } from '@/components/TasksList';
+import TasksList from '@/components/TasksList';
 
 export default function HomePage() {
   const {
