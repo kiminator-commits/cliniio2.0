@@ -8,7 +8,7 @@ type TasksListProps = {
   tasks: HomeTask[];
 };
 
-export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) => {
+const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) => {
   const [expandedTaskId, setExpandedTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<string | null>(null);
   const [editedTask, setEditedTask] = useState<Partial<HomeTask>>({});
@@ -16,7 +16,7 @@ export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) =
   const itemsPerPage = 3;
 
   // Calculate pagination
-  const totalPages = Math.ceil(tasks.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentTasks = tasks.slice(startIndex, endIndex);
@@ -120,6 +120,8 @@ export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) =
                       <div className="text-gray-700">{task.type || 'Training'}</div>
                     )}
                   </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
                       htmlFor={`dueDate-${task.id}`}
@@ -139,128 +141,80 @@ export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) =
                       <div className="text-gray-700">{task.dueDate || 'N/A'}</div>
                     )}
                   </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor={`description-${task.id}`}
-                    className="block text-gray-600 font-medium mb-1"
-                  >
-                    Description
-                  </label>
-                  {editingTask === task.id ? (
-                    <textarea
-                      id={`description-${task.id}`}
-                      value={editedTask.description || ''}
-                      onChange={e => setEditedTask({ ...editedTask, description: e.target.value })}
-                      className="w-full px-3 py-2 border rounded-md"
-                      rows={4}
-                      placeholder="Enter task description..."
-                    />
-                  ) : (
-                    <div className="text-gray-700">
-                      {task.description || 'No description provided'}
-                    </div>
-                  )}
-                </div>
-                {task.instructions && (
                   <div>
                     <label
-                      htmlFor={`instructions-${task.id}`}
+                      htmlFor={`points-${task.id}`}
                       className="block text-gray-600 font-medium mb-1"
                     >
-                      Instructions
-                    </label>
-                    {editingTask === task.id ? (
-                      <textarea
-                        id={`instructions-${task.id}`}
-                        value={editedTask.instructions || ''}
-                        onChange={e =>
-                          setEditedTask({ ...editedTask, instructions: e.target.value })
-                        }
-                        className="w-full px-3 py-2 border rounded-md"
-                        rows={3}
-                      />
-                    ) : (
-                      <div className="text-gray-700">{task.instructions}</div>
-                    )}
-                  </div>
-                )}
-                {task.estimatedTime && (
-                  <div>
-                    <label
-                      htmlFor={`estimatedTime-${task.id}`}
-                      className="block text-gray-600 font-medium mb-1"
-                    >
-                      Estimated Time
+                      Points
                     </label>
                     {editingTask === task.id ? (
                       <input
-                        id={`estimatedTime-${task.id}`}
-                        type="text"
-                        value={editedTask.estimatedTime || ''}
+                        id={`points-${task.id}`}
+                        type="number"
+                        value={editedTask.points || 0}
                         onChange={e =>
-                          setEditedTask({ ...editedTask, estimatedTime: e.target.value })
+                          setEditedTask({
+                            ...editedTask,
+                            points: parseInt(e.target.value),
+                          })
                         }
                         className="w-full px-3 py-2 border rounded-md"
                       />
                     ) : (
-                      <div className="text-gray-700">{task.estimatedTime}</div>
+                      <div className="text-gray-700">{task.points || 0} points</div>
                     )}
                   </div>
-                )}
-                <div className="flex justify-between items-center">
-                  {editingTask === task.id ? (
-                    <div className="flex gap-2">
+                </div>
+                <div className="mt-4 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-2">
                       <button
-                        onClick={handleSave}
-                        className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-                        aria-label="Save changes"
+                        onClick={() => handleEdit(task)}
+                        className="rounded-full border border-violet-500 text-violet-500 text-sm px-3 py-1 hover:bg-violet-50"
+                        aria-label={`Edit task: ${task.title}`}
                       >
-                        Save Changes
-                      </button>
-                      <button
-                        onClick={handleCancel}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-                        aria-label="Cancel editing"
-                      >
-                        Cancel
+                        <FaEdit className="inline-block mr-1" />
+                        Edit
                       </button>
                     </div>
-                  ) : (
-                    <button
-                      onClick={() => handleEdit(task)}
-                      className="text-gray-400 hover:text-gray-600"
-                      aria-label={`Edit task: ${task.title}`}
-                    >
-                      <FaEdit className="inline-block mr-1" />
-                      Edit Task
-                    </button>
-                  )}
+                  </div>
                 </div>
+                {editingTask === task.id && (
+                  <div className="flex justify-end space-x-2 mt-4">
+                    <button
+                      onClick={handleCancel}
+                      className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleSave}
+                      className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700"
+                    >
+                      Save
+                    </button>
+                  </div>
+                )}
               </div>
             </>
           )}
         </div>
       ))}
-
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-2 text-sm">
+        <div className="flex justify-center items-center space-x-1 mt-4">
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className="px-2 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label="Previous page"
+            className="text-xs text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             ←
           </button>
-          <span className="text-gray-600">
-            {currentPage}/{totalPages}
-          </span>
+          <span className="text-xs text-gray-600">{currentPage}</span>
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages}
-            className="px-2 py-1 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label="Next page"
+            className="text-xs text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             →
           </button>
@@ -269,3 +223,5 @@ export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) =
     </div>
   );
 };
+
+export default TasksList;

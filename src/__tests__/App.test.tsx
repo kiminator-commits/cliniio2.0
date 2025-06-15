@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { UIProvider } from '@/contexts/UIContext';
 import App from '../App';
 
@@ -10,6 +10,6 @@ describe('App', () => {
         <App />
       </UIProvider>
     );
-    expect(getByTestId('app-container')).toBeTruthy();
+    expect(screen.getByTestId('app-container')).toBeTruthy();
   });
 });
