@@ -12,7 +12,11 @@ import { GamificationStats } from '../../components/Dashboard/GamificationStats'
 import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
 import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 import { useHomeState } from '../../hooks/useHomeState';
-import { calculateNavBarMargins } from '../../utils/homeUtils';
+import {
+  calculateNavBarMargins,
+  getSectionCardClass,
+  getTaskCardClass,
+} from '../../utils/homeUtils';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
 import { HOME_SECTION_TITLES } from './constants/homeConstants';
@@ -109,17 +113,7 @@ export default function HomePage() {
                   `mt-${HOME_UI_CONSTANTS.SPACING.MARGIN_TOP}`
                 )}
               >
-                <div
-                  className={clsx(
-                    'bg-white min-w-[400px] flex flex-col',
-                    `rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS}`,
-                    `shadow-${HOME_UI_CONSTANTS.SHADOW}`,
-                    `p-${HOME_UI_CONSTANTS.SPACING.PADDING}`,
-                    `border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH}`,
-                    `border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}]`,
-                    `border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY}`
-                  )}
-                >
+                <div className={getTaskCardClass()}>
                   <div
                     className="flex items-center justify-between mb-6"
                     style={{ marginTop: '-8px' }}
@@ -151,6 +145,30 @@ export default function HomePage() {
                       </button>
                     </div>
                   </div>
+                  {storeShowFilters && (
+                    <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+                          <option value="">Category</option>
+                          <option value="operations">Operations</option>
+                          <option value="maintenance">Maintenance</option>
+                          <option value="safety">Safety</option>
+                        </select>
+                        <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+                          <option value="">Type</option>
+                          <option value="daily">Daily</option>
+                          <option value="weekly">Weekly</option>
+                          <option value="monthly">Monthly</option>
+                        </select>
+                        <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+                          <option value="">Due Date</option>
+                          <option value="today">Today</option>
+                          <option value="tomorrow">Tomorrow</option>
+                          <option value="this_week">This Week</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex-1 min-h-0 overflow-y-auto">
                     <TasksList
                       tasks={tasks}
@@ -160,17 +178,7 @@ export default function HomePage() {
                     />
                   </div>
                 </div>
-                <div
-                  className={clsx(
-                    'bg-white min-w-[400px]',
-                    `rounded-${HOME_UI_CONSTANTS.BORDER.RADIUS}`,
-                    `shadow-${HOME_UI_CONSTANTS.SHADOW}`,
-                    `p-${HOME_UI_CONSTANTS.SPACING.PADDING}`,
-                    `border-l-${HOME_UI_CONSTANTS.BORDER.LEFT_WIDTH}`,
-                    `border-[${HOME_UI_CONSTANTS.COLORS.PRIMARY}]`,
-                    `border-opacity-${HOME_UI_CONSTANTS.COLORS.BORDER_OPACITY}`
-                  )}
-                >
+                <div className={getSectionCardClass()}>
                   <PerformanceMetrics metrics={mockMetricsData} />
                 </div>
               </div>

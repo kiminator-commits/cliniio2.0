@@ -66,6 +66,30 @@ export const OperationsTasksContainer = ({
           </button>
         </div>
       </div>
+      {storeShowFilters && (
+        <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+              <option value="">Category</option>
+              <option value="operations">Operations</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="safety">Safety</option>
+            </select>
+            <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+              <option value="">Type</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+            <select className="w-full p-2 border border-gray-300 rounded-md bg-white">
+              <option value="">Due Date</option>
+              <option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
+              <option value="this_week">This Week</option>
+            </select>
+          </div>
+        </div>
+      )}
       <div className="flex-1 min-h-0 overflow-y-auto">
         <TasksList
           tasks={tasks}

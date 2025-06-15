@@ -47,4 +47,10 @@ export const HOME_UI_CONSTANTS = {
 
   // Shadow
   SHADOW: 'md',
+
+  // Card Classes
+  CARD_CLASSES: {
+    taskCard: 'bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50',
+    sectionBox: 'bg-white rounded-lg shadow-md p-6 border-l-4 border-[#4ECDC4] border-opacity-50',
+  },
 } as const;
