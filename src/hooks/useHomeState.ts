@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateLevel } from '../utils/gamification';
 import {
   mockGamificationData,
@@ -6,6 +6,7 @@ import {
   mockMetricsData,
 } from '../services/mockDataService';
 import { taskData } from '@/mocks/taskData';
+import { useHomeStore } from '../store/homeStore';
 
 export const useHomeState = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -17,8 +18,11 @@ export const useHomeState = () => {
   const [availablePoints, setAvailablePoints] = useState(250);
   const [lastResetDate, setLastResetDate] = useState<string | null>(null);
   const [gamificationData, setGamificationData] = useState(mockGamificationData);
+  const setStoreAvailablePoints = useHomeStore(state => state.setAvailablePoints);
 
-  const calculateAvailablePoints = () => 250;
+  const calculateAvailablePoints = useCallback(() => {
+    return tasks.filter(task => !task.completed).reduce((total, task) => total + task.points, 0);
+  }, [tasks]);
 
   // Check for annual reset
   useEffect(() => {
@@ -39,14 +43,18 @@ export const useHomeState = () => {
     checkForReset();
   }, [lastResetDate]);
 
+  useEffect(() => {
+    const points = calculateAvailablePoints();
+    setAvailablePoints(points);
+    setStoreAvailablePoints(points);
+  }, [tasks, setStoreAvailablePoints, calculateAvailablePoints]);
+
   const handleTaskComplete = (taskId: string, points: number) => {
     setTasks(prevTasks =>
       prevTasks.map(task =>
         task.id === taskId ? { ...task, status: 'completed', completed: true } : task
       )
     );
-    // Subtract points from available points
-    setAvailablePoints(prevPoints => Math.max(0, prevPoints - points));
     // Add points to total score and update level
     setGamificationData(prevData => {
       const newTotalScore = prevData.totalScore + points;
@@ -54,8 +62,13 @@ export const useHomeState = () => {
         ...prevData,
         totalScore: newTotalScore,
         level: calculateLevel(newTotalScore),
+        totalPoints: (prevData.totalPoints || 0) + points,
       };
     });
+    // Update available points in both state and store
+    const newAvailablePoints = calculateAvailablePoints();
+    setAvailablePoints(newAvailablePoints);
+    setStoreAvailablePoints(newAvailablePoints);
   };
 
   const handleRefresh = () => {

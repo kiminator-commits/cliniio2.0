@@ -10,6 +10,12 @@ A modern healthcare management system built with React, TypeScript, and Tailwind
 - Password strength validation
 - Remember me functionality
 - Device management
+- Gamification System
+  - Points-based task completion
+  - Available points display for incomplete tasks
+  - Total points tracking in gamification dashboard
+  - Points automatically update when tasks are completed
+  - Level progression based on total points earned
 
 ## Tech Stack
 

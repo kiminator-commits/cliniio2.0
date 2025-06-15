@@ -10,13 +10,13 @@ import LeaderboardModal from '@/components/LeaderboardModal';
 import ChallengeModal from '@/components/ChallengeModal';
 import { GamificationStats } from '../../components/Dashboard/GamificationStats';
 import { PerformanceMetrics } from '../../components/PerformanceMetrics/PerformanceMetrics';
-import TasksList from '@/components/TasksList';
 import { HOME_UI_CONSTANTS } from '../../constants/homeUiConstants';
 import { useHomeState } from '../../hooks/useHomeState';
 import { calculateNavBarMargins } from '../../utils/homeUtils';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useHomeStore } from '../../store/homeStore';
 import { HOME_SECTION_TITLES } from './constants/homeConstants';
+import TasksList from '@/components/TasksList';
 
 export default function HomePage() {
   const {
