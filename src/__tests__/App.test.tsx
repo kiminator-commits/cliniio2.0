@@ -10,6 +10,6 @@ describe('App', () => {
         <App />
       </UIProvider>
     );
-    expect(document.getElementById('main-content')).toBeTruthy();
+    expect(getByTestId('app-container')).toBeTruthy();
   });
 });
