@@ -4,12 +4,12 @@ import { HomeTask } from '@/types/home';
 import { TASK_STATUSES } from '@/constants/homeTaskConstants';
 
 type TasksListProps = {
+  onTaskComplete?: (taskId: string) => void;
   tasks: HomeTask[];
-  onTaskComplete?: (id: string) => void;
 };
 
-export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
-  const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
+export const TasksList: React.FC<TasksListProps> = ({ onTaskComplete, tasks }) => {
+  const [expandedTaskId, setExpandedTaskId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<string | null>(null);
   const [editedTask, setEditedTask] = useState<Partial<HomeTask>>({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,13 +22,7 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
   const currentTasks = tasks.slice(startIndex, endIndex);
 
   const toggleTask = (taskId: string) => {
-    const newExpanded = new Set(expandedTasks);
-    if (newExpanded.has(taskId)) {
-      newExpanded.delete(taskId);
-    } else {
-      newExpanded.add(taskId);
-    }
-    setExpandedTasks(newExpanded);
+    setExpandedTaskId(prev => (prev === taskId ? null : taskId));
   };
 
   const handleEdit = (task: HomeTask) => {
@@ -57,11 +51,11 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
                 onClick={() => toggleTask(task.id)}
                 className="mt-1 text-gray-400 hover:text-gray-600"
                 aria-label={
-                  expandedTasks.has(task.id) ? 'Collapse task details' : 'Expand task details'
+                  expandedTaskId === task.id ? 'Collapse task details' : 'Expand task details'
                 }
               >
                 <FaChevronRight
-                  className={`transform transition-transform ${expandedTasks.has(task.id) ? 'rotate-90' : ''}`}
+                  className={`transform transition-transform ${expandedTaskId === task.id ? 'rotate-90' : ''}`}
                 />
               </button>
               <div>
@@ -83,7 +77,7 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
               </button>
             </div>
           </div>
-          {expandedTasks.has(task.id) && (
+          {expandedTaskId === task.id && (
             <>
               <hr className="my-3" />
               <div className="text-sm space-y-4">
@@ -274,4 +268,4 @@ export default function TasksList({ tasks, onTaskComplete }: TasksListProps) {
       )}
     </div>
   );
-}
+};

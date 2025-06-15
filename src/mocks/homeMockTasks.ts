@@ -1,4 +1,4 @@
-import { TASK_POINT_TIERS } from '@/constants/homeTaskConstants';
+import { TASK_POINT_TIERS, ESTIMATED_TIME } from '@/constants/homeTaskConstants';
 
 export const taskData = [
   {
@@ -12,6 +12,7 @@ export const taskData = [
     dueDate: '06/14/2025',
     points: 50,
     assignedTo: 'Sarah',
+    estimatedTime: ESTIMATED_TIME.LONG,
   },
   {
     id: 'task-002',

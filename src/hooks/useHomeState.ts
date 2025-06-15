@@ -5,7 +5,7 @@ import {
   mockLeaderboardData,
   mockMetricsData,
 } from '../services/mockDataService';
-import { taskData } from '@/mocks/taskData';
+import { taskData } from '@/mocks/homeMockTasks';
 import { useHomeStore } from '../store/homeStore';
 
 export const useHomeState = () => {
